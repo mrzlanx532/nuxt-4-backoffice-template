@@ -1,7 +1,143 @@
+@use 'variables';
+@use 'fonts';
+
+* {
+  font-family: FiraSansExtraCondensed, sans-serif;
+  box-sizing: border-box;
+}
+
 html, body, #__nuxt {
   height: 100%;
 }
 
 body {
   margin: 0;
+}
+
+.el-sub-menu__title * {
+  user-select: none;
+}
+
+.el-aside.side-menu__container {
+  max-height: 100vh;
+  position: fixed;
+  width: var(--side-menu-width);
+  overflow: hidden;
+  box-shadow: var(--main-box-shadow);
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+.el-container.main-container {
+  padding: 20px 30px 20px calc(var(--side-menu-width) + 30px);
+  background: linear-gradient(to top right, #f8e9e9, #c3f2fd);;
+  min-height: 100vh;
+
+  >.el-main {
+    padding: 0;
+  }
+}
+
+.el-menu-item * {
+  user-select: none;
+}
+
+.el-menu.side-menu {
+  border-right: none;
+
+  --el-menu-item-height: 36px;
+  --el-menu-sub-item-height: 36px;
+
+  .el-scrollbar__bar.is-vertical {
+    left: 0;
+    right: unset;
+  }
+
+  .el-scrollbar__thumb {
+    background: linear-gradient(to bottom, #de4020 0%, orange 100%);
+    opacity: 1;
+  }
+
+  .el-scrollbar__bar {
+    width: 3px;
+  }
+}
+
+.side-menu {
+
+  .el-scrollbar__bar {
+    bottom: 0;
+    top: 0;
+  }
+
+  .el-sub-menu.is-active .el-sub-menu__title {
+    border-bottom: 1px solid #e7e7e7;
+  }
+
+  a {
+    color: var(--el-text-color-primary);
+    text-decoration: none;
+  }
+
+  .el-sub-menu__title, .el-menu-item {
+    border-bottom: 1px solid #e7e7e7;
+  }
+
+  .sub-menu {
+    .el-menu {
+      background: #f7f7f7;
+    }
+  }
+
+  &__logo {
+    padding: 30px 10px 30px 30px;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+
+    img {
+      width: 30px;
+      height: 30px;
+    }
+
+    div {
+      display: flex;
+      place-items: center center;
+      padding-left: 10px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+  }
+
+  &__footer {
+    font-size: 12px;
+    padding: 40px 30px;
+    text-align: center;
+    text-transform: uppercase;
+
+    img {
+      border-radius: 50%;
+      height: 35px;
+      opacity: .8;
+      width: 35px;
+    }
+
+    .username {
+      text-transform: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+      font-size: 16px;
+      padding-bottom: 5px;
+    }
+
+    .role {
+      color: grey;
+      font-size: 12px;
+      padding-bottom: 30px;
+      text-transform: none;
+    }
+  }
 }
