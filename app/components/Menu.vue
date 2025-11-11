@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 import {
   ElIconLocation,
   ElIconTickets
@@ -125,10 +126,10 @@ const onClickLink = (menuItem: MenuItem) => {
 </script>
 
 <template>
-  <el-menu class="side-menu" :unique-opened="true">
-    <el-scrollbar :height="props.height ?? '100vh'" :always="true">
+  <el-menu class="sidebar__menu" :unique-opened="true">
+    <OverlayScrollbarsComponent :style="{height: props.height}">
       <template v-for="(menuItem, i) in menuItems">
-        <el-sub-menu class="sub-menu" v-if="menuItem.children" :index="i.toString()" >
+        <el-sub-menu class="sidebar__sub-menu" v-if="menuItem.children" :index="i.toString()" >
           <template #title>
             <el-icon>
               <component v-if="menuItem.icon" :is="menuItem.icon" />
@@ -151,6 +152,6 @@ const onClickLink = (menuItem: MenuItem) => {
           <span @click="onClickLink(menuItem)">{{ menuItem.name }}</span>
         </el-menu-item>
       </template>
-    </el-scrollbar>
+    </OverlayScrollbarsComponent>
   </el-menu>
 </template>

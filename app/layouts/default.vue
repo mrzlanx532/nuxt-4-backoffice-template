@@ -50,20 +50,20 @@ onUnmounted(() => {
 <template>
   <el-scrollbar height="100vh">
     <el-container class="el-container">
-      <el-aside class="side-menu__container">
-        <div class="side-menu__logo" ref="logoContainerRef" @click="clickHome">
+      <el-aside class="sidebar">
+        <div class="sidebar__logo" ref="logoContainerRef" @click="clickHome">
           <img src="/img/logo.png" alt="Logo">
           <div>Digital Dyatel</div>
         </div>
         <Menu :height="scrollbarHeight"/>
-        <div class="side-menu__footer" ref="footerRef">
+        <div class="sidebar__footer" ref="footerRef">
           <img src="/img/avatar.png" alt="avatar">
           <p class="username">Денис Данилов</p>
           <p class="role">Администратор</p>
           <a>Выйти</a>
         </div>
       </el-aside>
-      <el-container class="main-container">
+      <el-container class="main">
         <el-main>
           <slot/>
         </el-main>
