@@ -93,7 +93,7 @@ const items: MenuItem[] = [
   },
   {
     name: 'Блог',
-    link: '/example',
+    link: '/blog',
     icon: ElIconLocation,
   },
   {

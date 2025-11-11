@@ -1,6 +1,7 @@
 @use 'variables';
 @use 'fonts';
 @use 'sidebar';
+@use 'browser';
 
 /* third-party */
 @use 'overlayscrollbars/styles/overlayscrollbars.css';
@@ -56,5 +57,6 @@ body {
 
   >.el-main {
     padding: 0;
+    overflow: visible;
   }
 }

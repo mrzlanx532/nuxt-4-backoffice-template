@@ -1,0 +1,48 @@
+.browser {
+
+  .el-input__inner {
+    font-size: 16px;
+  }
+
+  .el-input__wrapper.is-focus {
+    box-shadow: 0 0 0 1px var(--main-gradient-start) inset;
+  }
+
+  .el-table {
+    margin-top: 10px;
+  }
+
+  &__control-panel {
+    background: var(--main-background-color);
+    border-radius: var(--main-border-radius);
+    box-shadow: var(--main-box-shadow);
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 15px;
+    position: sticky;
+    top: 20px;
+    z-index: 2;
+  }
+
+  &__control-panel-column {
+    &.--left {
+      align-items: center;
+      cursor: pointer;
+      display: flex;
+    }
+  }
+
+  &__control-panel-page-title {
+    background: linear-gradient(to right, var(--main-gradient-start) 0, var(--main-gradient-end) 100%);
+    -webkit-background-clip: text;
+    border-radius: 5px;
+    color: grey;
+    font-size: 20px;
+    margin: 0;
+    text-transform: uppercase;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    -webkit-text-fill-color: transparent;
+  }
+}

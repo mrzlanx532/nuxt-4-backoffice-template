@@ -53,11 +53,11 @@ defineExpose({
   <el-menu @open="onOpenSubMenu" class="sidebar__menu" :unique-opened="true" ref="menuTemplateRef">
     <OverlayScrollbarsComponent :options="{scrollbars: {theme: 'os-theme-default'}}" :style="{height: props.height}">
       <template v-for="(menuItem, i) in props.items">
-        <el-menu-item v-if="isMenuItemPlain(menuItem)" :index="i.toString()">
+        <el-menu-item v-if="isMenuItemPlain(menuItem)" @click="onClickLink(menuItem)" :index="i.toString()">
           <el-icon>
             <component v-if="menuItem.icon" :is="menuItem.icon" />
           </el-icon>
-          <span @click="onClickLink(menuItem)">{{ menuItem.name }}</span>
+          <span>{{ menuItem.name }}</span>
         </el-menu-item>
         <el-sub-menu class="sidebar__sub-menu" v-else :index="i.toString()" >
           <template #title>
@@ -67,11 +67,11 @@ defineExpose({
             <span>{{ menuItem.name }}</span>
           </template>
           <template #default>
-            <el-menu-item v-for="(menuItemChild, j) in menuItem.children" :index="i.toString() + '-' + j.toString()">
+            <el-menu-item @click="onClickLink(menuItemChild)" v-for="(menuItemChild, j) in menuItem.children" :index="i.toString() + '-' + j.toString()">
               <el-icon>
                 <component v-if="menuItemChild.icon" :is="menuItemChild.icon" />
               </el-icon>
-              <span @click="onClickLink(menuItemChild)">{{ menuItemChild.name }}</span>
+              <span>{{ menuItemChild.name }}</span>
             </el-menu-item>
           </template>
         </el-sub-menu>
