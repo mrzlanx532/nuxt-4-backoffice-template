@@ -49,7 +49,7 @@ body {
   margin: 0;
 }
 
-.el-container.main {
+.main.el-container {
   padding: 20px 30px 20px calc(var(--sidebar-width) + 30px);
   background: linear-gradient(to top right, #f8e9e9, #c3f2fd);
   min-height: 100vh;

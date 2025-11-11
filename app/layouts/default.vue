@@ -12,6 +12,7 @@ const router = useRouter()
 
 const logoContainerRef = useTemplateRef('logoContainerRef')
 const footerRef = useTemplateRef('footerRef')
+const menuTemplateRef = useTemplateRef('menuTemplateRef')
 
 const scrollbarHeight = ref()
 const sidebarIsReady = ref(false)
@@ -141,6 +142,7 @@ const initResizeObserver = () => {
 }
 
 const clickHome = () => {
+  menuTemplateRef.value!.closeActive()
   router.push('/')
 }
 
@@ -164,7 +166,7 @@ onUnmounted(() => {
           <img src="/img/logo.png" alt="Logo">
           <div>Digital Dyatel</div>
         </div>
-        <Menu :height="scrollbarHeight" :items="items"/>
+        <Menu ref="menuTemplateRef" :height="scrollbarHeight" :items="items"/>
         <div class="sidebar__footer" ref="footerRef">
           <img src="/img/avatar.png" alt="avatar">
           <p class="username">Денис Данилов</p>

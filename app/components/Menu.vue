@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 import { type Component } from 'vue'
+import { type ElMenu } from 'element-plus'
 
 interface MenuItemPlain {
   name: string
@@ -23,6 +24,10 @@ const props = defineProps<{
   height?: string
 }>()
 
+const lastActiveSubMenuIndex = ref()
+
+const menuTemplateRef = useTemplateRef<typeof ElMenu>('menuTemplateRef')
+
 const onClickLink = (menuItemPlain: MenuItemPlain) => {
   router.push(menuItemPlain.link)
 }
@@ -30,10 +35,22 @@ const onClickLink = (menuItemPlain: MenuItemPlain) => {
 const isMenuItemPlain = (item: MenuItem): item is MenuItemPlain => {
   return !('children' in item);
 }
+
+const closeActive = () => {
+  menuTemplateRef.value!.close(lastActiveSubMenuIndex.value)
+}
+
+const onOpenSubMenu = (index: string) => {
+  lastActiveSubMenuIndex.value = index
+}
+
+defineExpose({
+  closeActive
+})
 </script>
 
 <template>
-  <el-menu class="sidebar__menu" :unique-opened="true">
+  <el-menu @open="onOpenSubMenu" class="sidebar__menu" :unique-opened="true" ref="menuTemplateRef">
     <OverlayScrollbarsComponent :options="{scrollbars: {theme: 'os-theme-default'}}" :style="{height: props.height}">
       <template v-for="(menuItem, i) in props.items">
         <el-menu-item v-if="isMenuItemPlain(menuItem)" :index="i.toString()">

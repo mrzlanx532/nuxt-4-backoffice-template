@@ -2,6 +2,10 @@
 
   .el-menu-item {
     user-select: none;
+
+    &.is-active {
+      color: var(--main-gradient-start);
+    }
   }
 
   &__overlay {
