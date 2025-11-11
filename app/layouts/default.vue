@@ -10,6 +10,7 @@ const logoContainerRef = useTemplateRef('logoContainerRef')
 const footerRef = useTemplateRef('footerRef')
 
 const scrollbarHeight = ref()
+const sidebarIsReady = ref(false)
 
 const updateMenuDimensions = () => {
   scrollbarHeight.value = (window.innerHeight - logoContainerRef.value.offsetHeight - footerRef.value.offsetHeight) + 'px'
@@ -41,6 +42,7 @@ const clickHome = () => {
 onMounted(() => {
   ro = initResizeObserver()
   updateMenuDimensions()
+  sidebarIsReady.value = true
 })
 
 onUnmounted(() => {
@@ -52,6 +54,7 @@ onUnmounted(() => {
   <OverlayScrollbarsComponent :style="{height: '100vh'}">
     <el-container class="el-container">
       <el-aside class="sidebar">
+        <div class="sidebar__overlay" :class="{'--active': !sidebarIsReady}"/>
         <div class="sidebar__logo" ref="logoContainerRef" @click="clickHome">
           <img src="/img/logo.png" alt="Logo">
           <div>Digital Dyatel</div>

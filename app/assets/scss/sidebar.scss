@@ -1,5 +1,25 @@
 .sidebar {
 
+  &__overlay {
+    width: var(--sidebar-width);
+    position: absolute;
+    height: 100vh;
+    z-index: 1;
+    background-color: white;
+    transition: opacity .3s ease-in-out;
+    opacity: 0;
+    pointer-events: none;
+
+    &.--active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  &.--initialized {
+    opacity: 0;
+  }
+
   &.el-aside {
     height: 100vh;
     position: fixed;
