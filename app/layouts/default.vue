@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 import Menu from "~/components/Menu.vue"
 
 let ro = undefined
@@ -48,7 +49,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <el-scrollbar height="100vh">
+  <OverlayScrollbarsComponent :style="{height: '100vh'}">
     <el-container class="el-container">
       <el-aside class="sidebar">
         <div class="sidebar__logo" ref="logoContainerRef" @click="clickHome">
@@ -69,5 +70,5 @@ onUnmounted(() => {
         </el-main>
       </el-container>
     </el-container>
-  </el-scrollbar>
+  </OverlayScrollbarsComponent>
 </template>

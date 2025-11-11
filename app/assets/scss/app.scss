@@ -19,7 +19,7 @@ body {
 }
 
 .el-container.main {
-  padding: 20px 30px 20px calc(var(--side-menu-width) + 30px);
+  padding: 20px 30px 20px calc(var(--sidebar-width) + 30px);
   background: linear-gradient(to top right, #f8e9e9, #c3f2fd);
   min-height: 100vh;
 

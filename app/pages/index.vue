@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div>
+  <el-container>
     example Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto cumque dignissimos, distinctio dolores eos fugiat itaque laboriosam laudantium odit pariatur provident quaerat quos reprehenderit sint tenetur! Doloremque laboriosam obcaecati provident.
     example Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto cumque dignissimos, distinctio dolores eos fugiat itaque laboriosam laudantium odit pariatur provident quaerat quos reprehenderit sint tenetur! Doloremque laboriosam obcaecati provident.
     example Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto cumque dignissimos, distinctio dolores eos fugiat itaque laboriosam laudantium odit pariatur provident quaerat quos reprehenderit sint tenetur! Doloremque laboriosam obcaecati provident.
@@ -145,5 +145,5 @@
     example Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto cumque dignissimos, distinctio dolores eos fugiat itaque laboriosam laudantium odit pariatur provident quaerat quos reprehenderit sint tenetur! Doloremque laboriosam obcaecati provident.
     example Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto cumque dignissimos, distinctio dolores eos fugiat itaque laboriosam laudantium odit pariatur provident quaerat quos reprehenderit sint tenetur! Doloremque laboriosam obcaecati provident.
     example Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto cumque dignissimos, distinctio dolores eos fugiat itaque laboriosam laudantium odit pariatur provident quaerat quos reprehenderit sint tenetur! Doloremque laboriosam obcaecati provident.
-  </div>
+  </el-container>
 </template>

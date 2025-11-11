@@ -3,7 +3,7 @@
   &.el-aside {
     height: 100vh;
     position: fixed;
-    width: var(--side-menu-width);
+    width: var(--sidebar-width);
     overflow: hidden;
     box-shadow: var(--main-box-shadow);
     display: flex;
@@ -71,7 +71,7 @@
         --os-padding-perpendicular: 0;
         --os-size: 2px;
         --el-scrollbar-opacity: 1;
-        --os-handle-bg: linear-gradient(to bottom, #de4020 0%, orange 100%);;
+        --os-handle-bg: var(--custom-scroll-gradient);
         --os-handle-min-size: 40px;
     }
 
