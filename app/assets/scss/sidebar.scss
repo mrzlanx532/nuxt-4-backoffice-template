@@ -1,5 +1,9 @@
 .sidebar {
 
+  .el-menu-item {
+    user-select: none;
+  }
+
   &__overlay {
     width: var(--sidebar-width);
     position: absolute;
@@ -92,6 +96,7 @@
         --os-size: 2px;
         --el-scrollbar-opacity: 1;
         --os-handle-bg: var(--custom-scroll-gradient);
+        --os-handle-bg-hover: var(--custom-scroll-gradient);
         --os-handle-min-size: 40px;
     }
 

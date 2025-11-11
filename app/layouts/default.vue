@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
-import Menu from "~/components/Menu.vue"
+import Menu, { type MenuItem } from "~/components/Menu.vue"
+import {
+  ElIconLocation,
+  ElIconTickets
+} from '#imports'
 
-let ro = undefined
+let ro: ResizeObserver | undefined = undefined
 
 const router = useRouter()
 
@@ -12,8 +16,109 @@ const footerRef = useTemplateRef('footerRef')
 const scrollbarHeight = ref()
 const sidebarIsReady = ref(false)
 
+const items: MenuItem[] = [
+  {
+    name: 'Шумы',
+    icon: ElIconLocation,
+    children: [
+      {
+        name: 'Каталог треков',
+        link: '/example',
+        icon: ElIconLocation,
+      },
+      {
+        name: 'Коллекции',
+        link: '/example',
+        icon: ElIconLocation,
+      },
+      {
+        name: 'Авторы',
+        link: '/example',
+        icon: ElIconLocation,
+      },
+      {
+        name: 'Библиотеки',
+        link: '/example',
+        icon: ElIconLocation,
+      },
+    ]
+  },
+  {
+    name: 'Музыка',
+    icon: ElIconTickets,
+    children: [
+      {
+        name: 'Каталог треков',
+        link: '/example',
+        icon: ElIconLocation,
+      },
+      {
+        name: 'Плейлисты',
+        link: '/example',
+        icon: ElIconLocation,
+      },
+      {
+        name: 'Авторы',
+        link: '/example',
+        icon: ElIconLocation,
+      },
+      {
+        name: 'Лейблы',
+        link: '/example',
+        icon: ElIconLocation,
+      },
+      {
+        name: 'Альбомы',
+        link: '/example',
+        icon: ElIconLocation,
+      },
+    ]
+  },
+  {
+    name: 'Пользователи',
+    icon: ElIconLocation,
+    children: [
+      {
+        name: 'Каталог пользователей',
+        link: '/example',
+        icon: ElIconLocation,
+      },
+      {
+        name: 'Отчеты',
+        link: '/example',
+        icon: ElIconLocation,
+      },
+    ]
+  },
+  {
+    name: 'Блог',
+    link: '/example',
+    icon: ElIconLocation,
+  },
+  {
+    name: 'Ручки',
+    link: '/example',
+    icon: ElIconLocation,
+  },
+  {
+    name: 'Ручки',
+    link: '/example',
+    icon: ElIconLocation,
+  },
+  {
+    name: 'Ручки',
+    link: '/example',
+    icon: ElIconLocation,
+  },
+  {
+    name: 'Ручки',
+    link: '/example',
+    icon: ElIconLocation,
+  },
+]
+
 const updateMenuDimensions = () => {
-  scrollbarHeight.value = (window.innerHeight - logoContainerRef.value.offsetHeight - footerRef.value.offsetHeight) + 'px'
+  scrollbarHeight.value = (window.innerHeight - logoContainerRef.value!.offsetHeight - footerRef.value!.offsetHeight) + 'px'
 }
 
 const initResizeObserver = () => {
@@ -46,7 +151,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  ro.unobserve()
+  ro!.disconnect()
 })
 </script>
 
@@ -59,7 +164,7 @@ onUnmounted(() => {
           <img src="/img/logo.png" alt="Logo">
           <div>Digital Dyatel</div>
         </div>
-        <Menu :height="scrollbarHeight"/>
+        <Menu :height="scrollbarHeight" :items="items"/>
         <div class="sidebar__footer" ref="footerRef">
           <img src="/img/avatar.png" alt="avatar">
           <p class="username">Денис Данилов</p>

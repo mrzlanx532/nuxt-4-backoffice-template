@@ -8,6 +8,9 @@ export default defineNuxtConfig({
   css: [
     '~/assets/scss/app.scss',
   ],
+  typescript: {
+    typeCheck: true,
+  },
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   laravelAuth: {
