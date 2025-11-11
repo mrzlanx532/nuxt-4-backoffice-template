@@ -156,7 +156,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <OverlayScrollbarsComponent :style="{height: '100vh'}">
+  <OverlayScrollbarsComponent :options="{scrollbars: {theme: 'os-theme-main-scroll'}}" :style="{height: '100vh'}">
     <el-container class="el-container">
       <el-aside class="sidebar">
         <div class="sidebar__overlay" :class="{'--active': !sidebarIsReady}"/>

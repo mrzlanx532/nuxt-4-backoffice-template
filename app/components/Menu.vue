@@ -34,7 +34,7 @@ const isMenuItemPlain = (item: MenuItem): item is MenuItemPlain => {
 
 <template>
   <el-menu class="sidebar__menu" :unique-opened="true">
-    <OverlayScrollbarsComponent :style="{height: props.height}">
+    <OverlayScrollbarsComponent :options="{scrollbars: {theme: 'os-theme-default'}}" :style="{height: props.height}">
       <template v-for="(menuItem, i) in props.items">
         <el-menu-item v-if="isMenuItemPlain(menuItem)" :index="i.toString()">
           <el-icon>

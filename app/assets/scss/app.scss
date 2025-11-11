@@ -5,6 +5,37 @@
 /* third-party */
 @use 'overlayscrollbars/styles/overlayscrollbars.css';
 
+.os-theme-default {
+  --os-track-border-radius: 10px;
+  --os-handle-interactive-area-offset: 4px;
+  --os-handle-border-radius: 10px;
+  --os-handle-bg: var(--custom-scroll-gradient);
+  --os-handle-bg-hover: var(--custom-scroll-gradient);
+  --os-handle-bg-active: var(--custom-scroll-gradient);
+  --os-handle-min-size: 40px;
+  --os-padding-axis: 0;
+  --os-padding-perpendicular: 0;
+}
+
+.os-theme-main-scroll {
+  transition: width .3s;
+
+  --os-track-border-radius: 10px;
+  --os-handle-interactive-area-offset: 4px;
+  --os-handle-border-radius: 10px;
+  --os-handle-bg: var(--custom-scroll-gradient);
+  --os-handle-bg-hover: var(--custom-scroll-gradient);
+  --os-handle-bg-active: var(--custom-scroll-gradient);
+  --os-handle-min-size: 100px;
+  --os-padding-axis: 0;
+  --os-padding-perpendicular: 0;
+  --os-size: 4px;
+
+  &.os-scrollbar:hover {
+    --os-size: 8px;
+  }
+}
+
 * {
   font-family: FiraSansExtraCondensed, sans-serif;
   box-sizing: border-box;
@@ -16,11 +47,6 @@ html, body, #__nuxt {
 
 body {
   margin: 0;
-
-  .os-theme-dark {
-    --os-handle-bg: var(--custom-scroll-gradient);
-    --os-handle-bg-hover: var(--custom-scroll-gradient);
-  }
 }
 
 .el-container.main {
