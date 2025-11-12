@@ -57,6 +57,7 @@ async function onClick() {
         <el-input v-model="formData.password" type="password"/>
       </el-form-item>
       <el-button
+          size="large"
           :disabled="isSending"
           type="primary"
           :loading="isSending"
