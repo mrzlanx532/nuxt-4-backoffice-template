@@ -146,6 +146,12 @@ const clickHome = () => {
   router.push('/')
 }
 
+const logout = async () => {
+  const { $auth } = useNuxtApp()
+
+  await $auth().logout()
+}
+
 onMounted(() => {
   ro = initResizeObserver()
   updateMenuDimensions()
@@ -171,7 +177,7 @@ onUnmounted(() => {
           <img src="/img/avatar.png" alt="avatar">
           <p class="username">Денис Данилов</p>
           <p class="role">Администратор</p>
-          <a>Выйти</a>
+          <el-link @click="logout">Выйти</el-link>
         </div>
       </el-aside>
       <el-container class="main">

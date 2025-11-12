@@ -66,6 +66,11 @@
     text-align: center;
     text-transform: uppercase;
 
+    a {
+      user-select: none;
+      cursor: pointer;
+    }
+
     img {
       border-radius: 50%;
       height: 35px;
