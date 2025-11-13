@@ -179,6 +179,10 @@ const tableColumns = computed(() => {
   })
 })
 
+const searchStringUpdated = (value: string) => {
+  searchString.value = value
+}
+
 onMounted(() => {
 
   ro = initResizeObserver()
@@ -200,6 +204,7 @@ onUnmounted(() => {
   <div class="browser">
     <BrowserControlPanel
         :search-string="searchString"
+        @update:search-string="searchStringUpdated"
         ref="controlPanelTemplateRef"
     />
     <div

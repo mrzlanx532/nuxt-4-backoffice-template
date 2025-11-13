@@ -1,9 +1,40 @@
 <script setup lang="ts">
-import { Search } from '@element-plus/icons-vue'
+import { Search as IconSearch } from '@element-plus/icons-vue'
+import { CircleClose as IconCircleClose } from '@element-plus/icons-vue'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   searchString?: string
+}>(), {
+  searchString: '',
+})
+
+const emit = defineEmits<{
+  (e: 'update:searchString', value: string): void
 }>()
+
+const searchString = ref<string>('')
+
+const onInputChange = (value: string) => {
+  emit('update:searchString', value)
+}
+
+const onInputButtonEnter = () => {
+  emit('update:searchString', searchString.value)
+}
+
+const onInput = (value: string) => {
+  if (value === '') {
+    emit('update:searchString', '')
+  }
+}
+
+const onInputClear = () => {
+  emit('update:searchString', '')
+}
+
+watch(() => props.searchString, (value) => {
+  searchString.value = value
+})
 </script>
 
 <template>
@@ -13,13 +44,19 @@ const props = defineProps<{
     </div>
     <div class="browser__control-panel-column --center">
       <el-input
-          v-model="props.searchString"
+          v-model="searchString"
           style="width: 242px"
           placeholder="Поиск"
-          clearable
+          @change="onInputChange"
+          @input="onInput"
       >
+        <template #suffix>
+          <el-icon v-if="props.searchString !== ''" @click="onInputClear">
+            <IconCircleClose />
+          </el-icon>
+        </template>
         <template #append>
-          <el-button :icon="Search" />
+          <el-button :icon="IconSearch" @click="onInputButtonEnter" />
         </template>
       </el-input>
     </div>
