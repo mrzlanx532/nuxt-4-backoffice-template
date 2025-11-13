@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Search } from '@element-plus/icons-vue'
+import BrowserControlPanel from '@/components/BrowserControlPanel.vue'
 import { cloneVNode } from 'vue'
 
 const props = defineProps<{
@@ -68,26 +68,16 @@ interface IRequestParams {
 
 let ro: ResizeObserver | undefined = undefined
 
-const controlPanelTemplateRef = useTemplateRef('controlPanelTemplateRef')
+const controlPanelTemplateRef = useTemplateRef<typeof BrowserControlPanel>('controlPanelTemplateRef')
 const browserContainerTemplateRef = useTemplateRef('browserContainerTemplateRef')
 
 const data = ref<IItem[]>([])
+const filters = ref<IFilter[]>([])
+
 const isLoading = ref(true)
-const isHeightAreRead = ref(false)
+const isHeightRead = ref(false)
 const height = ref()
 const tableWidth = ref()
-
-const value = ref('')
-const options = [
-  {
-    value: 'Option1',
-    label: 'Option1',
-  },
-  {
-    value: 'Option2',
-    label: 'Option2',
-  },
-]
 
 const { $authFetch } = useNuxtApp()
 
@@ -117,6 +107,19 @@ const initResizeObserver = () => {
 
 const onSortChange = (d: any, t: any) => {
   console.log(d, t)
+}
+
+const setFilters = (_filters: IFilter[]) => {
+  const preparedFilters: IFilter[] = [];
+  const preparedFiltersByName: {[key: string]: IFilter} = {};
+
+  _filters.forEach((filter) => {
+    preparedFilters.push(filter)
+    preparedFiltersByName[filter.id] = filter
+  })
+
+  filters.value = preparedFilters
+  // filtersByName.value = preparedFiltersByName
 }
 
 const fetch = async () => {
@@ -154,6 +157,7 @@ const fetch = async () => {
     const response = await $authFetch<IResponse>(props.url, config)
 
     data.value = response.items
+    filters.value = response.filters
 
   } catch (err: unknown) {
 
@@ -175,16 +179,16 @@ const tableColumns = computed(() => {
   })
 })
 
-onMounted(async () => {
+onMounted(() => {
 
   ro = initResizeObserver()
   updateDimensions()
 
-  isHeightAreRead.value = true
+  isHeightRead.value = true
 
-  await fetch()
-
-  isLoading.value = false
+  fetch().then(() => {
+    isLoading.value = false
+  })
 })
 
 onUnmounted(() => {
@@ -194,48 +198,22 @@ onUnmounted(() => {
 
 <template>
   <div class="browser">
-    <div class="browser__control-panel" ref="controlPanelTemplateRef">
-      <div class="browser__control-panel-column --left">
-        <div class="browser__control-panel-page-title">Статьи блога</div>
-      </div>
-      <div class="browser__control-panel-column --center">
-        <el-input
-            v-model="searchString"
-            style="width: 242px"
-            placeholder="Поиск"
-            clearable
-        >
-          <template #append>
-            <el-button :icon="Search" />
-          </template>
-        </el-input>
-      </div>
-      <div class="browser__control-panel-column --right">
-        123123
-      </div>
-    </div>
+    <BrowserControlPanel
+        :search-string="searchString"
+        ref="controlPanelTemplateRef"
+    />
     <div
         v-if="isLoading"
         v-loading="true"
         class="browser__loader"
-        :class="{'--active': isHeightAreRead}"
-        :style="{ height: height }"
+        :class="{'--active': isHeightRead}"
+        :style="{height: height}"
     />
     <div class="browser__container" ref="browserContainerTemplateRef">
-      <div class="browser__filters" v-if="!isLoading">
-        <el-select
-            v-model="value"
-            filterable
-            placeholder="Select"
-        >
-          <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-          />
-        </el-select>
-      </div>
+      <BrowserFilters
+          v-if="!isLoading"
+          :is-loading="isLoading"
+      />
       <div class="browser__table-wrapper" >
         <el-table
             :style="{width: tableWidth}"
