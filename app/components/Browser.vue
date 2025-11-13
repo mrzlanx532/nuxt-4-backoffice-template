@@ -206,7 +206,11 @@ onUnmounted(() => {
         :search-string="searchString"
         @update:search-string="searchStringUpdated"
         ref="controlPanelTemplateRef"
-    />
+    >
+      <template #control-panel-right>
+        <slot name="control-panel-right" />
+      </template>
+    </BrowserControlPanel>
     <div
         v-if="isLoading"
         v-loading="true"

@@ -37,6 +37,9 @@ const renderStateTag = (row: BlogPostRow) => {
 
 <template>
   <Browser url="blog/posts/browse">
+    <template #control-panel-right>
+      <el-button type="primary">Добавить</el-button>
+    </template>
     <template #el-table-default>
       <el-table-column prop="id" label="ID" sortable="custom" width="180" />
       <el-table-column prop="date" label="Дата" sortable="custom" width="180" />

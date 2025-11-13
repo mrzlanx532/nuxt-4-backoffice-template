@@ -61,7 +61,7 @@ watch(() => props.searchString, (value) => {
       </el-input>
     </div>
     <div class="browser__control-panel-column --right">
-      123123
+      <slot name="control-panel-right" />
     </div>
   </div>
 </template>
