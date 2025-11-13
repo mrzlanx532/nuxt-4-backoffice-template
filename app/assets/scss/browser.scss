@@ -4,12 +4,8 @@
     font-size: 16px;
   }
 
-  .el-input__wrapper.is-focus {
-    box-shadow: 0 0 0 1px var(--main-gradient-start) inset;
-  }
-
   .el-table {
-    margin-top: 10px;
+    box-shadow: var(--main-box-shadow);
   }
 
   &__control-panel {
@@ -22,6 +18,10 @@
     position: sticky;
     top: 20px;
     z-index: 2;
+
+    .el-input svg {
+      color: var(--main-gradient-intermediate);
+    }
   }
 
   &__control-panel-column {
@@ -44,5 +44,30 @@
     -moz-user-select: none;
     user-select: none;
     -webkit-text-fill-color: transparent;
+  }
+
+  &__loader {
+    height: 1000px;
+    width: 100%;
+    margin-top: 10px;
+    overflow: hidden;
+    transition: opacity .3s ease-in-out;
+    opacity: 0;
+    position: relative;
+
+    .el-loading-mask {
+      background: transparent;
+    }
+
+    &.--active {
+      opacity: 1;
+    }
+  }
+
+  &__table-wrapper {
+    margin-top: 10px;
+    border-radius: var(--main-border-radius);
+    overflow: hidden;
+    box-shadow: var(--main-box-shadow);
   }
 }
