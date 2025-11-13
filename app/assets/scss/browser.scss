@@ -65,9 +65,24 @@
   }
 
   &__table-wrapper {
-    margin-top: 10px;
     border-radius: var(--main-border-radius);
     overflow: hidden;
     box-shadow: var(--main-box-shadow);
+  }
+
+  &__container {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+  }
+
+  &__filters {
+    background: var(--main-background-color);
+    border-radius: var(--main-border-radius);
+    box-shadow: var(--main-box-shadow);
+    height: 100%;
+    padding: 15px;
+    width: 225px;
+    z-index: 1;
   }
 }
