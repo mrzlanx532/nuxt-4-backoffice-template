@@ -99,20 +99,32 @@ const total = ref(0)
 /** sorts */
 const sortURL = (() => {
   if (route.query.sort) {
-    const parsed = JSON.parse(route.query.sort as string)
+    try {
+      const parsed = JSON.parse(route.query.sort as string)
 
-    if (parsed) {
-      parsed.prop = parsed.field
-      parsed.order = parsed.value ? parsed.value === 'desc' ? 'descending' : 'ascending' : undefined
+      if (parsed) {
+        parsed.prop = parsed.field
+        parsed.order = undefined
+
+        if (parsed.value === 'desc') {
+          parsed.order = 'descending'
+        }
+
+        if (parsed.value === 'asc') {
+          parsed.order = 'ascending'
+        }
+      }
+
+      return parsed
+    } catch (e: unknown) {
+     return undefined
     }
-
-    return parsed
   }
 
   return undefined
 })()
 const sorts = ref<{[key: string]: any}>(
-    sortURL && sortURL.field && sortURL.value ?
+    sortURL && sortURL.field && sortURL.value && ['asc', 'desc'].includes(sortURL.value) ?
     {[sortURL.field]: sortURL.value}:
     {}
 )
@@ -150,6 +162,8 @@ const initResizeObserver = () => {
 
 const onSortChange = (value: SortChangedValue) => {
 
+  page.value = 1
+
   if (activeSort.value !== value.prop) {
     activeSort.value = value.prop
 
@@ -168,6 +182,7 @@ const onSortChange = (value: SortChangedValue) => {
     path: route.path,
     query: {
       ...route.query,
+      page: undefined,
       sort: value.order ? JSON.stringify({
         field: value.prop,
         value: order
