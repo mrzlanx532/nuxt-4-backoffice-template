@@ -183,16 +183,15 @@ const fetch = async () => {
     page.value = response.meta.page
     perPage.value = response.meta.per_page
 
-    isLoading.value = false
-
   } catch (err: unknown) {
-    isLoading.value = true
     ElNotification({
       title: 'Ошибка сервера',
       message: 'Что-то пошло не так',
       type: 'error',
       duration: 4000
     })
+  } finally {
+    isLoading.value = false
   }
 }
 
