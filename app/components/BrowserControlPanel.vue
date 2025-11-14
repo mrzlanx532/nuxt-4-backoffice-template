@@ -20,7 +20,11 @@ const onInputChange = (value: string) => {
   emit('update:searchString', value)
 }
 
-const onInputButtonEnter = () => {
+const onClickSearch = () => {
+  if (searchString.value === props.searchString) {
+    return
+  }
+
   emit('update:searchString', searchString.value)
 }
 
@@ -62,7 +66,7 @@ defineExpose({
           </el-icon>
         </template>
         <template #append>
-          <el-button :icon="IconSearch" @click="onInputButtonEnter" />
+          <el-button :icon="IconSearch" @click="onClickSearch" />
         </template>
       </el-input>
     </div>

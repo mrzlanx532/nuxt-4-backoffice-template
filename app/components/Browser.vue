@@ -14,7 +14,7 @@ const slots = useSlots()
 const router = useRouter()
 const route = useRoute()
 
-const searchString = ref()
+const searchString = ref(route.query.search_string ? route.query.search_string as string : undefined)
 
 export type IItem = {[key: string]: any}
 
@@ -217,11 +217,11 @@ const fetch = async () => {
 /*  if (Object.keys(activeFilters.value).length) {
     requestData.filters = activeFilters.value
   }
+  */
 
   if (searchString.value !== '') {
     requestData.search_string = searchString.value
   }
-  */
 
   if (activeSort.value && sorts.value[activeSort.value]) {
     requestData.sort = {
@@ -284,7 +284,19 @@ const tableColumns = computed(() => {
 })
 
 const searchStringUpdated = (value: string) => {
+  page.value = 1
   searchString.value = value
+
+  router.push({
+    path: route.path,
+    query: {
+      ...route.query,
+      page: undefined,
+      search_string: value ? value : undefined
+    }
+  })
+
+  fetch()
 }
 
 const onPageChange = (value: number) => {
