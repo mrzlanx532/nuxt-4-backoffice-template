@@ -225,13 +225,15 @@ const onPageSizeChange = (value: number) => {
   fetch()
 }
 
-onMounted(async() => {
+onMounted(() => {
   ro = initResizeObserver()
   updateDimensions()
 
   isHeightRead.value = true
-  await fetch()
-  isFirstLoading.value = false
+
+  fetch().then(() => {
+    isFirstLoading.value = false
+  })
 })
 
 onUnmounted(() => {
