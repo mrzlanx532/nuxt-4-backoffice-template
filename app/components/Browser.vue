@@ -76,7 +76,7 @@ const browserContainerTemplateRef = useTemplateRef('browserContainerTemplateRef'
 const data = ref<IItem[]>([])
 const filters = ref<IFilter[]>([])
 const isFirstLoading = ref(true)
-const isLoading = ref(true)
+const isLoading = ref(false)
 
 /** auto-size */
 let ro: ResizeObserver | undefined = undefined
@@ -226,7 +226,6 @@ const onPageSizeChange = (value: number) => {
 }
 
 onMounted(async() => {
-
   ro = initResizeObserver()
   updateDimensions()
 
@@ -252,8 +251,8 @@ onUnmounted(() => {
       </template>
     </BrowserControlPanel>
     <div
-        v-if="isFirstLoading || isLoading"
-        :v-loading="true"
+        v-if="isFirstLoading"
+        v-loading="true"
         class="browser__loader"
         :class="{'--active': isHeightRead}"
         :style="{height: tableHeight}"
@@ -263,9 +262,11 @@ onUnmounted(() => {
           v-if="!isFirstLoading"
           :is-loading="false"
       />
-      <div class="browser__table-container" :style="{height: tableHeight}" v-if="!isLoading">
+      <div class="browser__table-container" :style="{height: tableHeight}">
         <div class="browser__table-wrapper">
           <el-table
+              v-if="!isFirstLoading"
+              :class="{'--loading': isLoading}"
               :style="{width: tableWidth}"
               @sort-change="onSortChange"
               :data="data"
@@ -277,6 +278,7 @@ onUnmounted(() => {
           </el-table>
         </div>
         <el-pagination
+            v-if="!isFirstLoading"
             class="--browser"
             v-model:current-page="page"
             v-model:page-size="perPage"

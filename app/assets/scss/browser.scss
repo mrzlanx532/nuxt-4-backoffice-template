@@ -6,6 +6,11 @@
 
   .el-table {
     box-shadow: var(--main-box-shadow);
+
+    &.--loading {
+      filter: blur(2px);
+      opacity: 1;
+    }
   }
 
   &__control-panel {
