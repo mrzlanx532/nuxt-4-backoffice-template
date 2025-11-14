@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 import Menu, { type MenuItem } from "~/components/Menu.vue"
+import locale from 'element-plus/es/locale/lang/ru';
 import {
   ElIconLocation,
   ElIconTickets
@@ -165,26 +166,28 @@ onUnmounted(() => {
 
 <template>
   <OverlayScrollbarsComponent :options="{scrollbars: {theme: 'os-theme-main-scroll'}}" :style="{height: '100vh'}">
-    <el-container class="el-container">
-      <el-aside class="sidebar">
-        <div class="sidebar__overlay" :class="{'--active': !sidebarIsReady}"/>
-        <div class="sidebar__logo" ref="logoContainerRef" @click="clickHome">
-          <img src="/img/logo.png" alt="Logo">
-          <div>Digital Dyatel</div>
-        </div>
-        <Menu ref="menuTemplateRef" :height="scrollbarHeight" :items="items"/>
-        <div class="sidebar__footer" ref="footerRef">
-          <img src="/img/avatar.png" alt="avatar">
-          <p class="username">Денис Данилов</p>
-          <p class="role">Администратор</p>
-          <el-link @click="logout">Выйти</el-link>
-        </div>
-      </el-aside>
-      <el-container class="main">
-        <el-main>
-          <slot/>
-        </el-main>
+    <el-config-provider :locale="locale">
+      <el-container class="el-container">
+        <el-aside class="sidebar">
+          <div class="sidebar__overlay" :class="{'--active': !sidebarIsReady}"/>
+          <div class="sidebar__logo" ref="logoContainerRef" @click="clickHome">
+            <img src="/img/logo.png" alt="Logo">
+            <div>Digital Dyatel</div>
+          </div>
+          <Menu ref="menuTemplateRef" :height="scrollbarHeight" :items="items"/>
+          <div class="sidebar__footer" ref="footerRef">
+            <img src="/img/avatar.png" alt="avatar">
+            <p class="username">Денис Данилов</p>
+            <p class="role">Администратор</p>
+            <el-link @click="logout">Выйти</el-link>
+          </div>
+        </el-aside>
+        <el-container class="main">
+          <el-main>
+            <slot/>
+          </el-main>
+        </el-container>
       </el-container>
-    </el-container>
+    </el-config-provider>
   </OverlayScrollbarsComponent>
 </template>

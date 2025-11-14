@@ -12,6 +12,8 @@ const emit = defineEmits<{
   (e: 'update:searchString', value: string): void
 }>()
 
+const rootTemplateRef = useTemplateRef('rootTemplateRef')
+
 const searchString = ref<string>('')
 
 const onInputChange = (value: string) => {
@@ -35,10 +37,14 @@ const onInputClear = () => {
 watch(() => props.searchString, (value) => {
   searchString.value = value
 })
+
+defineExpose({
+  rootTemplateRef
+})
 </script>
 
 <template>
-  <div class="browser__control-panel">
+  <div class="browser__control-panel" ref="rootTemplateRef">
     <div class="browser__control-panel-column --left">
       <div class="browser__control-panel-page-title">Статьи блога</div>
     </div>

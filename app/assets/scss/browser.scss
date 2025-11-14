@@ -85,4 +85,9 @@
     width: 225px;
     z-index: 1;
   }
+
+  .el-pagination.--browser {
+    justify-content: end;
+    margin-top: 10px;
+  }
 }

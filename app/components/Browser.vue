@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import BrowserControlPanel from '@/components/BrowserControlPanel.vue'
 import { cloneVNode } from 'vue'
+import { ElNotification } from 'element-plus'
 
-const props = defineProps<{
-  url: string
-}>()
+const props = withDefaults(defineProps<{
+  url: string,
+  perPageSizes?: number[]
+}>(), {
+  perPageSizes: () => [18, 50, 100]
+})
 
 const slots = useSlots()
 
@@ -66,23 +70,29 @@ interface IRequestParams {
   page: number
 }
 
-let ro: ResizeObserver | undefined = undefined
-
 const controlPanelTemplateRef = useTemplateRef<typeof BrowserControlPanel>('controlPanelTemplateRef')
 const browserContainerTemplateRef = useTemplateRef('browserContainerTemplateRef')
 
 const data = ref<IItem[]>([])
 const filters = ref<IFilter[]>([])
-
+const isFirstLoading = ref(true)
 const isLoading = ref(true)
+
+/** auto-size */
+let ro: ResizeObserver | undefined = undefined
 const isHeightRead = ref(false)
-const height = ref()
+const tableHeight = ref()
 const tableWidth = ref()
+
+/** pagination */
+const page = ref(1)
+const perPage = ref(18)
+const total = ref(0)
 
 const { $authFetch } = useNuxtApp()
 
 const updateDimensions = () => {
-  height.value = (window.innerHeight - 60 - controlPanelTemplateRef.value!.offsetHeight) + 'px'
+  tableHeight.value = (window.innerHeight - 60 - 42 - controlPanelTemplateRef.value!.rootTemplateRef.offsetHeight) + 'px'
   tableWidth.value = (browserContainerTemplateRef.value!.offsetWidth - 225 - 10) + 'px'
 }
 
@@ -124,6 +134,8 @@ const setFilters = (_filters: IFilter[]) => {
 
 const fetch = async () => {
 
+  isLoading.value = true
+
   const config: { params?: IRequestParams } = {}
 
   const requestData = {} as IRequestParams;
@@ -151,6 +163,14 @@ const fetch = async () => {
     requestData.page = currentPage.value
   }*/
 
+  if (perPage.value !== 20) {
+    requestData.per_page = perPage.value
+  }
+
+  if (page.value > 1) {
+    requestData.page = page.value
+  }
+
   config.params = requestData
 
   try {
@@ -159,8 +179,20 @@ const fetch = async () => {
     data.value = response.items
     filters.value = response.filters
 
-  } catch (err: unknown) {
+    total.value = response.meta.count
+    page.value = response.meta.page
+    perPage.value = response.meta.per_page
 
+    isLoading.value = false
+
+  } catch (err: unknown) {
+    isLoading.value = true
+    ElNotification({
+      title: 'Ошибка сервера',
+      message: 'Что-то пошло не так',
+      type: 'error',
+      duration: 4000
+    })
   }
 }
 
@@ -183,16 +215,24 @@ const searchStringUpdated = (value: string) => {
   searchString.value = value
 }
 
-onMounted(() => {
+const onPageChange = (value: number) => {
+  page.value = value
+  fetch()
+}
+
+const onPageSizeChange = (value: number) => {
+  perPage.value = value
+  fetch()
+}
+
+onMounted(async() => {
 
   ro = initResizeObserver()
   updateDimensions()
 
   isHeightRead.value = true
-
-  fetch().then(() => {
-    isLoading.value = false
-  })
+  await fetch()
+  isFirstLoading.value = false
 })
 
 onUnmounted(() => {
@@ -212,29 +252,41 @@ onUnmounted(() => {
       </template>
     </BrowserControlPanel>
     <div
-        v-if="isLoading"
-        v-loading="true"
+        v-if="isFirstLoading || isLoading"
+        :v-loading="true"
         class="browser__loader"
         :class="{'--active': isHeightRead}"
-        :style="{height: height}"
+        :style="{height: tableHeight}"
     />
     <div class="browser__container" ref="browserContainerTemplateRef">
       <BrowserFilters
-          v-if="!isLoading"
-          :is-loading="isLoading"
+          v-if="!isFirstLoading"
+          :is-loading="false"
       />
-      <div class="browser__table-wrapper" >
-        <el-table
-            :style="{width: tableWidth}"
-            v-if="!isLoading"
-            @sort-change="onSortChange"
-            :data="data"
-            :max-height="height"
-        >
-          <template v-for="column in tableColumns" :key="column.key || column.props?.prop">
-            <component :is="column" />
-          </template>
-        </el-table>
+      <div class="browser__table-container" :style="{height: tableHeight}" v-if="!isLoading">
+        <div class="browser__table-wrapper">
+          <el-table
+              :style="{width: tableWidth}"
+              @sort-change="onSortChange"
+              :data="data"
+              :max-height="tableHeight"
+          >
+            <template v-for="column in tableColumns" :key="column.key || column.props?.prop">
+              <component :is="column" />
+            </template>
+          </el-table>
+        </div>
+        <el-pagination
+            class="--browser"
+            v-model:current-page="page"
+            v-model:page-size="perPage"
+            :page-sizes="props.perPageSizes"
+            :disabled="false"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total"
+            @size-change="onPageSizeChange"
+            @current-change="onPageChange"
+        />
       </div>
     </div>
   </div>
