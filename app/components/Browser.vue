@@ -18,6 +18,11 @@ const searchString = ref()
 
 export type IItem = {[key: string]: any}
 
+interface SortChangedValue {
+  order: 'descending' | 'ascending',
+  prop: string
+}
+
 export interface IFilterConfig {
   filter: boolean
   hidden: boolean
@@ -91,6 +96,32 @@ const page = route.query.page ? ref(parseInt(route.query.page as string)) : ref(
 const perPage = route.query.per_page ? ref(parseInt(route.query.per_page as string)) : ref(18)
 const total = ref(0)
 
+/** sorts */
+const sortURL = (() => {
+  if (route.query.sort) {
+    const parsed = JSON.parse(route.query.sort as string)
+
+    if (parsed) {
+      parsed.prop = parsed.field
+      parsed.order = parsed.value ? parsed.value === 'desc' ? 'descending' : 'ascending' : undefined
+    }
+
+    return parsed
+  }
+
+  return undefined
+})()
+const sorts = ref<{[key: string]: any}>(
+    sortURL && sortURL.field && sortURL.value ?
+    {[sortURL.field]: sortURL.value}:
+    {}
+)
+const activeSort = ref<string|null>(sortURL && sortURL.field ? sortURL.field : null)
+const sortOrderMapper = {
+  'descending': 'desc',
+  'ascending': 'asc',
+} as const
+
 const { $authFetch } = useNuxtApp()
 
 const updateDimensions = () => {
@@ -117,8 +148,34 @@ const initResizeObserver = () => {
   return observer
 }
 
-const onSortChange = (d: any, t: any) => {
-  console.log(d, t)
+const onSortChange = (value: SortChangedValue) => {
+
+  if (activeSort.value !== value.prop) {
+    activeSort.value = value.prop
+
+    for (let sort in sorts.value) {
+      sorts.value[sort] = null
+    }
+  }
+
+  const order = sortOrderMapper[value.order]
+
+  if (value.order !== null) {
+    sorts.value[value.prop] = order
+  }
+
+  void router.push({
+    path: route.path,
+    query: {
+      ...route.query,
+      sort: value.order ? JSON.stringify({
+        field: value.prop,
+        value: order
+      }) : undefined
+    }
+  })
+
+  fetch()
 }
 
 const setFilters = (_filters: IFilter[]) => {
@@ -149,6 +206,7 @@ const fetch = async () => {
   if (searchString.value !== '') {
     requestData.search_string = searchString.value
   }
+  */
 
   if (activeSort.value && sorts.value[activeSort.value]) {
     requestData.sort = {
@@ -156,14 +214,6 @@ const fetch = async () => {
       direction: sorts.value[activeSort.value]
     }
   }
-
-  if (selectedPaginationItemsCount.value !== 20) {
-    requestData.per_page = selectedPaginationItemsCount.value
-  }
-
-  if (currentPage.value > 1) {
-    requestData.page = currentPage.value
-  }*/
 
   if (perPage.value !== 20) {
     requestData.per_page = perPage.value
@@ -184,6 +234,9 @@ const fetch = async () => {
     total.value = response.meta.count
     page.value = response.meta.page
     perPage.value = response.meta.per_page
+    sorts.value = response.meta.sort.reduce((acc: {[key: string]: any}, value: string) => {
+      return {...acc, [value]: value === activeSort.value ? sorts.value[value] : null}
+    }, {})
 
   } catch (err: unknown) {
     ElNotification({
@@ -197,17 +250,20 @@ const fetch = async () => {
   }
 }
 
-// Вытаскиваем слот el-table-default и модифицируем колонки
+/** Добавляем в каждый <el-table-column>, переданный в слот #el-table-default директиву sortable='custom' */
 const tableColumns = computed(() => {
   const content = slots['el-table-default']?.() ?? []
   return content.map(vnode => {
-    // Если это el-table-column — добавляем sortable
     if (vnode.type && (vnode.type as any).name === 'ElTableColumn') {
-      return cloneVNode(vnode, {
-        sortable: 'custom',
-      })
+      const extraProps: {sortable?: 'custom'} = {}
+
+      if (vnode.props!.prop in sorts.value) {
+        extraProps.sortable = 'custom'
+      }
+
+      return cloneVNode(vnode, extraProps)
     }
-    // иначе возвращаем как есть
+
     return vnode
   })
 })
@@ -286,6 +342,7 @@ onUnmounted(() => {
       <div class="browser__table-container" :style="{height: tableHeight}">
         <div class="browser__table-wrapper">
           <el-table
+              :default-sort="sortURL"
               :scrollbar-always-on="true"
               v-if="!isFirstLoading"
               :class="{'--loading': isLoading}"

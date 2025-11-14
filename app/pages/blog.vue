@@ -41,8 +41,8 @@ const renderStateTag = (row: BlogPostRow) => {
       <el-button type="primary">Добавить</el-button>
     </template>
     <template #el-table-default>
-      <el-table-column prop="id" label="ID" sortable="custom" width="180" />
-      <el-table-column prop="date" label="Дата" sortable="custom" width="180" />
+      <el-table-column prop="id" label="ID" width="180" />
+      <el-table-column prop="date" label="Дата" width="180" />
       <el-table-column prop="name" label="Заголовок" />
       <el-table-column label="Рубрика">
         <template #default="{ row }: { row: BlogPostRow }">
