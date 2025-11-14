@@ -11,6 +11,8 @@ const props = withDefaults(defineProps<{
 })
 
 const slots = useSlots()
+const router = useRouter()
+const route = useRoute()
 
 const searchString = ref()
 
@@ -85,8 +87,8 @@ const tableHeight = ref()
 const tableWidth = ref()
 
 /** pagination */
-const page = ref(1)
-const perPage = ref(18)
+const page = route.query.page ? ref(parseInt(route.query.page as string)) : ref(1)
+const perPage = route.query.per_page ? ref(parseInt(route.query.per_page as string)) : ref(18)
 const total = ref(0)
 
 const { $authFetch } = useNuxtApp()
@@ -215,11 +217,29 @@ const searchStringUpdated = (value: string) => {
 }
 
 const onPageChange = (value: number) => {
+
+  router.push({
+    path: route.path,
+    query: {
+      ...route.query,
+      page: value
+    }
+  })
+
   page.value = value
   fetch()
 }
 
 const onPageSizeChange = (value: number) => {
+
+  router.push({
+    path: route.path,
+    query: {
+      ...route.query,
+      per_page: value
+    }
+  })
+
   perPage.value = value
   fetch()
 }
@@ -266,6 +286,7 @@ onUnmounted(() => {
       <div class="browser__table-container" :style="{height: tableHeight}">
         <div class="browser__table-wrapper">
           <el-table
+              :scrollbar-always-on="true"
               v-if="!isFirstLoading"
               :class="{'--loading': isLoading}"
               :style="{width: tableWidth}"
