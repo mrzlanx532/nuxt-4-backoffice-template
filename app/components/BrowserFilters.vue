@@ -21,7 +21,7 @@ const renderSelectSearch = (filter: IFilter, onUpdate: (value: any) => void) => 
         'onUpdate:modelValue': onUpdate,
         filterable: filter.config.filter,
         multiple: filter.config.multiple,
-        placeholder: 'Select'
+        clearable: true,
       },
       () =>
           filter.options?.map((item: any) =>
@@ -65,7 +65,7 @@ watch(props.activeFilters, (value) => {
     <el-form label-position="top">
       <template v-for="filter in props.filters">
         <el-form-item :label="filter.title">
-          <component :is="getFilter(filter)" />
+          <component :is="getFilter(filter)" :key="filter.id"/>
         </el-form-item>
       </template>
     </el-form>
