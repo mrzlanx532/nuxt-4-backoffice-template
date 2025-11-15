@@ -290,13 +290,28 @@ const onPageSizeChange = (value: number) => {
   fetch()
 }
 
+const processFilterValue = (id: string, value: any) => {
+  if (value === undefined) {
+    delete activeFilters[id]
+    return
+  }
+
+  if (Array.isArray(value) && value.length) {
+    activeFilters[id] = value
+    return
+  }
+
+  if (Array.isArray(value) && !value.length) {
+    delete activeFilters[id]
+    return
+  }
+
+  activeFilters[id] = [value]
+}
+
 const onFilterChange = (id: string, value: any) => {
   page.value = 1
-
-  value = value !== undefined ? value : value
-
-  value === undefined ? delete activeFilters[id] : activeFilters[id] = Array.isArray(value) ? value : [value]
-
+  processFilterValue(id, value)
   fetch()
 }
 
