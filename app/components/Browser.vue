@@ -2,6 +2,12 @@
 import BrowserControlPanel from '@/components/BrowserControlPanel.vue'
 import { cloneVNode } from 'vue'
 import { ElNotification } from 'element-plus'
+import type { IItem } from '@@/types'
+import type {
+  IFilter,
+  IResponse
+} from '@@/types/components/browser'
+
 
 const props = withDefaults(defineProps<{
   url: string,
@@ -16,54 +22,9 @@ const route = useRoute()
 
 const searchString = ref(route.query.search_string ? route.query.search_string as string : undefined)
 
-export type IItem = {[key: string]: any}
-
 interface SortChangedValue {
   order: 'descending' | 'ascending',
   prop: string
-}
-
-export interface IFilterConfig {
-  filter: boolean
-  hidden: boolean
-  mask: string|null
-  multiple: boolean
-  range: boolean
-  url: string
-  nullable: boolean
-}
-
-const enum FilterType {
-  SELECT = 'SELECT',
-  SELECT_SEARCH = 'SELECT_SEARCH',
-  INPUT = 'INPUT',
-  DATE = 'DATE',
-  DATETIME = 'DATETIME',
-  BOOLEAN = 'BOOLEAN',
-}
-
-export interface IFilter {
-  id: string
-  title: string
-  type: FilterType
-  options?: {
-    id: string
-    title: string
-  }[]
-  config: IFilterConfig
-}
-
-interface IResponse {
-  filters: IFilter[],
-  items: IItem[],
-  meta: {
-    browser_id: string,
-    count: number,
-    page: number,
-    per_page: number,
-    searchable: boolean,
-    sort: string[]
-  }
 }
 
 interface IRequestParams {
@@ -81,7 +42,6 @@ const controlPanelTemplateRef = useTemplateRef<typeof BrowserControlPanel>('cont
 const browserContainerTemplateRef = useTemplateRef('browserContainerTemplateRef')
 
 const data = ref<IItem[]>([])
-const filters = ref<IFilter[]>([])
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
 
@@ -133,6 +93,10 @@ const sortOrderMapper = {
   'descending': 'desc',
   'ascending': 'asc',
 } as const
+
+/** filters */
+const filters = ref<IFilter[]>([])
+const activeFilters = reactive<{[key: string]: any[]}>({})
 
 const { $authFetch } = useNuxtApp()
 
@@ -214,10 +178,9 @@ const fetch = async () => {
 
   const requestData = {} as IRequestParams;
 
-/*  if (Object.keys(activeFilters.value).length) {
-    requestData.filters = activeFilters.value
+  if (Object.keys(activeFilters).length) {
+    requestData.filters = activeFilters
   }
-  */
 
   if (searchString.value !== '') {
     requestData.search_string = searchString.value
@@ -244,7 +207,7 @@ const fetch = async () => {
     const response = await $authFetch<IResponse>(props.url, config)
 
     data.value = response.items
-    filters.value = response.filters
+    setFilters(response.filters)
 
     total.value = response.meta.count
     page.value = response.meta.page
@@ -327,6 +290,16 @@ const onPageSizeChange = (value: number) => {
   fetch()
 }
 
+const onFilterChange = (id: string, value: any) => {
+  page.value = 1
+
+  value = value !== undefined ? value : value
+
+  value === undefined ? delete activeFilters[id] : activeFilters[id] = Array.isArray(value) ? value : [value]
+
+  fetch()
+}
+
 onMounted(() => {
   ro = initResizeObserver()
   updateDimensions()
@@ -363,6 +336,9 @@ onUnmounted(() => {
     />
     <div class="browser__container" ref="browserContainerTemplateRef">
       <BrowserFilters
+          @active-filters:change="onFilterChange"
+          :active-filters="activeFilters"
+          :filters="filters"
           v-if="!isFirstLoading"
           :is-loading="false"
       />
