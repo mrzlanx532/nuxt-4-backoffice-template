@@ -12,8 +12,7 @@ const emit = defineEmits(['active-filters:change'])
 
 const activeFilters = ref<{[key: string]: any[]}>({})
 
-const renderSelectSearch = (filter: IFilter, onUpdate: (value: any) => void) => {
-
+const renderSelect = (filter: IFilter, onUpdate: (value: any) => void) => {
   return h(
       ElSelect,
       {
@@ -23,14 +22,13 @@ const renderSelectSearch = (filter: IFilter, onUpdate: (value: any) => void) => 
         multiple: filter.config.multiple,
         clearable: true,
       },
-      () =>
-          filter.options?.map((item: any) =>
-              h(ElOption, {
-                key: item.id,
-                label: item.title,
-                value: item.id
-              })
-          )
+      () => filter.options?.map((item: any) =>
+        h(ElOption, {
+          key: item.id,
+          label: item.title,
+          value: item.id
+        })
+      )
   )
 }
 
@@ -38,8 +36,8 @@ const getFilterByType: Record<
     FilterType,
     (filter: IFilter, onUpdate: (value: any) => void) => VNode
 > = {
-  [FilterType.SELECT_SEARCH]: renderSelectSearch,
-  [FilterType.SELECT]: (filter, onUpdate) => h('div'),
+  [FilterType.SELECT_SEARCH]: renderSelect,
+  [FilterType.SELECT]: renderSelect,
   [FilterType.INPUT]: (filter, onUpdate) => h('div'),
   [FilterType.DATE]: (filter, onUpdate) => h('div'),
   [FilterType.DATETIME]: (filter, onUpdate) => h('div'),
