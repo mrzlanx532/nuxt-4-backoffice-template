@@ -4,6 +4,10 @@
     cursor: pointer;
   }
 
+  &__input-filter .el-icon > svg {
+    cursor: pointer;
+  }
+
   .el-input__inner {
     font-size: 16px;
   }
