@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { type IFilter, FilterType } from '@@/types/components/browser'
-import { ElSelect, ElOption } from 'element-plus'
+import { type Component } from 'vue'
+import BrowserFilterSelect from '@/components/BrowserFilterSelect.vue'
 
 const props = defineProps<{
   isLoading: boolean,
@@ -12,46 +13,14 @@ const emit = defineEmits(['active-filters:change'])
 
 const activeFilters = ref<{[key: string]: any[]}>({})
 
-const renderSelect = (filter: IFilter, onUpdate: (value: any) => void) => {
-  return h(
-      ElSelect,
-      {
-        modelValue: filter.config.multiple ? activeFilters.value[filter.id] : activeFilters.value[filter.id]?.[0],
-        'onUpdate:modelValue': onUpdate,
-        filterable: filter.config.filter,
-        multiple: filter.config.multiple,
-        clearable: true,
-      },
-      () => filter.options?.map((item: any) =>
-        h(ElOption, {
-          key: item.id,
-          label: item.title,
-          value: item.id
-        })
-      )
-  )
-}
-
-const getFilterByType: Record<
-    FilterType,
-    (filter: IFilter, onUpdate: (value: any) => void) => VNode
-> = {
-  [FilterType.SELECT_SEARCH]: renderSelect,
-  [FilterType.SELECT]: renderSelect,
-  [FilterType.INPUT]: (filter, onUpdate) => h('div'),
-  [FilterType.DATE]: (filter, onUpdate) => h('div'),
-  [FilterType.DATETIME]: (filter, onUpdate) => h('div'),
-  [FilterType.BOOLEAN]: (filter, onUpdate) => h('div')
-}
-
-const getFilter = (filter: IFilter) => {
-  return () => {
-    const onUpdate = (val: any) => {
-      emit('active-filters:change', filter.id, val)
-    }
-    return getFilterByType[filter.type](filter, onUpdate)
-  }
-}
+const componentsByType = {
+  [FilterType.SELECT_SEARCH]: BrowserFilterSelect,
+  [FilterType.SELECT]: BrowserFilterSelect,
+  [FilterType.INPUT]: BrowserFilterSelect, // TODO
+  [FilterType.DATE]: BrowserFilterSelect, // TODO
+  [FilterType.DATETIME]: BrowserFilterSelect, // TODO
+  [FilterType.BOOLEAN]: BrowserFilterSelect // TODO
+} as const
 
 watch(props.activeFilters, (value) => {
   activeFilters.value = value
@@ -63,7 +32,13 @@ watch(props.activeFilters, (value) => {
     <el-form label-position="top">
       <template v-for="filter in props.filters">
         <el-form-item :label="filter.title">
-          <component :is="getFilter(filter)" :key="filter.id"/>
+          <component
+              :is="componentsByType[filter.type]"
+              :key="filter.id"
+              :filter="filter"
+              :value="activeFilters[filter.id]"
+              @update:value="(val: any) => emit('active-filters:change', filter.id, val)"
+          />
         </el-form-item>
       </template>
     </el-form>
