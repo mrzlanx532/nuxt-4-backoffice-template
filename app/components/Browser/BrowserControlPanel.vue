@@ -40,6 +40,8 @@ const onInputClear = () => {
 
 watch(() => props.searchString, (value) => {
   searchString.value = value
+}, {
+  immediate: true
 })
 
 defineExpose({
@@ -54,6 +56,7 @@ defineExpose({
     </div>
     <div class="browser__control-panel-column --center">
       <el-input
+          class="browser__control-panel-input"
           v-model="searchString"
           style="width: 242px"
           placeholder="Поиск"

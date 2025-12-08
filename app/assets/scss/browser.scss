@@ -1,5 +1,9 @@
 .browser {
 
+  &__control-panel-input .el-icon > svg {
+    cursor: pointer;
+  }
+
   .el-input__inner {
     font-size: 16px;
   }
