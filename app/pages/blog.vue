@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Browser from '@/components/Browser.vue'
+import Browser from '@/components/Browser/Browser.vue'
 import { ElTag } from '#components'
 import dayjs from 'dayjs'
 

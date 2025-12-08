@@ -1,18 +1,12 @@
 <script setup lang="ts">
-import type { PropType } from 'vue'
 import { ElSelect, ElOption } from 'element-plus'
 import type { IFilter } from '@@/types/components/browser'
 
-const props = defineProps({
-  filter: {
-    type: Object as PropType<IFilter>,
-    required: true
-  },
-  value: {
-    type: Array as PropType<any[]>,
-    required: false,
-    default: () => []
-  }
+const props = withDefaults(defineProps<{
+  filter: IFilter,
+  value?: any[],
+}>(), {
+  value: () => []
 })
 
 const emit = defineEmits<{

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { type IFilter, FilterType } from '@@/types/components/browser'
 import { type Component } from 'vue'
-import BrowserFilterSelect from '@/components/BrowserFilterSelect.vue'
+import BrowserFilterSelect from '@/components/Browser/BrowserFilterSelect.vue'
+import BrowserFilterInput from '@/components/Browser/BrowserFilterInput.vue'
 
 const props = defineProps<{
   isLoading: boolean,
@@ -16,7 +17,7 @@ const activeFilters = ref<{[key: string]: any[]}>({})
 const componentsByType = {
   [FilterType.SELECT_SEARCH]: BrowserFilterSelect,
   [FilterType.SELECT]: BrowserFilterSelect,
-  [FilterType.INPUT]: BrowserFilterSelect, // TODO
+  [FilterType.INPUT]: BrowserFilterInput,
   [FilterType.DATE]: BrowserFilterSelect, // TODO
   [FilterType.DATETIME]: BrowserFilterSelect, // TODO
   [FilterType.BOOLEAN]: BrowserFilterSelect // TODO

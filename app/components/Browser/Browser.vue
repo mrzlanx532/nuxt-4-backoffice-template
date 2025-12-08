@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BrowserControlPanel from '@/components/BrowserControlPanel.vue'
+import BrowserControlPanel from '@/components/Browser/BrowserControlPanel.vue'
 import { cloneVNode } from 'vue'
 import { ElNotification } from 'element-plus'
 import type { IItem } from '@@/types'
