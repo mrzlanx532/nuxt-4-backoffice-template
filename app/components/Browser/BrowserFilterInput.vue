@@ -3,8 +3,9 @@ import { ElInput } from 'element-plus'
 import type { IFilter } from '@@/types/components/browser'
 import { CircleClose as IconCircleClose } from '@element-plus/icons-vue'
 
-type IValueSingle = string | number
-type IValueRange = [IValueSingle, IValueSingle]
+type IValueRaw = string|number
+type IValueSingle = [IValueRaw]
+type IValueRange = [IValueRaw, IValueRaw]
 
 type IValue = IValueSingle | IValueRange
 
@@ -24,9 +25,17 @@ const confirmedValue = ref<IValue | undefined>(undefined)
 
 watch(() => props.value, (v) => {
 
-  if (props.filter.config.range && v === undefined) {
-    unconfirmedValue.value = ["", ""]
-    confirmedValue.value = ["", ""]
+  if (v === undefined) {
+    if (props.filter.config.range) {
+      unconfirmedValue.value = ["", ""]
+      confirmedValue.value = ["", ""]
+
+      return
+    }
+
+    unconfirmedValue.value = [""]
+    confirmedValue.value = [""]
+
     return
   }
 
@@ -37,16 +46,15 @@ watch(() => props.value, (v) => {
   deep: true
 })
 
-const onInputRange = (index: number, v: IValueSingle) => {
+const onInputRange = (index: number, v: IValueRaw) => {
   (unconfirmedValue.value as IValueRange)[index] = v
 }
 
-const onInputSingle = (v: IValueSingle) => {
-  (unconfirmedValue.value as IValueSingle) = v
+const onInputSingle = (v: IValueRaw) => {
+  (unconfirmedValue.value as IValueSingle)[0] = v
 }
 
 const onChangeRange = () => {
-
   confirmedValue.value = [...(unconfirmedValue.value as IValueRange)]
 
   if ((confirmedValue.value as IValueRange)[0] === '' && (confirmedValue.value as IValueRange)[1] === '') {
@@ -60,6 +68,12 @@ const onChangeRange = () => {
 
 const onChangeSingle = () => {
   confirmedValue.value = unconfirmedValue.value
+
+  if ((confirmedValue.value as IValueSingle)[0] === '') {
+    emit('update:value', undefined)
+    return
+  }
+
   emit('update:value', confirmedValue.value as any)
 }
 
@@ -69,7 +83,7 @@ const clearInputRange = (index: number) => {
 }
 
 const clearInputSingle = () => {
-  (unconfirmedValue.value as IValueSingle) = ''
+  (unconfirmedValue.value as IValueSingle)[0] = ''
   onChangeSingle()
 }
 </script>
@@ -106,12 +120,12 @@ const clearInputSingle = () => {
   <el-input
       v-else
       class="browser__input-filter"
-      :model-value="unconfirmedValue as (IValueSingle | undefined)"
+      :model-value="Array.isArray(unconfirmedValue) ? unconfirmedValue[0] : undefined"
       @change="onChangeSingle"
-      @update:model-value="(val: any) => onInputSingle(val)"
+      @update:model-value="onInputSingle"
   >
     <template #suffix>
-      <el-icon v-if="confirmedValue && confirmedValue !== ''">
+      <el-icon v-if="Array.isArray(confirmedValue) && confirmedValue[0] !== ''">
         <IconCircleClose @click="clearInputSingle" />
       </el-icon>
     </template>

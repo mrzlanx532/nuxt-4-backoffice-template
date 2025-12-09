@@ -10,7 +10,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'update:value': [value: any[]]
+  'update:value': [value: any]
 }>()
 </script>
 
