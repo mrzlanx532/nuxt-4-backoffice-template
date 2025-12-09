@@ -81,7 +81,7 @@ const changeRange = () => {
         @change="changeRange"
         @update:model-value="(v: any) => updateModelValueRange(0, v)"
         format="DD.MM.YYYY HH:mm:ss"
-        value-format="X"
+        :value-format="props.filter.config.is_timestamp ? 'X' : 'DD.MM.YYYY HH:mm:ss'"
         clearable
     />
     <ElDatePicker
@@ -91,7 +91,7 @@ const changeRange = () => {
         @change="changeRange"
         @update:model-value="(v: any) => updateModelValueRange(1, v)"
         format="DD.MM.YYYY HH:mm:ss"
-        value-format="X"
+        :value-format="props.filter.config.is_timestamp ? 'X' : 'DD.MM.YYYY HH:mm:ss'"
         clearable
     />
   </template>
@@ -103,7 +103,7 @@ const changeRange = () => {
       @change="changeSingle"
       @update:model-value="updateModelValueSingle"
       format="DD.MM.YYYY HH:mm:ss"
-      value-format="X"
+      :value-format="props.filter.config.is_timestamp ? 'X' : 'DD.MM.YYYY HH:mm:ss'"
       clearable
   />
 </template>
