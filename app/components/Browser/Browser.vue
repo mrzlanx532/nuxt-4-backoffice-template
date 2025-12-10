@@ -315,6 +315,14 @@ const onFilterChange = (id: string, value: any) => {
   fetch()
 }
 
+const onFiltersReset = () => {
+  page.value = 1
+  for (const key in activeFilters) {
+    delete activeFilters[key]
+  }
+  fetch()
+}
+
 onMounted(() => {
   ro = initResizeObserver()
   updateDimensions()
@@ -352,6 +360,7 @@ onUnmounted(() => {
     <div class="browser__container" ref="browserContainerTemplateRef">
       <BrowserFilters
           @active-filters:change="onFilterChange"
+          @active-filters:reset="onFiltersReset"
           :active-filters="activeFilters"
           :filters="filters"
           v-if="!isFirstLoading"

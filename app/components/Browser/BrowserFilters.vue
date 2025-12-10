@@ -13,7 +13,10 @@ const props = defineProps<{
   filters: IFilter[],
 }>()
 
-const emit = defineEmits(['active-filters:change'])
+const emit = defineEmits([
+  'active-filters:change',
+  'active-filters:reset'
+])
 
 const activeFilters = ref<{[key: string]: any[]}>({})
 
@@ -46,5 +49,11 @@ watch(props.activeFilters, (value) => {
         </el-form-item>
       </template>
     </el-form>
+    <el-button
+        :disabled="Object.keys(props.activeFilters).length === 0"
+        type="primary"
+        link
+        @click="emit('active-filters:reset')"
+    >Сбросить фильтры</el-button>
   </div>
 </template>
