@@ -89,7 +89,7 @@ const clearInputSingle = () => {
 </script>
 
 <template>
-  <div v-if="props.filter.config.range">
+  <template v-if="props.filter.config.range">
     <el-input
         class="browser__input-filter"
         :model-value="Array.isArray(unconfirmedValue) ? unconfirmedValue[0] : undefined"
@@ -116,7 +116,7 @@ const clearInputSingle = () => {
         </el-icon>
       </template>
     </el-input>
-  </div>
+  </template>
   <el-input
       v-else
       class="browser__input-filter"

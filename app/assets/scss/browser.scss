@@ -8,6 +8,18 @@
     cursor: pointer;
   }
 
+  &__boolean-filter {
+    &.el-radio-group {
+      align-items: start;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .el-radio {
+      height: 24px;
+    }
+  }
+
   .el-input__inner {
     font-size: 16px;
   }

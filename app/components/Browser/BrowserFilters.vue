@@ -5,6 +5,7 @@ import BrowserFilterSelect from '@/components/Browser/BrowserFilterSelect.vue'
 import BrowserFilterInput from '@/components/Browser/BrowserFilterInput.vue'
 import BrowserFilterDate from '@/components/Browser/BrowserFilterDate.vue'
 import BrowserFilterDatetime from '@/components/Browser/BrowserFilterDatetime.vue'
+import BrowserFilterBoolean from '@/components/Browser/BrowserFilterBoolean.vue'
 
 const props = defineProps<{
   isLoading: boolean,
@@ -22,7 +23,7 @@ const componentsByType = {
   [FilterType.INPUT]: BrowserFilterInput,
   [FilterType.DATE]: BrowserFilterDate,
   [FilterType.DATETIME]: BrowserFilterDatetime,
-  [FilterType.BOOLEAN]: BrowserFilterSelect // TODO
+  [FilterType.BOOLEAN]: BrowserFilterBoolean
 } as const
 
 watch(props.activeFilters, (value) => {
