@@ -2,6 +2,11 @@
 import Browser from '@/components/Browser/Browser.vue'
 import { ElTag } from '#components'
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc.js'
+import timezone from 'dayjs/plugin/timezone.js'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 definePageMeta({
   middleware: ['auth'],
@@ -42,7 +47,11 @@ const renderStateTag = (row: BlogPostRow) => {
     </template>
     <template #el-table-default>
       <el-table-column prop="id" label="ID" width="180" />
-      <el-table-column prop="date" label="Дата" width="180" />
+      <el-table-column prop="date" label="Дата" width="180">
+        <template #default="{ row }: { row: BlogPostRow}">
+          {{ (dayjs.utc(row.date, 'DD.MM.YYYY HH:mm')).local().format('DD.MM.YYYY HH:mm') }}
+        </template>
+      </el-table-column>
       <el-table-column prop="name" label="Заголовок" />
       <el-table-column label="Рубрика">
         <template #default="{ row }: { row: BlogPostRow }">

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { IFilter } from '@@/types/components/browser'
+import dayjs from 'dayjs'
 
 type IValueRaw = number|string|null
 type IValueSingle = [IValueRaw]
@@ -41,8 +42,8 @@ watch(() => props.value, (v) => {
   deep: true
 })
 
-const updateModelValueSingle = (val: any) => {
-  unconfirmedValue.value = val
+const updateModelValueSingle = (val: IValueRaw) => {
+  unconfirmedValue.value![0] = val
 }
 
 const updateModelValueRange = (index: number, val: IValueRaw) => {
@@ -52,9 +53,13 @@ const updateModelValueRange = (index: number, val: IValueRaw) => {
 const changeSingle = () => {
   confirmedValue.value = unconfirmedValue.value
 
-  if (confirmedValue.value === null) {
+  if (Array.isArray(confirmedValue.value) && confirmedValue.value[0] === null) {
     emit('update:value', undefined)
     return
+  }
+
+  if (!props.filter.config.is_timestamp && confirmedValue.value && confirmedValue.value[0]) {
+    confirmedValue.value[0] = dayjs(confirmedValue.value[0], 'DD.MM.YYYY HH:mm:ss').tz(dayjs.tz.guess()).format('DD.MM.YYYY HH:mm:ssZ')
   }
 
   emit('update:value', confirmedValue.value)
@@ -62,6 +67,17 @@ const changeSingle = () => {
 
 const changeRange = () => {
   confirmedValue.value = unconfirmedValue.value
+
+  if (!props.filter.config.is_timestamp && confirmedValue.value) {
+
+    if (confirmedValue.value[0]) {
+      confirmedValue.value[0] = dayjs(confirmedValue.value[0], 'DD.MM.YYYY HH:mm:ss').tz(dayjs.tz.guess()).format('DD.MM.YYYY HH:mm:ssZ')
+    }
+
+    if (confirmedValue.value[1]) {
+      confirmedValue.value[1] = dayjs(confirmedValue.value[1], 'DD.MM.YYYY HH:mm:ss').tz(dayjs.tz.guess()).format('DD.MM.YYYY HH:mm:ssZ')
+    }
+  }
 
   if (confirmedValue.value === null) {
     emit('update:value', undefined)
