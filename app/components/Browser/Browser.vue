@@ -8,7 +8,6 @@ import type {
   IResponse
 } from '@@/types/components/browser'
 
-
 const props = withDefaults(defineProps<{
   url: string,
   perPageSizes?: number[]
@@ -44,6 +43,10 @@ const browserContainerTemplateRef = useTemplateRef('browserContainerTemplateRef'
 const data = ref<IItem[]>([])
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
+
+/** detail */
+const detailIsOpen = ref(false)
+const detailItem = ref<{[key: string]: any}|null>(null)
 
 /** auto-size */
 let ro: ResizeObserver | undefined = undefined
@@ -228,9 +231,9 @@ const fetch = async () => {
   }
 }
 
-/** Добавляем в каждый <el-table-column>, переданный в слот #el-table-default директиву sortable='custom' */
+/** Добавляем в каждый <el-table-column>, переданный в слот #table директиву sortable='custom' */
 const tableColumns = computed(() => {
-  const content = slots['el-table-default']?.() ?? []
+  const content = slots['table']?.() ?? []
   return content.map(vnode => {
     if (vnode.type && (vnode.type as any).name === 'ElTableColumn') {
       const extraProps: {sortable?: 'custom'} = {}
@@ -323,6 +326,11 @@ const onFiltersReset = () => {
   fetch()
 }
 
+const onRowClick = (item: any) => {
+  detailItem.value = item
+  detailIsOpen.value = true
+}
+
 onMounted(() => {
   ro = initResizeObserver()
   updateDimensions()
@@ -369,6 +377,7 @@ onUnmounted(() => {
       <div class="browser__table-container" :style="{height: tableHeight}">
         <div class="browser__table-wrapper">
           <el-table
+              @row-click="onRowClick"
               :default-sort="sortURL"
               :scrollbar-always-on="true"
               v-if="!isFirstLoading"
@@ -398,4 +407,9 @@ onUnmounted(() => {
       </div>
     </div>
   </div>
+  <BrowserDetail :item="detailItem" v-model:is-open="detailIsOpen">
+    <template #detail>
+      <slot name="detail" />
+    </template>
+  </BrowserDetail>
 </template>

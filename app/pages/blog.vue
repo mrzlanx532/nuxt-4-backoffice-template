@@ -45,7 +45,7 @@ const renderStateTag = (row: BlogPostRow) => {
     <template #control-panel-right>
       <el-button type="primary">Добавить</el-button>
     </template>
-    <template #el-table-default>
+    <template #table>
       <el-table-column prop="id" label="ID" width="180" />
       <el-table-column prop="date" label="Дата" width="180">
         <template #default="{ row }: { row: BlogPostRow}">
@@ -73,6 +73,29 @@ const renderStateTag = (row: BlogPostRow) => {
           {{ dayjs.unix(row.created_at).format('DD.MM.YYYY') }}
         </template>
       </el-table-column>
+    </template>
+    <template #detail>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
     </template>
   </Browser>
 </template>
