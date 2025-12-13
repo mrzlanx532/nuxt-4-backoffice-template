@@ -408,8 +408,11 @@ onUnmounted(() => {
     </div>
   </div>
   <BrowserDetail :item="detailItem" v-model:is-open="detailIsOpen">
-    <template #detail>
-      <slot name="detail" />
+    <template #detail-header>
+      <slot name="detail-header" :item="detailItem" />
+    </template>
+    <template #detail-content>
+      <slot name="detail-content" />
     </template>
   </BrowserDetail>
 </template>

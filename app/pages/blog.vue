@@ -74,7 +74,21 @@ const renderStateTag = (row: BlogPostRow) => {
         </template>
       </el-table-column>
     </template>
-    <template #detail>
+    <template #detail-header="{ item }">
+      <div class="browser__detail-header">
+        {{ item ? item.id : undefined }}
+      </div>
+      <div class="browser__detail-subheader">
+        {{ item ? item.name : undefined }}
+      </div>
+      <div class="browser__detail-controls">
+        <el-button-group>
+          <el-button type="primary">Изменить</el-button>
+          <el-button type="danger">Удалить</el-button>
+        </el-button-group>
+      </div>
+    </template>
+    <template #detail-content>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!

@@ -22,24 +22,17 @@ watch(() => props.isOpen, (v) => {
   <el-drawer class="browser__detail" :model-value="isOpen" @update:model-value="(v) => emit('update:isOpen', v)" direction="rtl">
     <template #header v-if="props.item">
       <div class="browser__detail-column">
-        <div class="browser__detail-header">
-          {{ item.id }}
-        </div>
-        <div class="browser__detail-subheader">
-          {{ item.name }}
-        </div>
-        <div class="browser__detail-controls">
-          <el-button-group>
-            <el-button  type="primary">Изменить</el-button>
-            <el-button  type="danger">Удалить</el-button>
-          </el-button-group>
-        </div>
+        <slot name="detail-header">
+          <div class="browser__detail-header">
+            {{ props.item ? props.item.id : undefined }}
+          </div>
+        </slot>
       </div>
     </template>
     <template #default>
       <el-scrollbar :always="true" height="100%">
         <div class="browser__detail-content">
-          <slot name="detail" />
+          <slot name="detail-content" />
         </div>
       </el-scrollbar>
     </template>
