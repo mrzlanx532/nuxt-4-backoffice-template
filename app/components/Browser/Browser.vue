@@ -331,6 +331,13 @@ const onRowClick = (item: any) => {
   detailIsOpen.value = true
 }
 
+const refresh = () => {
+  detailIsOpen.value = false
+  detailItem.value = null
+  page.value = 1
+  fetch()
+}
+
 onMounted(() => {
   ro = initResizeObserver()
   updateDimensions()
@@ -344,6 +351,10 @@ onMounted(() => {
 
 onUnmounted(() => {
   ro?.disconnect()
+})
+
+defineExpose({
+  refresh
 })
 </script>
 
