@@ -48,6 +48,7 @@ const onClickDelete = (id: number) => {
       'Вы уверены, что хотите удалить?',
       'Подтверждение',
       {
+        customClass: 'browser__detail-confirm',
         confirmButtonText: 'Да',
         cancelButtonText: 'Отмена',
         type: 'warning',

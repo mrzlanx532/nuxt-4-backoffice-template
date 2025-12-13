@@ -172,4 +172,8 @@
   &__detail-controls {
     margin-top: 20px;
   }
+
+  &__detail-confirm.el-message-box {
+    vertical-align: super;
+  }
 }
