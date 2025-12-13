@@ -37,7 +37,6 @@ const renderStateTag = (row: BlogPostRow) => {
       () => row.state.title
   )
 }
-
 </script>
 
 <template>
@@ -76,10 +75,10 @@ const renderStateTag = (row: BlogPostRow) => {
     </template>
     <template #detail-header="{ item }">
       <div class="browser__detail-header">
-        {{ item ? item.id : undefined }}
+        {{ item.id }}
       </div>
       <div class="browser__detail-subheader">
-        {{ item ? item.name : undefined }}
+        {{ item.name }}
       </div>
       <div class="browser__detail-controls">
         <el-button-group>
