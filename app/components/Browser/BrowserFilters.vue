@@ -37,7 +37,7 @@ watch(props.activeFilters, (value) => {
 
 <template>
   <div class="browser__filters" :style="{height: props.height}">
-    <el-scrollbar :always="true">
+    <el-scrollbar>
       <div class="browser__filters-container" v-if="!props.isLoading">
         <el-form label-position="top">
           <template v-for="filter in props.filters">
