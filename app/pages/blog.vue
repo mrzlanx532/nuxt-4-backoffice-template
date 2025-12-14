@@ -4,7 +4,7 @@ import { ElTag } from '#components'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc.js'
 import timezone from 'dayjs/plugin/timezone.js'
-import { ElMessageBox } from 'element-plus'
+import { ElMessageBox, ElNotification } from 'element-plus'
 import { ArrowDown as IconArrowDown } from '@element-plus/icons-vue'
 
 dayjs.extend(utc)
@@ -72,10 +72,59 @@ const onClickDelete = (id: number) => {
 const onSelectionChange = (items: any[]) => {
   selectionItems.value = items
 }
+
+const onClickPublish = (id: number) => {
+
+  ElMessageBox.confirm(
+      'Вы уверены, что хотите опубликовать?',
+      'Подтверждение',
+      {
+        customClass: 'browser__detail-confirm',
+        confirmButtonText: 'Да',
+        cancelButtonText: 'Отмена',
+        type: 'warning',
+        center: true
+      }
+  ).then(async () => {
+    const response = await $authFetch<{status: boolean}>('blog/posts/publish', {
+      method: 'POST',
+      body: { id }
+    })
+
+    if (response.status) {
+      browserTemplateRef.value!.fetch()
+      browserTemplateRef.value!.fetchDetail()
+    }
+  })
+}
+
+const onClickWithdraw = async (id: number) => {
+
+  const response = await $authFetch<{status: boolean}>('blog/posts/withdraw', {
+    method: 'POST',
+    body: { id }
+  })
+
+  if (response.status) {
+    browserTemplateRef.value!.fetch()
+    browserTemplateRef.value!.fetchDetail()
+  }
+
+  ElNotification({
+    title: 'Статья снята с публикации',
+    type: 'info',
+    duration: 2000
+  })
+}
 </script>
 
 <template>
-  <Browser url="blog/posts/browse" ref="browserTemplateRef" @selection-change="onSelectionChange">
+  <Browser
+      url="blog/posts/browse"
+      url-detail="blog/posts/detail"
+      ref="browserTemplateRef"
+      @selection-change="onSelectionChange"
+  >
     <template #control-panel-right>
       <el-space>
         <el-dropdown trigger="click">
@@ -134,10 +183,14 @@ const onSelectionChange = (items: any[]) => {
         {{ item.name }}
       </div>
       <div class="browser__detail-controls">
-        <el-button-group>
-          <el-button type="primary">Изменить</el-button>
-          <el-button type="danger" @click="onClickDelete(item.id)">Удалить</el-button>
-        </el-button-group>
+        <el-space>
+          <el-button-group>
+            <el-button type="primary">Изменить</el-button>
+            <el-button type="danger" @click="onClickDelete(item.id)">Удалить</el-button>
+          </el-button-group>
+          <el-button type="info" v-if="item.state.id === 'PUBLISHED'" @click="onClickWithdraw(item.id)">Снять с публикации</el-button>
+          <el-button type="success" v-if="item.state.id === 'DRAFT'" @click="onClickPublish(item.id)">Опубликовать</el-button>
+        </el-space>
       </div>
     </template>
     <template #detail-content>

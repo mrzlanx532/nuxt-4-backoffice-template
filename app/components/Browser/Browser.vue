@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { type FetchError } from 'ofetch'
 import BrowserControlPanel from '@/components/Browser/BrowserControlPanel.vue'
 import { cloneVNode } from 'vue'
 import { ElNotification } from 'element-plus'
@@ -10,6 +11,7 @@ import type {
 
 const props = withDefaults(defineProps<{
   url: string,
+  urlDetail: string,
   perPageSizes?: number[]
 }>(), {
   perPageSizes: () => [20, 50, 100]
@@ -242,6 +244,37 @@ const fetch = async () => {
   }
 }
 
+const fetchDetail = async (item?: any) => {
+
+  try {
+    detailItem.value = await $authFetch(props.urlDetail, {
+      query: {
+        id: item ? item.id : detailItem.value!.id
+      }
+    })
+
+    detailIsOpen.value = true
+  } catch (e: unknown) {
+    if (isFetchError(e)) {
+      if (e.status === 404) {
+        ElNotification({
+          title: 'Запись не найдена',
+          type: 'info',
+          duration: 2000
+        })
+      }
+
+      if (e.status && e.status >= 500) {
+        ElNotification({
+          title: 'Ошибка сервера',
+          type: 'error',
+          duration: 2000
+        })
+      }
+    }
+  }
+}
+
 /** Добавляем в каждый <el-table-column>, переданный в слот #table директиву sortable='custom' */
 const tableColumns = computed(() => {
   const content = slots['table']?.() ?? []
@@ -337,9 +370,17 @@ const onFiltersReset = () => {
   fetch()
 }
 
-const onRowClick = (item: any) => {
-  detailItem.value = item
-  detailIsOpen.value = true
+const isFetchError = (e: unknown): e is FetchError => {
+  return (
+    typeof e === 'object' &&
+    e !== null &&
+    'request' in e &&
+    'response' in e
+  )
+}
+
+const onRowClick = async (item: any) => {
+  await fetchDetail(item)
 }
 
 const refresh = () => {
@@ -371,6 +412,8 @@ onUnmounted(() => {
 })
 
 defineExpose({
+  fetch,
+  fetchDetail,
   refresh
 })
 </script>
