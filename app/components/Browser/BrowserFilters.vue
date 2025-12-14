@@ -32,6 +32,8 @@ const componentsByType = {
 
 watch(props.activeFilters, (value) => {
   activeFilters.value = value
+}, {
+  immediate: true
 })
 </script>
 

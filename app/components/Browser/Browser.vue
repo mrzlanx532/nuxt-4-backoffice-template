@@ -109,6 +109,29 @@ const sortOrderMapper = {
 /** filters */
 const filters = ref<IFilter[]>([])
 const activeFilters = reactive<{[key: string]: any[]}>({})
+const tryToParseJSON = (json?: string) => {
+  if (!json) {
+    return
+  }
+
+  try {
+
+    const _activeFilters = JSON.parse(json)
+
+    for (const key in _activeFilters) {
+      activeFilters[key] = _activeFilters[key]
+    }
+
+  } catch (e) {
+    router.push({
+      path: route.path,
+      query: {
+        ...route.query,
+        filters: undefined
+      }
+    })
+  }
+}
 
 const { $authFetch } = useNuxtApp()
 
@@ -360,6 +383,13 @@ const onFilterChange = (id: string, value: any) => {
   page.value = 1
   processFilterValue(id, value)
   fetch()
+  router.push({
+    path: route.path,
+    query: {
+      ...route.query,
+      filters: Object.keys(activeFilters).length ? JSON.stringify(activeFilters) : undefined
+    }
+  })
 }
 
 const onFiltersReset = () => {
@@ -368,6 +398,9 @@ const onFiltersReset = () => {
     delete activeFilters[key]
   }
   fetch()
+  router.push({
+    path: route.path,
+  })
 }
 
 const isFetchError = (e: unknown): e is FetchError => {
@@ -401,6 +434,8 @@ onMounted(() => {
   updateDimensions()
 
   isHeightRead.value = true
+
+  tryToParseJSON(route.query.filters as string)
 
   fetch().then(() => {
     isFirstLoading.value = false
