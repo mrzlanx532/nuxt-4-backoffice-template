@@ -15,6 +15,10 @@ const props = withDefaults(defineProps<{
   perPageSizes: () => [20, 50, 100]
 })
 
+const emit = defineEmits<{
+  'selection-change': [value: any[]]
+}>()
+
 const slots = useSlots()
 const router = useRouter()
 const route = useRoute()
@@ -43,6 +47,9 @@ const browserContainerTemplateRef = useTemplateRef('browserContainerTemplateRef'
 const data = ref<IItem[]>([])
 const isFirstLoading = ref(true)
 const isLoading = ref(false)
+
+/** bulk action */
+const detailSelectionItems = ref<any[]>([])
 
 /** detail */
 const detailIsOpen = ref(false)
@@ -342,6 +349,12 @@ const refresh = () => {
   fetch()
 }
 
+const onSelectionChange = (items: any[]) => {
+  detailSelectionItems.value = items
+
+  emit('selection-change', detailSelectionItems.value)
+}
+
 onMounted(() => {
   ro = initResizeObserver()
   updateDimensions()
@@ -392,6 +405,7 @@ defineExpose({
       <div class="browser__table-container" :style="{height: tableHeight}">
         <div class="browser__table-wrapper">
           <el-table
+              @selection-change="onSelectionChange"
               @row-click="onRowClick"
               :default-sort="sortURL"
               :scrollbar-always-on="true"

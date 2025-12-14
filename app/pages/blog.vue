@@ -5,6 +5,7 @@ import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc.js'
 import timezone from 'dayjs/plugin/timezone.js'
 import { ElMessageBox } from 'element-plus'
+import { ArrowDown as IconArrowDown } from '@element-plus/icons-vue'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -31,6 +32,8 @@ const tagMapper = {
 } as const
 
 const browserTemplateRef = useTemplateRef<typeof Browser>('browserTemplateRef')
+
+const selectionItems = ref<any[]>([])
 
 const renderStateTag = (row: BlogPostRow) => {
   return h(
@@ -65,14 +68,36 @@ const onClickDelete = (id: number) => {
     }
   })
 }
+
+const onSelectionChange = (items: any[]) => {
+  selectionItems.value = items
+}
 </script>
 
 <template>
-  <Browser url="blog/posts/browse" ref="browserTemplateRef">
+  <Browser url="blog/posts/browse" ref="browserTemplateRef" @selection-change="onSelectionChange">
     <template #control-panel-right>
-      <el-button type="primary">Добавить</el-button>
+      <el-space>
+        <el-dropdown trigger="click">
+          <el-button type="primary">
+            Массовые действия ({{ selectionItems.length }})
+            <el-icon class="el-icon--right">
+              <IconArrowDown />
+            </el-icon>
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>Редактировать</el-dropdown-item>
+              <el-dropdown-item>Удалить</el-dropdown-item>
+              <el-dropdown-item divided>Архивировать</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        <el-button type="success">Добавить</el-button>
+      </el-space>
     </template>
     <template #table>
+      <el-table-column type="selection" label="ID" />
       <el-table-column prop="id" label="ID" width="180" />
       <el-table-column prop="date" label="Дата" width="180">
         <template #default="{ row }: { row: BlogPostRow}">
