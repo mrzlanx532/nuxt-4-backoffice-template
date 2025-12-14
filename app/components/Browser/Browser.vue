@@ -444,6 +444,7 @@ defineExpose({
           :filters="filters"
           v-if="!isFirstLoading"
           :is-loading="false"
+          :height="tableHeight"
       />
       <div class="browser__table-container" :style="{height: tableHeight}">
         <div class="browser__table-wrapper">

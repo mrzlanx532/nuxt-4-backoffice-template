@@ -105,14 +105,25 @@
     gap: 10px;
   }
 
-  &__filters {
+  &__filters-container {
     background: var(--main-background-color);
     border-radius: var(--main-border-radius);
     box-shadow: var(--main-box-shadow);
-    height: 100%;
+    height: auto;
     padding: 15px;
     width: 225px;
     z-index: 1;
+  }
+
+  &__filters {
+    border-radius: var(--main-border-radius);
+    overflow: hidden;
+
+    .el-scrollbar__bar.is-vertical {
+      right: auto;
+      left: 1px;
+      width: 4px;
+    }
   }
 
   .el-pagination.--browser {

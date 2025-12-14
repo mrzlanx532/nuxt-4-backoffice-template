@@ -11,6 +11,7 @@ const props = defineProps<{
   isLoading: boolean,
   activeFilters: {[key: string]: any[]},
   filters: IFilter[],
+  height: string
 }>()
 
 const emit = defineEmits([
@@ -35,25 +36,29 @@ watch(props.activeFilters, (value) => {
 </script>
 
 <template>
-  <div class="browser__filters" v-if="!props.isLoading">
-    <el-form label-position="top">
-      <template v-for="filter in props.filters">
-        <el-form-item :label="filter.title">
-          <component
-              :is="componentsByType[filter.type]"
-              :key="filter.id"
-              :filter="filter"
-              :value="activeFilters[filter.id]"
-              @update:value="(val: any) => emit('active-filters:change', filter.id, val)"
-          />
-        </el-form-item>
-      </template>
-    </el-form>
-    <el-button
-        :disabled="Object.keys(props.activeFilters).length === 0"
-        type="primary"
-        link
-        @click="emit('active-filters:reset')"
-    >Сбросить фильтры</el-button>
+  <div class="browser__filters" :style="{height: props.height}">
+    <el-scrollbar :always="true">
+      <div class="browser__filters-container" v-if="!props.isLoading">
+        <el-form label-position="top">
+          <template v-for="filter in props.filters">
+            <el-form-item :label="filter.title">
+              <component
+                  :is="componentsByType[filter.type]"
+                  :key="filter.id"
+                  :filter="filter"
+                  :value="activeFilters[filter.id]"
+                  @update:value="(val: any) => emit('active-filters:change', filter.id, val)"
+              />
+            </el-form-item>
+          </template>
+        </el-form>
+        <el-button
+            :disabled="Object.keys(props.activeFilters).length === 0"
+            type="primary"
+            link
+            @click="emit('active-filters:reset')"
+        >Сбросить фильтры</el-button>
+      </div>
+    </el-scrollbar>
   </div>
 </template>
