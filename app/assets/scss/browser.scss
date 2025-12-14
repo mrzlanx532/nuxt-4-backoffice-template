@@ -33,6 +33,10 @@
     }
   }
 
+  .el-table tbody tr {
+    cursor: pointer;
+  }
+
   &__control-panel {
     background: var(--main-background-color);
     border-radius: var(--main-border-radius);
