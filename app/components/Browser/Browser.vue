@@ -12,7 +12,7 @@ const props = withDefaults(defineProps<{
   url: string,
   perPageSizes?: number[]
 }>(), {
-  perPageSizes: () => [18, 50, 100]
+  perPageSizes: () => [20, 50, 100]
 })
 
 const slots = useSlots()
@@ -56,7 +56,7 @@ const tableWidth = ref()
 
 /** pagination */
 const page = route.query.page ? ref(parseInt(route.query.page as string)) : ref(1)
-const perPage = route.query.per_page ? ref(parseInt(route.query.per_page as string)) : ref(18)
+const perPage = route.query.per_page ? ref(parseInt(route.query.per_page as string)) : ref(props.perPageSizes[0] as number)
 const total = ref(0)
 
 /** sorts */
@@ -105,19 +105,23 @@ const { $authFetch } = useNuxtApp()
 
 const updateDimensions = () => {
   tableHeight.value = (window.innerHeight - 60 - 42 - controlPanelTemplateRef.value!.rootTemplateRef.offsetHeight) + 'px'
-  tableWidth.value = (browserContainerTemplateRef.value!.offsetWidth - 225 - 10) + 'px'
+  tableWidth.value = (window.innerWidth - 260 - 225 - 10) + 'px'
 }
 
 const initResizeObserver = () => {
   const body = document.body;
   let lastHeight = body.offsetHeight;
+  let lastWidth = body.offsetWidth;
 
   const observer = new ResizeObserver(entries => {
     for (const entry of entries) {
       const newHeight = entry.contentRect.height;
-      if (newHeight !== lastHeight) {
+      const newWidth = entry.contentRect.width;
+
+      if (newHeight !== lastHeight || newWidth !== lastWidth) {
         updateDimensions()
         lastHeight = newHeight;
+        lastWidth = newWidth;
       }
     }
   });
@@ -397,6 +401,7 @@ defineExpose({
               @sort-change="onSortChange"
               :data="data"
               :max-height="tableHeight"
+              :height="tableHeight"
           >
             <template v-for="column in tableColumns" :key="column.key || column.props?.prop">
               <component :is="column" />
