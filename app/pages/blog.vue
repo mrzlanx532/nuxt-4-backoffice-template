@@ -94,6 +94,12 @@ const onClickPublish = (id: number) => {
     if (response.status) {
       browserTemplateRef.value!.fetch()
       browserTemplateRef.value!.fetchDetail()
+
+      ElNotification({
+        message: 'Статья опубликована',
+        type: 'success',
+        duration: 2000
+      })
     }
   })
 }
@@ -111,7 +117,7 @@ const onClickWithdraw = async (id: number) => {
   }
 
   ElNotification({
-    title: 'Статья снята с публикации',
+    message: 'Статья снята с публикации',
     type: 'info',
     duration: 2000
   })
