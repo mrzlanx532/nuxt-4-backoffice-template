@@ -427,7 +427,7 @@ const isFetchError = (e: unknown): e is FetchError => {
 const onRowClick = async (item: any) => {
   detailItemId.value = item[props.detailIdProperty]
 
-  await fetchDetail(item)
+  await fetchDetail()
 }
 
 const refresh = () => {
