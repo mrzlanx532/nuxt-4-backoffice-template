@@ -139,8 +139,20 @@ const tryToParseJSON = (json?: string) => {
 const { $authFetch } = useNuxtApp()
 
 const updateDimensions = () => {
-  tableHeight.value = (window.innerHeight - 60 - 42 - controlPanelTemplateRef.value!.rootTemplateRef.offsetHeight) + 'px'
-  tableWidth.value = (window.innerWidth - 260 - 225 - 10) + 'px'
+
+  /** table width */
+  const sidebarWidth = parseFloat(window.getComputedStyle(document.documentElement).getPropertyValue('--sidebar-width'))
+  const sidebarPaddingRight = 30
+  const filtersWidth = 210
+  const browserGap = 10
+  const browserPaddingRight = 30
+
+  /** table height */
+  const paginationOffsetHeight = 32
+  const totalMargins = 60
+
+  tableHeight.value = (window.innerHeight - paginationOffsetHeight - totalMargins - controlPanelTemplateRef.value!.rootTemplateRef.offsetHeight) + 'px'
+  tableWidth.value = (window.innerWidth - sidebarWidth - sidebarPaddingRight - filtersWidth - browserGap - browserPaddingRight) + 'px'
 }
 
 const initResizeObserver = () => {
@@ -463,7 +475,7 @@ onMounted(() => {
 
   tryToParseJSON(route.query.filters as string)
 
-  if (detailItemId) {
+  if (detailItemId.value) {
     fetchDetail()
   }
 
