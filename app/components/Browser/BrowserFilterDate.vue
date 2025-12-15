@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { IFilter } from '@@/types/components/browser'
+import dayjs from 'dayjs'
 
 type IValueRaw = number|string|null
 type IValueSingle = [IValueRaw]
@@ -36,10 +37,14 @@ watch(() => props.value, (v) => {
   deep: true
 })
 
-const updateModelValueSingle = (val: number) => {
+const updateModelValueSingle = (val: IValueRaw) => {
   if (val === null) {
     emit('update:value', undefined)
     return
+  }
+
+  if (!props.filter.config.is_timestamp && val) {
+    val = dayjs(val, 'DD.MM.YYYY HH:mm:ss').tz(dayjs.tz.guess()).format('DD.MM.YYYY HH:mm:ssZ')
   }
 
   emit('update:value', val)
@@ -81,7 +86,7 @@ const updateModelValueRange = (index: number, val: IValueRaw) => {
       placeholder="Выберите дату"
       @update:model-value="updateModelValueSingle"
       format="DD.MM.YYYY"
-      value-format="X"
+      :value-format="props.filter.config.is_timestamp ? 'X' : 'DD.MM.YYYY HH:mm:ss'"
       clearable
   />
 </template>
