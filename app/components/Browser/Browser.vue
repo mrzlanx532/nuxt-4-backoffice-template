@@ -12,9 +12,11 @@ import type {
 const props = withDefaults(defineProps<{
   url: string,
   urlDetail: string,
-  perPageSizes?: number[]
+  perPageSizes?: number[],
+  detailIdProperty?: string
 }>(), {
-  perPageSizes: () => [20, 50, 100]
+  perPageSizes: () => [20, 50, 100],
+  detailIdProperty: 'id'
 })
 
 const emit = defineEmits<{
@@ -56,6 +58,7 @@ const detailSelectionItems = ref<any[]>([])
 /** detail */
 const detailIsOpen = ref(false)
 const detailItem = ref<{[key: string]: any}|null>(null)
+const detailItemId = route.query[props.detailIdProperty] ? ref(parseInt(route.query[props.detailIdProperty] as string)) : ref(undefined)
 
 /** auto-size */
 let ro: ResizeObserver | undefined = undefined
@@ -267,16 +270,25 @@ const fetch = async () => {
   }
 }
 
-const fetchDetail = async (item?: any) => {
+const fetchDetail = async () => {
 
   try {
-    detailItem.value = await $authFetch(props.urlDetail, {
+    detailItem.value = await $authFetch<{[key: string]: any}>(props.urlDetail, {
       query: {
-        id: item ? item.id : detailItem.value!.id
+        id: detailItemId.value
       }
     })
 
     detailIsOpen.value = true
+    detailItemId.value = detailItem.value[props.detailIdProperty]
+
+    await router.push({
+      path: route.path,
+      query: {
+        ...route.query,
+        id: detailItemId.value
+      }
+    })
   } catch (e: unknown) {
     if (isFetchError(e)) {
       if (e.status === 404) {
@@ -413,6 +425,8 @@ const isFetchError = (e: unknown): e is FetchError => {
 }
 
 const onRowClick = async (item: any) => {
+  detailItemId.value = item[props.detailIdProperty]
+
   await fetchDetail(item)
 }
 
@@ -429,6 +443,18 @@ const onSelectionChange = (items: any[]) => {
   emit('selection-change', detailSelectionItems.value)
 }
 
+const onUpdateDetailIsOpen = (isOpen: boolean) => {
+  detailIsOpen.value = isOpen
+
+  router.push({
+    path: route.path,
+    query: {
+      ...route.query,
+      id: undefined
+    }
+  })
+}
+
 onMounted(() => {
   ro = initResizeObserver()
   updateDimensions()
@@ -436,6 +462,10 @@ onMounted(() => {
   isHeightRead.value = true
 
   tryToParseJSON(route.query.filters as string)
+
+  if (detailItemId) {
+    fetchDetail()
+  }
 
   fetch().then(() => {
     isFirstLoading.value = false
@@ -516,7 +546,11 @@ defineExpose({
       </div>
     </div>
   </div>
-  <BrowserDetail :item="detailItem" v-model:is-open="detailIsOpen">
+  <BrowserDetail
+      :item="detailItem"
+      :is-open="detailIsOpen"
+      @update:is-open="onUpdateDetailIsOpen"
+  >
     <template #detail-header>
       <slot name="detail-header" v-if="detailItem" :item="detailItem" />
     </template>

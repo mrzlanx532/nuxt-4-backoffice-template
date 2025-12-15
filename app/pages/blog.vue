@@ -66,7 +66,7 @@ const onClickDelete = (id: number) => {
     if (response.status) {
       browserTemplateRef.value!.refresh()
     }
-  })
+  }, () => {})
 }
 
 const onSelectionChange = (items: any[]) => {
