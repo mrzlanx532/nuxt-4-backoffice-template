@@ -58,7 +58,7 @@ const changeSingle = () => {
     return
   }
 
-  if (!props.filter.config.is_timestamp && confirmedValue.value && confirmedValue.value[0]) {
+  if (confirmedValue.value && confirmedValue.value[0] && ['datetime_with_tz', 'datetime_with_tz_convertless'].includes(props.filter.config.strategy)) {
     confirmedValue.value[0] = dayjs(confirmedValue.value[0], 'DD.MM.YYYY HH:mm:ss').tz(dayjs.tz.guess()).format('DD.MM.YYYY HH:mm:ssZ')
   }
 
@@ -68,8 +68,7 @@ const changeSingle = () => {
 const changeRange = () => {
   confirmedValue.value = unconfirmedValue.value
 
-  if (!props.filter.config.is_timestamp && confirmedValue.value) {
-
+  if (confirmedValue.value && ['datetime_with_tz', 'datetime_with_tz_convertless'].includes(props.filter.config.strategy)) {
     if (confirmedValue.value[0]) {
       confirmedValue.value[0] = dayjs(confirmedValue.value[0], 'DD.MM.YYYY HH:mm:ss').tz(dayjs.tz.guess()).format('DD.MM.YYYY HH:mm:ssZ')
     }
@@ -102,7 +101,7 @@ const changeRange = () => {
         @change="changeRange"
         @update:model-value="(v: any) => updateModelValueRange(0, v)"
         format="DD.MM.YYYY HH:mm:ss"
-        :value-format="props.filter.config.is_timestamp ? 'X' : 'DD.MM.YYYY HH:mm:ss'"
+        :value-format="['datetime_with_tz', 'datetime_with_tz_convertless'].includes(props.filter.config.strategy) ? 'DD.MM.YYYY HH:mm:ss' : 'X'"
         clearable
     />
     <ElDatePicker
@@ -112,7 +111,7 @@ const changeRange = () => {
         @change="changeRange"
         @update:model-value="(v: any) => updateModelValueRange(1, v)"
         format="DD.MM.YYYY HH:mm:ss"
-        :value-format="props.filter.config.is_timestamp ? 'X' : 'DD.MM.YYYY HH:mm:ss'"
+        :value-format="['datetime_with_tz', 'datetime_with_tz_convertless'].includes(props.filter.config.strategy) ? 'DD.MM.YYYY HH:mm:ss' : 'X'"
         clearable
     />
   </template>
@@ -124,7 +123,7 @@ const changeRange = () => {
       @change="changeSingle"
       @update:model-value="updateModelValueSingle"
       format="DD.MM.YYYY HH:mm:ss"
-      :value-format="props.filter.config.is_timestamp ? 'X' : 'DD.MM.YYYY HH:mm:ss'"
+      :value-format="['datetime_with_tz', 'datetime_with_tz_convertless'].includes(props.filter.config.strategy) ? 'DD.MM.YYYY HH:mm:ss' : 'X'"
       clearable
   />
 </template>
