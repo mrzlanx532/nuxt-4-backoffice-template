@@ -29,6 +29,7 @@ export interface IFilterConfig {
     url: string
     nullable: boolean
     is_timestamp: boolean
+    strategy: string
 }
 
 export interface IResponse {
