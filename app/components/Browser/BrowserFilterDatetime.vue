@@ -84,6 +84,11 @@ const changeRange = () => {
     return
   }
 
+  if (!confirmedValue.value![0] && !confirmedValue.value![1]) {
+    emit('update:value', undefined)
+    return
+  }
+
   emit('update:value', confirmedValue.value)
 }
 </script>
