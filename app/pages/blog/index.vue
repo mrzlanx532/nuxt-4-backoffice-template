@@ -38,6 +38,8 @@ const browserTemplateRef = useTemplateRef<typeof Browser>('browserTemplateRef')
 
 const selectionItems = ref<any[]>([])
 
+const item = ref<any>()
+
 const { initTabs } = useTabs()
 
 const {
@@ -150,6 +152,7 @@ const onClickWithdraw = async (id: number) => {
       url-detail="blog/posts/detail"
       ref="browserTemplateRef"
       @selection-change="onSelectionChange"
+      @item-updated="(_item) => item = _item"
   >
     <template #control-panel-right>
       <el-space>
@@ -221,7 +224,7 @@ const onClickWithdraw = async (id: number) => {
       <Tabs @change="onChangeSelectedTab" :tabs="tabs"/>
     </template>
     <template #detail-content>
-      <component :is="selectedTabComponent" />
+      <component :is="selectedTabComponent" :item="item" />
     </template>
   </Browser>
 </template>

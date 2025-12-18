@@ -20,7 +20,8 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'selection-change': [value: any[]]
+  'selection-change': [value: any[]],
+  'item-updated': [value: {[key:string]: any}]
 }>()
 
 const slots = useSlots()
@@ -293,6 +294,8 @@ const fetchDetail = async () => {
 
     detailIsOpen.value = true
     detailItemId.value = detailItem.value[props.detailIdProperty]
+
+    emit('item-updated', detailItem.value)
 
     await router.push({
       path: route.path,
