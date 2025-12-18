@@ -191,4 +191,13 @@
   &__detail-confirm.el-message-box {
     vertical-align: super;
   }
+
+  &__detail {
+    .tabs {
+      width: calc(100% + 40px);
+      left: -20px;
+      overflow-x: auto;
+      top: 20px;
+    }
+  }
 }

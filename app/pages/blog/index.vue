@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import Browser from '@/components/Browser/Browser.vue'
+import Tabs from '@/components/Tabs.vue'
+import MainTab from '@/pages/blog/_tabs/main.vue'
+import PhotosTab from '@/pages/blog/_tabs/photos.vue'
 import { ElTag } from '#components'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc.js'
@@ -34,6 +37,23 @@ const tagMapper = {
 const browserTemplateRef = useTemplateRef<typeof Browser>('browserTemplateRef')
 
 const selectionItems = ref<any[]>([])
+
+const { initTabs } = useTabs()
+
+const {
+  tabs,
+  selectedTabComponent,
+  onChangeSelectedTab
+} = initTabs([
+  {
+    title: 'Пост',
+    component: MainTab
+  },
+  {
+    title: 'Фото',
+    component: PhotosTab
+  }
+])
 
 const renderStateTag = (row: BlogPostRow) => {
   return h(
@@ -198,29 +218,10 @@ const onClickWithdraw = async (id: number) => {
           <el-button type="success" v-if="item.state.id === 'DRAFT'" @click="onClickPublish(item.id)">Опубликовать</el-button>
         </el-space>
       </div>
+      <Tabs @change="onChangeSelectedTab" :tabs="tabs"/>
     </template>
     <template #detail-content>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam iusto laudantium ullam velit voluptate? Facilis ipsa iste porro quia quo? Architecto culpa dolore et minus mollitia non temporibus voluptas. Rerum!
+      <component :is="selectedTabComponent" />
     </template>
   </Browser>
 </template>
