@@ -2,6 +2,7 @@
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 import Menu, { type MenuItem } from "~/components/Menu.vue"
 import locale from 'element-plus/es/locale/lang/ru';
+import { ModalsContainer } from 'vue-final-modal'
 import {
   ElIconLocation,
   ElIconTickets
@@ -188,6 +189,7 @@ onUnmounted(() => {
           </el-main>
         </el-container>
       </el-container>
+      <ModalsContainer />
     </el-config-provider>
   </OverlayScrollbarsComponent>
 </template>

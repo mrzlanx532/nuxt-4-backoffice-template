@@ -9,6 +9,8 @@ import utc from 'dayjs/plugin/utc.js'
 import timezone from 'dayjs/plugin/timezone.js'
 import { ElMessageBox, ElNotification } from 'element-plus'
 import { ArrowDown as IconArrowDown } from '@element-plus/icons-vue'
+import { useModal } from 'vue-final-modal'
+import FormModal from '@/modal/FormModal.vue'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -66,6 +68,12 @@ const renderStateTag = (row: BlogPostRow) => {
       },
       () => row.state.title
   )
+}
+
+const onClickEdit = async (id: number) => {
+  await (useModal({
+    component: FormModal
+  })).open()
 }
 
 const onClickDelete = (id: number) => {
@@ -214,7 +222,7 @@ const onClickWithdraw = async (id: number) => {
       <div class="browser__detail-controls">
         <el-space>
           <el-button-group>
-            <el-button type="primary">Изменить</el-button>
+            <el-button type="primary" @click="onClickEdit(item.id)">Изменить</el-button>
             <el-button type="danger" @click="onClickDelete(item.id)">Удалить</el-button>
           </el-button-group>
           <el-button type="info" v-if="item.state.id === 'PUBLISHED'" @click="onClickWithdraw(item.id)">Снять с публикации</el-button>

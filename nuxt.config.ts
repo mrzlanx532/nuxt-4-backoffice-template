@@ -29,5 +29,6 @@ export default defineNuxtConfig({
   modules: [
     '@mrzlanx532/nuxt-3-laravel-auth-module',
     '@element-plus/nuxt',
+    '@vue-final-modal/nuxt',
   ],
 })
