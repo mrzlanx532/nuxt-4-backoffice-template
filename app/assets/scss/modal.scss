@@ -2,31 +2,27 @@
   align-items: center;
   display: flex;
   justify-content: center;
+}
 
-  .vfm__content {
-    width: 570px;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.modal__content {
+  background-color: var(--main-background-color);
+  border-radius: 24px;
+  height: auto;
+  max-width: 100%;
+  position: relative;
+  width: 570px;
+}
 
-  .el-scrollbar__wrap {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+.modal-custom-scroll {
+  border-radius: var(--main-border-radius);
+  max-height: 90vh;
+  overflow: hidden;
+  width: 100%;
 
-  .el-scrollbar {
-    --el-scrollbar-opacity: 1;
-  }
-
-  .el-scrollbar__bar.is-vertical {
-    width: 6px;
+  .os-scrollbar-vertical {
+    --os-padding-perpendicular: 0;
+    --os-size: 6px;
+    --os-handle-bg: var(--el-scrollbar-bg-color, var(--el-text-color-secondary));
     right: 1px;
-  }
-
-  &__wrapper {
-    height: 100%;
   }
 }
