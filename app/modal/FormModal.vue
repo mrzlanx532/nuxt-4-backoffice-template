@@ -4,7 +4,8 @@ import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 import { Close as IconClose } from '@element-plus/icons-vue'
 
 const emit = defineEmits<{
-  (e: 'close'): void
+  (e: 'close'): void,
+  (e: 'save'): void,
 }>()
 </script>
 
@@ -34,7 +35,7 @@ const emit = defineEmits<{
               </div>
               <div class="form__footer">
                 <el-button-group>
-                  <el-button type="success">Сохранить</el-button>
+                  <el-button type="success" @click="emit('save')">Сохранить</el-button>
                   <el-button @click="close">Отмена</el-button>
                 </el-button-group>
               </div>

@@ -144,7 +144,7 @@ const updateDimensions = () => {
   /** table width */
   const sidebarWidth = parseFloat(window.getComputedStyle(document.documentElement).getPropertyValue('--sidebar-width'))
   const sidebarPaddingRight = 30
-  const filtersWidth = 210
+  const filtersWidth = filters.value.length ? 210 : 0
   const browserGap = 10
   const browserPaddingRight = 30
 
@@ -522,7 +522,7 @@ defineExpose({
           @active-filters:reset="onFiltersReset"
           :active-filters="activeFilters"
           :filters="filters"
-          v-if="!isFirstLoading"
+          v-if="!isFirstLoading && filters.length"
           :is-loading="false"
           :height="tableHeight"
       />

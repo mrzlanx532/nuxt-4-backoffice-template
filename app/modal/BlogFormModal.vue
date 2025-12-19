@@ -32,10 +32,14 @@ const categories = ref([
     name_ru: 'Статьи'
   },
 ])
+
+const onSave = () => {
+  console.log(1231312)
+}
 </script>
 
 <template>
-  <FormModal>
+  <FormModal @save="onSave">
     <el-form label-position="top">
       <el-form-item label="Язык публикации">
         <el-select v-model="formData.locale_id">
