@@ -71,9 +71,14 @@ const renderStateTag = (row: BlogPostRow) => {
 }
 
 const onClickEdit = async (id: number) => {
-  await (useModal({
-    component: FormModal
-  })).open()
+  const modal = useModal({
+    component: FormModal,
+    attrs: {
+      close: () => modal.close()
+    }
+  })
+
+  await modal.open()
 }
 
 const onClickDelete = (id: number) => {

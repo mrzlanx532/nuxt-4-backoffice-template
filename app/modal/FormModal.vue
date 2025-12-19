@@ -8,13 +8,25 @@ const emit = defineEmits<{
 
 const height = ref<string|number>('0px')
 const maxHeightModal = ref('0px')
+const props = withDefaults(defineProps<{
+  close: () => void,
+  overlayClick?: boolean
+}>(), {
+  overlayClick: false
+})
 
 const updateDimensions = () => {
   height.value = window.innerHeight - 40 + 'px'
 }
 
+const onClick = (e: any) => {
+  if (e.target.classList.contains('el-scrollbar__wrap')) {
+    props.close()
+  }
+}
+
 onMounted(() => {
-  height.value = document.documentElement.clientHeight - 40 + 'px'
+  height.value = document.documentElement.clientHeight + 'px'
   maxHeightModal.value = document.documentElement.clientHeight + 'px'
 
   window.addEventListener('resize', updateDimensions)
@@ -31,13 +43,14 @@ onUnmounted(() => {
       overlay-transition="vfm-fade"
       content-transition="vfm-fade"
   >
+    <div class="modal__wrapper" @click="onClick">
       <el-scrollbar :always="true" :style="{height: height}">
         <form class="form">
           <div class="form__header">
             <div class="form__header-section-top">
               <div class="form__header-title">{{ 'Редактирование статьи' }}</div>
               <div class="form__header-close-button" >
-                <IconClose />
+                <IconClose @click="close"/>
               </div>
             </div>
           </div>
@@ -59,50 +72,15 @@ onUnmounted(() => {
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
           </div>
           <div class="form__footer">
             <el-button-group>
               <el-button type="success">Сохранить</el-button>
-              <el-button >Отмена</el-button>
+              <el-button @click="close">Отмена</el-button>
             </el-button-group>
           </div>
         </form>
       </el-scrollbar>
+    </div>
   </VueFinalModal>
 </template>

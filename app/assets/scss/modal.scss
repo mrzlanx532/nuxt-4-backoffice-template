@@ -16,4 +16,17 @@
     flex-direction: column;
     justify-content: center;
   }
+
+  .el-scrollbar {
+    --el-scrollbar-opacity: 1;
+  }
+
+  .el-scrollbar__bar.is-vertical {
+    width: 6px;
+    right: 1px;
+  }
+
+  &__wrapper {
+    height: 100%;
+  }
 }
