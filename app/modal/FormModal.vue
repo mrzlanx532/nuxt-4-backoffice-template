@@ -30,22 +30,7 @@ const emit = defineEmits<{
                 </div>
               </div>
               <div class="form__content">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate earum et impedit magni possimus quas, quis tempore! Aperiam consectetur consequuntur ea eaque et fugiat impedit magni molestias obcaecati ratione!
+                <slot />
               </div>
               <div class="form__footer">
                 <el-button-group>

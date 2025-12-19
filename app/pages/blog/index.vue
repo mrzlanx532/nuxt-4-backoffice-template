@@ -10,7 +10,7 @@ import timezone from 'dayjs/plugin/timezone.js'
 import { ElMessageBox, ElNotification } from 'element-plus'
 import { ArrowDown as IconArrowDown } from '@element-plus/icons-vue'
 import { useModal } from 'vue-final-modal'
-import FormModal from '@/modal/FormModal.vue'
+import BlogFormModal from '@/modal/BlogFormModal.vue'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -72,7 +72,7 @@ const renderStateTag = (row: BlogPostRow) => {
 
 const onClickEdit = async (id: number) => {
   const modal = useModal({
-    component: FormModal,
+    component: BlogFormModal,
   })
 
   await modal.open()
