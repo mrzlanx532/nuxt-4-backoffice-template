@@ -7,6 +7,20 @@ const emit = defineEmits<{
   (e: 'close'): void,
   (e: 'save'): void,
 }>()
+
+const scrollTemplateRef = useTemplateRef('scrollTemplateRef')
+
+const updateDimensions = () => {
+  scrollTemplateRef.value!.getElement()!.style.maxHeight = window.innerHeight * 0.9 + 'px'
+}
+
+onMounted(() => {
+  window.addEventListener('resize', updateDimensions)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateDimensions)
+})
 </script>
 
 <template>
@@ -15,11 +29,12 @@ const emit = defineEmits<{
       overlay-transition="vfm-fade"
       content-transition="vfm-fade"
       @closed="emit('close')"
+      @opened="updateDimensions"
   >
     <!-- @vue-ignore -->
     <template #default="{ close }">
       <div class="modal__container" @click="(e) => e.target === e.currentTarget && close()">
-        <OverlayScrollbarsComponent class="modal-custom-scroll">
+        <OverlayScrollbarsComponent class="modal-custom-scroll" ref="scrollTemplateRef">
           <div class="modal__content">
             <form class="form">
               <div class="form__header">
