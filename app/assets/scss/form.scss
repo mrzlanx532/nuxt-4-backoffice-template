@@ -108,8 +108,12 @@
   width: 100%;
   padding: 10px;
   display: flex;
-  border: 1px solid var(--color-2);
-  border-radius: 5px;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px var(--el-border-color) inset;
+}
+
+.form .input-file:hover {
+  box-shadow: 0 0 0 1px var(--el-border-color-hover) inset;
 }
 
 .form .input-file > * {
