@@ -1,0 +1,14 @@
+<script setup lang="ts">
+const props = defineProps<{
+  label: string,
+  name: string,
+  errors: {[key: string]: string[]}
+}>()
+</script>
+
+<template>
+  <el-form-item :label="props.label">
+    <slot />
+    <div class="input__error">{{ errors[props.name] ? errors[props.name]![0] : '' }}</div>
+  </el-form-item>
+</template>

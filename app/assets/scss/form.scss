@@ -1,3 +1,7 @@
+.el-form .el-form-item {
+  margin-bottom: 4px;
+}
+
 .form__section {
   width: 100%;
   font-size: 16px;
@@ -82,6 +86,15 @@
 }
 
 .form .el-date-editor.el-input {
+  width: 100%;
+}
+
+.form .input__error {
+  color: var(--el-color-danger);
+  font-size: 12px;
+  max-width: 100%;
+  min-height: 14px;
+  margin-top: 5px;
   width: 100%;
 }
 
@@ -291,7 +304,7 @@
 }
 
 .form .input-file__label_allow-formats {
-  margin-top: 5px;
+  margin-top: 10px;
   font-size: 12px;
   font-family: Roboto, serif;
   color: var(--color-4);

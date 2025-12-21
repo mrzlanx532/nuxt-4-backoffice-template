@@ -11,6 +11,10 @@
 /* third-party */
 @use 'overlayscrollbars/styles/overlayscrollbars.css';
 
+* {
+  line-height: 1;
+}
+
 .os-theme-default {
   --os-track-border-radius: 10px;
   --os-handle-interactive-area-offset: 4px;

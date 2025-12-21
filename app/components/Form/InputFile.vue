@@ -194,5 +194,4 @@ const onClick = () => {
       <p class="input-file__label input-file__label_max-size">Максимальный размер: <span>{{ props.maxSizeMb ? props.maxSizeMb + 'MB' : 'не ограничен' }}</span></p>
     </div>
   </div>
-  <div class="input__error">{{ errors && errors[0] ? errors[0] : null }}</div>
 </template>

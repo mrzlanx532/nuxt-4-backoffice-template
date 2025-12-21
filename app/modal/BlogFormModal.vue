@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import FormModal from '@/modal/FormModal.vue'
 import InputFile from '@/components/Form/InputFile.vue'
+import ElFormItemWithError from '@/components/Form/ElFormItemWithError.vue'
+import { FetchError } from 'ofetch'
+
+const { $authFetch } = useNuxtApp()
 
 const formData = ref({
   locale_id: undefined,
@@ -11,6 +15,8 @@ const formData = ref({
   content_short: undefined,
   content: undefined
 })
+
+const errors = ref<{[key: string]: string[]}>({})
 
 const locales = ref([
   {
@@ -36,15 +42,33 @@ const categories = ref([
   },
 ])
 
-const onSave = () => {
-  console.log(1231312)
+const isFetchError = (instance: any): instance is FetchError => {
+  return instance.name === 'FetchError'
+}
+
+const onSave = async () => {
+
+  try {
+    const response = await $authFetch('blog/posts/create', {
+      body: formData.value,
+      method: 'post'
+    })
+  } catch (e) {
+    if (!isFetchError(e)) {
+      return
+    }
+
+    if (e.status === 422) {
+      errors.value = e.data.errors
+    }
+  }
 }
 </script>
 
 <template>
   <FormModal @save="onSave">
     <el-form label-position="top">
-      <el-form-item label="Язык публикации">
+      <el-form-item-with-error label="Язык публикации" name="locale_id" :errors="errors">
         <el-select v-model="formData.locale_id">
           <el-option
               v-for="locale in locales"
@@ -53,8 +77,8 @@ const onSave = () => {
               :value="locale.id"
           />
         </el-select>
-      </el-form-item>
-      <el-form-item label="Категории">
+      </el-form-item-with-error>
+      <el-form-item-with-error label="Категории" name="category_id" :errors="errors">
         <el-select v-model="formData.category_id">
           <el-option
               v-for="category in categories"
@@ -63,25 +87,25 @@ const onSave = () => {
               :value="category.id"
           />
         </el-select>
-      </el-form-item>
-      <el-form-item label="Заголовок">
+      </el-form-item-with-error>
+      <el-form-item-with-error label="Заголовок" name="name" :errors="errors">
         <el-input v-model="formData.name" />
-      </el-form-item>
-      <el-form-item label="Дата">
+      </el-form-item-with-error>
+      <el-form-item-with-error label="Дата" name="date" :errors="errors">
         <el-date-picker
             v-model="formData.date"
             type="datetime"
         />
-      </el-form-item>
-      <el-form-item label="Изображение">
-        <InputFile v-model="formData.cover" :max-size-mb=".5" />
-      </el-form-item>
-      <el-form-item label="Краткое описание">
+      </el-form-item-with-error>
+      <el-form-item-with-error label="Изображение" name="cover" :errors="errors">
+        <InputFile v-model="formData.cover" />
+      </el-form-item-with-error>
+      <el-form-item-with-error label="Краткое описание" name="content_short" :errors="errors">
         <el-input v-model="formData.content_short" type="textarea" />
-      </el-form-item>
-      <el-form-item label="Содержание">
+      </el-form-item-with-error>
+      <el-form-item-with-error label="Содержание" name="content" :errors="errors">
         <el-input v-model="formData.content" type="textarea" />
-      </el-form-item>
+      </el-form-item-with-error>
     </el-form>
   </FormModal>
 </template>
