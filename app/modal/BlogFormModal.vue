@@ -8,6 +8,8 @@ const formData = ref({
   name: undefined,
   date: undefined,
   cover: undefined,
+  content_short: undefined,
+  content: undefined
 })
 
 const locales = ref([
@@ -73,6 +75,12 @@ const onSave = () => {
       </el-form-item>
       <el-form-item label="Изображение">
         <InputFile v-model="formData.cover" :max-size-mb=".5" />
+      </el-form-item>
+      <el-form-item label="Краткое описание">
+        <el-mention v-model="formData.content_short" type="textarea" />
+      </el-form-item>
+      <el-form-item label="Содержание">
+        <el-mention v-model="formData.content" type="textarea" />
       </el-form-item>
     </el-form>
   </FormModal>
