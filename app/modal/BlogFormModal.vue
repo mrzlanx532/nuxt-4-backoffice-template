@@ -3,6 +3,7 @@ import FormModal from '@/modal/FormModal.vue'
 import InputFile from '@/components/Form/InputFile.vue'
 import ElFormItemWithError from '@/components/Form/ElFormItemWithError.vue'
 import { FetchError } from 'ofetch'
+import { ElNotification } from 'element-plus'
 
 const { $authFetch } = useNuxtApp()
 
@@ -59,6 +60,13 @@ const onSave = async () => {
     }
 
     if (e.status === 422) {
+      ElNotification({
+        title: 'Ошибки валидации',
+        message: 'Исправьте ошибки в форме',
+        type: 'error',
+        duration: 5000
+      })
+
       errors.value = e.data.errors
     }
   }
