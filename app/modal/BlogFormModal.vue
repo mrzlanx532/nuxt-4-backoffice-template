@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import FormModal from '@/modal/FormModal.vue'
+import InputFile from '@/components/Form/InputFile.vue'
 
 const formData = ref({
   locale_id: undefined,
   category_id: undefined,
   name: undefined,
   date: undefined,
-  cover: undefined
+  cover: undefined,
 })
 
 const locales = ref([
@@ -70,8 +71,8 @@ const onSave = () => {
             type="datetime"
         />
       </el-form-item>
-      <el-form-item>
-
+      <el-form-item label="Изображение">
+        <InputFile v-model="formData.cover" :max-size-mb=".5" />
       </el-form-item>
     </el-form>
   </FormModal>
