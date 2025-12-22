@@ -4,6 +4,30 @@ import InputFile from '@/components/Form/InputFile.vue'
 import ElFormItemWithError from '@/components/Form/ElFormItemWithError.vue'
 import { FetchError } from 'ofetch'
 import { ElNotification } from 'element-plus'
+import { cloneDeep } from 'lodash'
+
+interface Locale {
+  id: number,
+  title: string
+}
+
+interface Category {
+  id: number,
+  name_ru: string,
+  name_en: string
+}
+
+type IItem = {[key: string]: any}
+
+interface BlogPostFormResponse {
+  categories: [],
+  entity: {[key: string]: any},
+  locales: []
+}
+
+const props = defineProps<{
+  id?: number
+}>()
 
 const { $authFetch } = useNuxtApp()
 
@@ -19,39 +43,83 @@ const formData = ref({
 
 const errors = ref<{[key: string]: string[]}>({})
 
-const locales = ref([
-  {
-    id: 'ru',
-    title: 'Русский'
-  },
-  {
-    id: 'en',
-    title: 'Английский'
-  }
-])
-
-const categories = ref([
-  {
-    id: 1,
-    name_en: 'News',
-    name_ru: 'Новости'
-  },
-  {
-    id: 2,
-    name_en: 'Articles',
-    name_ru: 'Статьи'
-  },
-])
+const locales = ref<Locale[]>([])
+const categories = ref<Category[]>([])
 
 const isFetchError = (instance: any): instance is FetchError => {
   return instance.name === 'FetchError'
 }
 
+const formRequestBody = (formDataValues: IItem, id: number | undefined = undefined): IItem | FormData => {
+
+  const _formDataValues = cloneDeep(formDataValues)
+
+  let isRequiredFormData = false
+
+  Object.values(_formDataValues).map((value) => {
+    if (value instanceof File) {
+      isRequiredFormData = true
+    }
+  });
+
+  if (isRequiredFormData) {
+    const formData = new FormData
+
+    Object.entries(_formDataValues).map(([key, value]) => {
+
+      if (value === undefined) {
+        return
+      }
+
+      if (typeof value === 'boolean') {
+        value = value ? 1 : 0
+      }
+
+      if (value instanceof Array) {
+        value.forEach(item => {
+          formData.append(`${key}[]`, item)
+        })
+
+        return
+      }
+
+      if (value === null) {
+        value = '__null__'
+      }
+
+      formData.append(key, value)
+    })
+
+    if (id !== undefined) {
+      formData.append('id', id.toString())
+    }
+
+    return formData
+  }
+
+  Object.entries(_formDataValues).map(([key, value]) => {
+
+    if (value instanceof Array) {
+      return
+    }
+
+    if (value instanceof Object) {
+      _formDataValues[key] = undefined
+    }
+  })
+
+  if (id !== undefined) {
+    _formDataValues.id = id
+  }
+
+  return _formDataValues
+}
+
 const onSave = async () => {
 
   try {
-    const response = await $authFetch('blog/posts/create', {
-      body: formData.value,
+    const response = await $authFetch(props.id ? 'blog/posts/update' : 'blog/posts/create', {
+      body: formRequestBody(formData.value, props.id),
       method: 'post'
     })
   } catch (e) {
@@ -71,6 +139,15 @@ const onSave = async () => {
     }
   }
 }
+
+onMounted(async () => {
+  if (props.id) {
+    const response = await $authFetch<BlogPostFormResponse>('blog/posts/form?id=' + props.id)
+
+    locales.value = response.locales
+    categories.value = response.categories
+  }
+})
 </script>
 
 <template>

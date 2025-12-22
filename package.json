@@ -15,6 +15,7 @@
     "@mrzlanx532/nuxt-3-laravel-auth-module": "^0.0.31",
     "@vue-final-modal/nuxt": "^1.0.3",
     "element-plus": ">=2",
+    "lodash-es": "^4.17.22",
     "nuxt": "^4.2.2",
     "overlayscrollbars": "^2.12.0",
     "overlayscrollbars-vue": "^0.5.9",

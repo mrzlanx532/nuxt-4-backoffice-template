@@ -70,9 +70,12 @@ const renderStateTag = (row: BlogPostRow) => {
   )
 }
 
-const onClickEdit = async (id: number) => {
+const onClickCreateOrEdit = async (id?: number) => {
   const modal = useModal({
     component: BlogFormModal,
+    attrs: {
+      id
+    }
   })
 
   await modal.open()
@@ -181,7 +184,7 @@ const onClickWithdraw = async (id: number) => {
             </el-dropdown-menu>
           </template>
         </el-dropdown>
-        <el-button type="success">Добавить</el-button>
+        <el-button type="success" @click="onClickCreateOrEdit(undefined)">Добавить</el-button>
       </el-space>
     </template>
     <template #table>
@@ -224,7 +227,7 @@ const onClickWithdraw = async (id: number) => {
       <div class="browser__detail-controls">
         <el-space>
           <el-button-group>
-            <el-button type="primary" @click="onClickEdit(item.id)">Изменить</el-button>
+            <el-button type="primary" @click="onClickCreateOrEdit(item.id)">Изменить</el-button>
             <el-button type="danger" @click="onClickDelete(item.id)">Удалить</el-button>
           </el-button-group>
           <el-button type="info" v-if="item.state.id === 'PUBLISHED'" @click="onClickWithdraw(item.id)">Снять с публикации</el-button>
