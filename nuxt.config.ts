@@ -9,7 +9,11 @@ export default defineNuxtConfig({
     '~/assets/scss/app.scss',
   ],
   typescript: {
-    typeCheck: true,
+    /**
+     *  Ждать пока выйдет версия 0.13, а пока чекать через команду `yarn ts`
+     *  https://www.npmjs.com/package/vite-plugin-checker?activeTab=versions
+     **/
+    typeCheck: false,
   },
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
