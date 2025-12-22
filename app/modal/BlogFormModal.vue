@@ -4,7 +4,7 @@ import InputFile from '@/components/Form/InputFile.vue'
 import ElFormItemWithError from '@/components/Form/ElFormItemWithError.vue'
 import { FetchError } from 'ofetch'
 import { ElNotification } from 'element-plus'
-import { cloneDeep } from 'lodash'
+import { cloneDeep } from 'lodash-es'
 
 interface Locale {
   id: number,
