@@ -74,7 +74,10 @@ const onClickCreateOrEdit = async (id?: number) => {
   const modal = useModal({
     component: BlogFormModal,
     attrs: {
-      id
+      id,
+      onClose: () => {
+        modal.close()
+      }
     }
   })
 

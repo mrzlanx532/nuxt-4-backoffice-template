@@ -6,6 +6,9 @@ import { FetchError } from 'ofetch'
 import { ElNotification } from 'element-plus'
 import { cloneDeep } from 'lodash-es'
 import Textarea from '@/components/Form/Textarea.vue'
+import dayjs from 'dayjs'
+
+type IItem = {[key: string]: any}
 
 interface Locale {
   id: number,
@@ -18,8 +21,6 @@ interface Category {
   name_en: string
 }
 
-type IItem = {[key: string]: any}
-
 interface BlogPostFormResponse {
   categories: [],
   entity: {[key: string]: any},
@@ -28,6 +29,10 @@ interface BlogPostFormResponse {
 
 const props = defineProps<{
   id?: number
+}>()
+
+const emit = defineEmits<{
+  (e: 'close'): void,
 }>()
 
 const { $authFetch } = useNuxtApp()
@@ -119,10 +124,25 @@ const formRequestBody = (formDataValues: IItem, id: number | undefined = undefin
 const onSave = async () => {
 
   try {
-    const response = await $authFetch(props.id ? 'blog/posts/update' : 'blog/posts/create', {
-      body: formRequestBody(formData.value, props.id),
+
+    const request = cloneDeep(formData.value)
+
+    if (request.date) {
+      request.date = dayjs(request.date, 'DD.MM.YYYY HH:mm:ss').tz(dayjs.tz.guess()).utc().format('DD.MM.YYYY HH:mm:ss')
+    }
+
+    await $authFetch(props.id ? 'blog/posts/update' : 'blog/posts/create', {
+      body: formRequestBody(request, props.id),
       method: 'post'
     })
+
+    ElNotification({
+      title: 'Успех',
+      type: 'success',
+      duration: 3000
+    })
+
+    emit('close')
   } catch (e) {
     if (!isFetchError(e)) {
       return
@@ -142,12 +162,12 @@ const onSave = async () => {
 }
 
 onMounted(async () => {
-  if (props.id) {
-    const response = await $authFetch<BlogPostFormResponse>('blog/posts/form?id=' + props.id)
+  const response = await $authFetch<BlogPostFormResponse>('blog/posts/form', {
+    query: { id: props.id }
+  })
 
-    locales.value = response.locales
-    categories.value = response.categories
-  }
+  locales.value = response.locales
+  categories.value = response.categories
 })
 </script>
 
@@ -180,6 +200,8 @@ onMounted(async () => {
       <el-form-item-with-error label="Дата" name="date" :errors="errors">
         <el-date-picker
             v-model="formData.date"
+            format="DD.MM.YYYY HH:mm:ss"
+            value-format="DD.MM.YYYY HH:mm:ss"
             type="datetime"
         />
       </el-form-item-with-error>

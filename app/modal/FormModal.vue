@@ -11,7 +11,9 @@ const emit = defineEmits<{
 const scrollTemplateRef = useTemplateRef('scrollTemplateRef')
 
 const updateDimensions = () => {
-  scrollTemplateRef.value!.getElement()!.style.maxHeight = window.innerHeight * 0.9 + 'px'
+  if (scrollTemplateRef.value) {
+    scrollTemplateRef.value.getElement()!.style.maxHeight = window.innerHeight * 0.9 + 'px'
+  }
 }
 
 onMounted(() => {
