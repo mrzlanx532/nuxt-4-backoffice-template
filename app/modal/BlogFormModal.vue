@@ -2,13 +2,11 @@
 import FormModal from '@/modal/FormModal.vue'
 import InputFile from '@/components/Form/InputFile.vue'
 import ElFormItemWithError from '@/components/Form/ElFormItemWithError.vue'
-import { FetchError } from 'ofetch'
 import { ElNotification } from 'element-plus'
 import { cloneDeep } from 'lodash-es'
 import Textarea from '@/components/Form/Textarea.vue'
 import dayjs from 'dayjs'
-
-type IItem = {[key: string]: any}
+import { useForm } from '@/composables/useForm'
 
 interface Locale {
   id: number,
@@ -37,6 +35,12 @@ const emit = defineEmits<{
 
 const { $authFetch } = useNuxtApp()
 
+const {
+  errors,
+  formRequestBody,
+  isFetchError
+} = useForm()
+
 const formData = ref<{[key: string]: any}>({
   locale_id: undefined,
   category_id: undefined,
@@ -47,79 +51,8 @@ const formData = ref<{[key: string]: any}>({
   content: undefined
 })
 
-const errors = ref<{[key: string]: string[]}>({})
-
 const locales = ref<Locale[]>([])
 const categories = ref<Category[]>([])
-
-const isFetchError = (instance: any): instance is FetchError => {
-  return instance.name === 'FetchError'
-}
-
-const formRequestBody = (formDataValues: IItem, id: number | undefined = undefined): IItem | FormData => {
-
-  const _formDataValues = cloneDeep(formDataValues)
-
-  let isRequiredFormData = false
-
-  Object.values(_formDataValues).map((value) => {
-    if (value instanceof File) {
-      isRequiredFormData = true
-    }
-  });
-
-  if (isRequiredFormData) {
-    const formData = new FormData
-
-    Object.entries(_formDataValues).map(([key, value]) => {
-
-      if (value === undefined) {
-        return
-      }
-
-      if (typeof value === 'boolean') {
-        value = value ? 1 : 0
-      }
-
-      if (value instanceof Array) {
-        value.forEach(item => {
-          formData.append(`${key}[]`, item)
-        })
-
-        return
-      }
-
-      if (value === null) {
-        value = '__null__'
-      }
-
-      formData.append(key, value)
-    })
-
-    if (id !== undefined) {
-      formData.append('id', id.toString())
-    }
-
-    return formData
-  }
-
-  Object.entries(_formDataValues).map(([key, value]) => {
-
-    if (value instanceof Array) {
-      return
-    }
-
-    if (value instanceof Object) {
-      _formDataValues[key] = undefined
-    }
-  })
-
-  if (id !== undefined) {
-    _formDataValues.id = id
-  }
-
-  return _formDataValues
-}
 
 const onSave = async () => {
 
@@ -143,6 +76,7 @@ const onSave = async () => {
     })
 
     emit('close')
+
   } catch (e) {
     if (!isFetchError(e)) {
       return
