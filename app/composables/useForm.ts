@@ -1,10 +1,16 @@
 import { cloneDeep } from 'lodash-es'
 import { FetchError } from 'ofetch'
+import dayjs from 'dayjs'
+import { ElNotification } from 'element-plus'
+import { type Ref } from 'vue'
 
 type IItem = {[key: string]: any}
 
 export const useForm = () => {
+    const isReady = ref(false)
     const errors = ref<{[key: string]: string[]}>({})
+
+    const { $authFetch } = useNuxtApp()
 
     const isFetchError = (instance: any): instance is FetchError => {
         return instance.name === 'FetchError'
@@ -75,9 +81,59 @@ export const useForm = () => {
         return _formDataValues
     }
 
+    const initForm = (formData: Ref<{[key: string]: any}>, id?: number, createURL: string, updateURL: string, emit: ReturnType<typeof defineEmits>) => {
+
+        const save = async () => {
+
+            try {
+
+                const request = cloneDeep(formData.value)
+
+                if (request.date) {
+                    request.date = dayjs(request.date, 'DD.MM.YYYY HH:mm:ss').tz(dayjs.tz.guess()).utc().format('DD.MM.YYYY HH:mm:ss')
+                }
+
+                await $authFetch(id ? updateURL : createURL, {
+                    body: formRequestBody(request, id),
+                    method: 'post'
+                })
+
+                ElNotification({
+                    title: 'Успех',
+                    type: 'success',
+                    duration: 3000
+                })
+
+                emit('close')
+
+            } catch (e) {
+                if (!isFetchError(e)) {
+                    throw e;
+                    return
+                }
+
+                if (e.status === 422) {
+                    ElNotification({
+                        title: 'Ошибки валидации',
+                        message: 'Исправьте ошибки в форме',
+                        type: 'error',
+                        duration: 3000
+                    })
+
+                    errors.value = e.data.errors
+                }
+            }
+        }
+
+        return {
+            save,
+            isReady,
+            errors,
+        }
+    }
+
     return {
-        errors,
-        isFetchError,
+        initForm,
         formRequestBody
     }
 }

@@ -2,8 +2,6 @@
 import FormModal from '@/modal/FormModal.vue'
 import InputFile from '@/components/Form/InputFile.vue'
 import ElFormItemWithError from '@/components/Form/ElFormItemWithError.vue'
-import { ElNotification } from 'element-plus'
-import { cloneDeep } from 'lodash-es'
 import Textarea from '@/components/Form/Textarea.vue'
 import dayjs from 'dayjs'
 import { useForm } from '@/composables/useForm'
@@ -33,15 +31,7 @@ const emit = defineEmits<{
   (e: 'close'): void,
 }>()
 
-const isReady = ref(false)
-
 const { $authFetch } = useNuxtApp()
-
-const {
-  errors,
-  formRequestBody,
-  isFetchError
-} = useForm()
 
 const formData = ref<{[key: string]: any}>({
   locale_id: undefined,
@@ -53,49 +43,24 @@ const formData = ref<{[key: string]: any}>({
   content: undefined
 })
 
+const {
+  initForm
+} = useForm()
+
+const {
+  save,
+  isReady,
+  errors
+} = initForm(
+    formData,
+    props.id,
+    'blog/posts/create',
+    'blog/posts/update',
+    emit
+)
+
 const locales = ref<Locale[]>([])
 const categories = ref<Category[]>([])
-
-const onSave = async () => {
-
-  try {
-
-    const request = cloneDeep(formData.value)
-
-    if (request.date) {
-      request.date = dayjs(request.date, 'DD.MM.YYYY HH:mm:ss').tz(dayjs.tz.guess()).utc().format('DD.MM.YYYY HH:mm:ss')
-    }
-
-    await $authFetch(props.id ? 'blog/posts/update' : 'blog/posts/create', {
-      body: formRequestBody(request, props.id),
-      method: 'post'
-    })
-
-    ElNotification({
-      title: 'Успех',
-      type: 'success',
-      duration: 3000
-    })
-
-    emit('close')
-
-  } catch (e) {
-    if (!isFetchError(e)) {
-      return
-    }
-
-    if (e.status === 422) {
-      ElNotification({
-        title: 'Ошибки валидации',
-        message: 'Исправьте ошибки в форме',
-        type: 'error',
-        duration: 5000
-      })
-
-      errors.value = e.data.errors
-    }
-  }
-}
 
 onMounted(async () => {
   const response = await $authFetch<BlogPostFormResponse>('blog/posts/form', {
@@ -118,7 +83,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <FormModal @save="onSave" :is-ready="isReady">
+  <FormModal @save="save" :is-ready="isReady">
     <el-form label-position="top">
       <el-form-item-with-error label="Язык публикации" name="locale_id" :errors="errors">
         <el-select v-model="formData.locale_id">
