@@ -5,6 +5,7 @@ import ElFormItemWithError from '@/components/Form/ElFormItemWithError.vue'
 import { FetchError } from 'ofetch'
 import { ElNotification } from 'element-plus'
 import { cloneDeep } from 'lodash-es'
+import Textarea from '@/components/Form/Textarea.vue'
 
 interface Locale {
   id: number,
@@ -186,10 +187,10 @@ onMounted(async () => {
         <InputFile v-model="formData.cover" />
       </el-form-item-with-error>
       <el-form-item-with-error label="Краткое описание" name="content_short" :errors="errors">
-        <el-input v-model="formData.content_short" type="textarea" />
+        <Textarea v-model="formData.content_short" />
       </el-form-item-with-error>
       <el-form-item-with-error label="Содержание" name="content" :errors="errors">
-        <el-input v-model="formData.content" type="textarea" />
+        <Textarea v-model="formData.content" />
       </el-form-item-with-error>
     </el-form>
   </FormModal>
