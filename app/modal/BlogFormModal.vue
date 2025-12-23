@@ -168,6 +168,14 @@ onMounted(async () => {
 
   locales.value = response.locales
   categories.value = response.categories
+
+  if (props.id) {
+    formData.value = response.entity
+
+    if (response.entity.date) {
+      formData.value.date = dayjs.utc(response.entity.date, 'DD.MM.YYYY HH:mm:ss').tz(dayjs.tz.guess()).format('DD.MM.YYYY HH:mm:ss')
+    }
+  }
 })
 </script>
 
