@@ -3,6 +3,10 @@ import { VueFinalModal } from 'vue-final-modal'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 import { Close as IconClose } from '@element-plus/icons-vue'
 
+const props = defineProps<{
+  isReady: boolean
+}>()
+
 const emit = defineEmits<{
   (e: 'close'): void,
   (e: 'save'): void,
@@ -35,7 +39,7 @@ onUnmounted(() => {
   >
     <!-- @vue-ignore -->
     <template #default="{ close }">
-      <div class="modal__container" @click="(e) => e.target === e.currentTarget && close()">
+      <div class="modal__container" :class="{'--loading': !props.isReady}" @click="(e) => e.target === e.currentTarget && close()">
         <OverlayScrollbarsComponent class="modal-custom-scroll" ref="scrollTemplateRef">
           <div class="modal__content">
             <form class="form">

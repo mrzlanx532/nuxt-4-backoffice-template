@@ -33,6 +33,8 @@ const emit = defineEmits<{
   (e: 'close'): void,
 }>()
 
+const isReady = ref(false)
+
 const { $authFetch } = useNuxtApp()
 
 const {
@@ -110,11 +112,13 @@ onMounted(async () => {
       formData.value.date = dayjs.utc(response.entity.date, 'DD.MM.YYYY HH:mm:ss').tz(dayjs.tz.guess()).format('DD.MM.YYYY HH:mm:ss')
     }
   }
+
+  isReady.value = true
 })
 </script>
 
 <template>
-  <FormModal @save="onSave">
+  <FormModal @save="onSave" :is-ready="isReady">
     <el-form label-position="top">
       <el-form-item-with-error label="Язык публикации" name="locale_id" :errors="errors">
         <el-select v-model="formData.locale_id">
