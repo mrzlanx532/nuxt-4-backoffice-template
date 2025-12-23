@@ -37,7 +37,7 @@ const emit = defineEmits<{
 
 const { $authFetch } = useNuxtApp()
 
-const formData = ref({
+const formData = ref<{[key: string]: any}>({
   locale_id: undefined,
   category_id: undefined,
   name: undefined,
