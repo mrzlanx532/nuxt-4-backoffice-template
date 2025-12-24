@@ -53,10 +53,10 @@ const {
   errors
 } = initForm(
     formData,
-    props.id,
     'blog/posts/create',
     'blog/posts/update',
-    emit
+    emit,
+    props.id,
 )
 
 const locales = ref<Locale[]>([])
