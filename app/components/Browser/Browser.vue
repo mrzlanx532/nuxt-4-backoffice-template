@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { type FetchError } from 'ofetch'
 import BrowserControlPanel from '@/components/Browser/BrowserControlPanel.vue'
+import BrowserFilters from '@/components/Browser/BrowserFilters.vue'
 import { cloneVNode } from 'vue'
 import { ElNotification } from 'element-plus'
 import type { IItem } from '@@/types'
@@ -145,7 +146,7 @@ const updateDimensions = () => {
   const sidebarWidth = parseFloat(window.getComputedStyle(document.documentElement).getPropertyValue('--sidebar-width'))
   const sidebarPaddingRight = 30
   const filtersWidth = filters.value.length ? 210 : 0
-  const browserGap = 10
+  const browserGap = filters.value.length ? 10 : 0
   const browserPaddingRight = 30
 
   /** table height */
@@ -472,7 +473,6 @@ const onUpdateDetailIsOpen = (isOpen: boolean) => {
 
 onMounted(() => {
   ro = initResizeObserver()
-  updateDimensions()
 
   isHeightRead.value = true
 
@@ -483,6 +483,7 @@ onMounted(() => {
   }
 
   fetch().then(() => {
+    updateDimensions()
     isFirstLoading.value = false
   })
 })
