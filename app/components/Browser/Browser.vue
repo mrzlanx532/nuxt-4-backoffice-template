@@ -65,7 +65,7 @@ const detailItemId = route.query[props.detailIdProperty] ? ref(parseInt(route.qu
 /** auto-size */
 let ro: ResizeObserver | undefined = undefined
 const isHeightRead = ref(false)
-const tableHeight = ref()
+const tableHeight = ref('100%')
 const tableWidth = ref()
 
 /** pagination */
