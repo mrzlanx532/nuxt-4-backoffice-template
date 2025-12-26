@@ -337,3 +337,11 @@
 .form .textarea:focus {
   box-shadow: 0 0 0 1px var(--el-color-primary) inset;
 }
+
+.form .el-space {
+  width: 100%;
+}
+
+.form .el-space__item {
+  width: 100%;
+}
