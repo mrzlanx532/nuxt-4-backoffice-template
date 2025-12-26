@@ -11,6 +11,7 @@ interface MenuItemPlain {
 
 interface MenuItemWithChildren {
   name: string,
+  link: string,
   icon?: Component
   children: MenuItemPlain[]
 }
@@ -18,6 +19,7 @@ interface MenuItemWithChildren {
 export type MenuItem = MenuItemPlain | MenuItemWithChildren
 
 const router = useRouter()
+const route = useRoute()
 
 const props = defineProps<{
   items: MenuItem[],
@@ -32,8 +34,12 @@ const onClickLink = (menuItemPlain: MenuItemPlain) => {
   router.push(menuItemPlain.link)
 }
 
-const isMenuItemPlain = (item: MenuItem): item is MenuItemPlain => {
-  return !('children' in item);
+const isMenuItemPlain = (item: any): item is MenuItemPlain => {
+  return !('children' in item)
+}
+
+const isMenuItemWithChildren = (item: any): item is MenuItemWithChildren => {
+  return 'children' in item
 }
 
 const closeActive = () => {
@@ -50,16 +56,16 @@ defineExpose({
 </script>
 
 <template>
-  <el-menu @open="onOpenSubMenu" class="sidebar__menu" :unique-opened="true" ref="menuTemplateRef">
+  <el-menu router :default-active="route.path" @open="onOpenSubMenu" class="sidebar__menu" :unique-opened="true" ref="menuTemplateRef">
     <OverlayScrollbarsComponent :options="{scrollbars: {theme: 'os-theme-default'}}" :style="{height: props.height}">
       <template v-for="(menuItem, i) in props.items">
-        <el-menu-item v-if="isMenuItemPlain(menuItem)" @click="onClickLink(menuItem)" :index="i.toString()">
+        <el-menu-item v-if="isMenuItemPlain(menuItem)" @click="onClickLink(menuItem)" :index="menuItem.link">
           <el-icon>
             <component v-if="menuItem.icon" :is="menuItem.icon" />
           </el-icon>
           <span>{{ menuItem.name }}</span>
         </el-menu-item>
-        <el-sub-menu class="sidebar__sub-menu" v-else :index="i.toString()" >
+        <el-sub-menu v-if="isMenuItemWithChildren(menuItem)" class="sidebar__sub-menu" :index="menuItem.link" >
           <template #title>
             <el-icon>
               <component v-if="menuItem.icon" :is="menuItem.icon" />
@@ -67,7 +73,7 @@ defineExpose({
             <span>{{ menuItem.name }}</span>
           </template>
           <template #default>
-            <el-menu-item @click="onClickLink(menuItemChild)" v-for="(menuItemChild, j) in menuItem.children" :index="i.toString() + '-' + j.toString()">
+            <el-menu-item @click="onClickLink(menuItemChild)" v-for="menuItemChild in menuItem.children" :index="menuItemChild.link">
               <el-icon>
                 <component v-if="menuItemChild.icon" :is="menuItemChild.icon" />
               </el-icon>

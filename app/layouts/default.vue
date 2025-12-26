@@ -23,25 +23,26 @@ const items: MenuItem[] = [
   {
     name: 'Шумы',
     icon: ElIconLocation,
+    link: '/sounds',
     children: [
       {
         name: 'Каталог треков',
-        link: '/example',
+        link: '/sounds',
         icon: ElIconLocation,
       },
       {
         name: 'Коллекции',
-        link: '/example',
+        link: '/sounds/collections',
         icon: ElIconLocation,
       },
       {
         name: 'Авторы',
-        link: '/example',
+        link: '/sounds/authors',
         icon: ElIconLocation,
       },
       {
         name: 'Библиотеки',
-        link: '/example',
+        link: '/sounds/libraries',
         icon: ElIconLocation,
       },
     ]
@@ -49,30 +50,31 @@ const items: MenuItem[] = [
   {
     name: 'Музыка',
     icon: ElIconTickets,
+    link: '/music',
     children: [
       {
         name: 'Каталог треков',
-        link: '/example',
+        link: '/music',
         icon: ElIconLocation,
       },
       {
         name: 'Плейлисты',
-        link: '/example',
+        link: '/music/playlists',
         icon: ElIconLocation,
       },
       {
         name: 'Авторы',
-        link: '/example',
+        link: '/music/authors',
         icon: ElIconLocation,
       },
       {
         name: 'Лейблы',
-        link: '/example',
+        link: '/music/labels',
         icon: ElIconLocation,
       },
       {
         name: 'Альбомы',
-        link: '/example',
+        link: '/music/albums',
         icon: ElIconLocation,
       },
     ]
@@ -80,15 +82,16 @@ const items: MenuItem[] = [
   {
     name: 'Пользователи',
     icon: ElIconLocation,
+    link: '/users',
     children: [
       {
         name: 'Каталог пользователей',
-        link: '/example',
+        link: '/users',
         icon: ElIconLocation,
       },
       {
         name: 'Отчеты',
-        link: '/example',
+        link: '/users/reports',
         icon: ElIconLocation,
       },
     ]
@@ -96,26 +99,6 @@ const items: MenuItem[] = [
   {
     name: 'Блог',
     link: '/blog',
-    icon: ElIconLocation,
-  },
-  {
-    name: 'Ручки',
-    link: '/example',
-    icon: ElIconLocation,
-  },
-  {
-    name: 'Ручки',
-    link: '/example',
-    icon: ElIconLocation,
-  },
-  {
-    name: 'Ручки',
-    link: '/example',
-    icon: ElIconLocation,
-  },
-  {
-    name: 'Ручки',
-    link: '/example',
     icon: ElIconLocation,
   },
 ]
