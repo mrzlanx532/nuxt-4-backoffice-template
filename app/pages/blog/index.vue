@@ -164,6 +164,7 @@ const onClickWithdraw = async (id: number) => {
 
 <template>
   <Browser
+      header="Статьи блога"
       url="blog/posts/browse"
       url-detail="blog/posts/detail"
       ref="browserTemplateRef"

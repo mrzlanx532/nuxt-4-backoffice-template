@@ -7,7 +7,7 @@ import utc from 'dayjs/plugin/utc.js'
 import timezone from 'dayjs/plugin/timezone.js'
 import { ElMessageBox, ElNotification } from 'element-plus'
 import { useModal } from 'vue-final-modal'
-import BlogFormModal from '@/modal/BlogFormModal.vue'
+import UserFormModal from '@/modal/UserFormModal.vue'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -63,7 +63,7 @@ const {
 
 const onClickCreateOrEdit = async (id?: number) => {
   const modal = useModal({
-    component: BlogFormModal,
+    component: UserFormModal,
     attrs: {
       id,
       onClose: () => {
@@ -105,6 +105,7 @@ const onSelectionChange = (items: any[]) => {
 
 <template>
   <Browser
+      header="Пользователи"
       url="users/browse"
       url-detail="users/detail"
       ref="browserTemplateRef"

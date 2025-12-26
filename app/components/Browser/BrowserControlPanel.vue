@@ -3,6 +3,7 @@ import { Search as IconSearch } from '@element-plus/icons-vue'
 import { CircleClose as IconCircleClose } from '@element-plus/icons-vue'
 
 const props = withDefaults(defineProps<{
+  header: string,
   searchString?: string
 }>(), {
   searchString: '',
@@ -52,7 +53,7 @@ defineExpose({
 <template>
   <div class="browser__control-panel" ref="rootTemplateRef">
     <div class="browser__control-panel-column --left">
-      <div class="browser__control-panel-page-title">Статьи блога</div>
+      <div class="browser__control-panel-page-title">{{ props.header }}</div>
     </div>
     <div class="browser__control-panel-column --center">
       <el-input

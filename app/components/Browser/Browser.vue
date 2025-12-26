@@ -14,7 +14,8 @@ const props = withDefaults(defineProps<{
   url: string,
   urlDetail: string,
   perPageSizes?: number[],
-  detailIdProperty?: string
+  detailIdProperty?: string,
+  header: string
 }>(), {
   perPageSizes: () => [20, 50, 100],
   detailIdProperty: 'id'
@@ -502,6 +503,7 @@ defineExpose({
 <template>
   <div class="browser">
     <BrowserControlPanel
+        :header="props.header"
         :search-string="searchString"
         @update:search-string="searchStringUpdated"
         ref="controlPanelTemplateRef"
