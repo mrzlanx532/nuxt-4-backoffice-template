@@ -51,12 +51,12 @@ const props = defineProps<{
       <el-input v-model="props.formData.company_index" />
     </el-form-item-with-error>
     <el-form-item-with-error label="Страна" name="company_country" :errors="errors">
-      <el-select v-model="props.formData.company_business_type_id">
+      <el-select v-model="props.formData.company_country_id">
         <el-option
-            v-for="locale in props.formDataValues.company_business_types"
-            :key="locale.id"
-            :label="locale.name_ru"
-            :value="locale.id"
+            v-for="country in props.formDataValues.company_countries"
+            :key="country.id"
+            :label="country.name_ru"
+            :value="country.id"
         />
       </el-select>
     </el-form-item-with-error>

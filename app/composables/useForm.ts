@@ -115,7 +115,6 @@ export const useForm = () => {
             } catch (e) {
                 if (!isFetchError(e)) {
                     throw e;
-                    return
                 }
 
                 if (e.status === 422) {

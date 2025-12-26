@@ -56,7 +56,7 @@ const props = defineProps<{
   <el-form-item-with-error label="Фотография" name="picture" :errors="errors">
     <InputFile v-model="props.formData.picture" />
   </el-form-item-with-error>
-  <el-form-item-with-error label="Фотография" name="is_checked" :errors="errors">
+  <el-form-item-with-error label="" name="is_checked" :errors="errors">
     <el-checkbox v-model="props.formData.is_checked" label="Согласен с условиями пользовательского соглашения" size="large" />
   </el-form-item-with-error>
 </template>
