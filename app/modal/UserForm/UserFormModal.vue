@@ -7,9 +7,11 @@ import CompanyTabModal from '@/modal/UserForm/_tabs/CompanyTabModal.vue'
 import SubscriptionTabModal from '@/modal/UserForm/_tabs/SubscriptionTabModal.vue'
 
 interface BlogPostFormResponse {
-  categories: [],
   entity: {[key: string]: any},
-  locales: []
+  locales: [],
+  company_business_types: [],
+  company_countries: [],
+  subscription_types: []
 }
 
 const props = defineProps<{
@@ -84,6 +86,9 @@ onMounted(async () => {
   }
 
   formDataValues.value.locales = response.locales
+  formDataValues.value.company_business_types = response.company_business_types
+  formDataValues.value.company_countries = response.company_countries
+  formDataValues.value.subscription_types = response.subscription_types
 
   isReady.value = true
 })

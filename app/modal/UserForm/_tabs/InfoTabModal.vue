@@ -29,7 +29,7 @@ const props = defineProps<{
       <el-input v-model="props.formData.email" />
     </el-form-item-with-error>
     <el-form-item-with-error label="Телефон" name="phone" :errors="errors">
-      <el-input v-model="props.formData.phone" />
+      <el-input v-model="props.formData.phone" v-maska="'+7 (###) ###-##-##'" />
     </el-form-item-with-error>
   </el-space>
   <el-space>
