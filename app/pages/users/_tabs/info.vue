@@ -3,5 +3,5 @@
 </script>
 
 <template>
-  <div>1231231</div>
+  <div>Инфо</div>
 </template>
