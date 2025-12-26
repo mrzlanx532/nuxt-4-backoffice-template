@@ -50,9 +50,10 @@ onUnmounted(() => {
                     <IconClose @click="close"/>
                   </div>
                 </div>
+                <slot name="header" />
               </div>
               <div class="form__content">
-                <slot />
+                <slot name="default" />
               </div>
               <div class="form__footer">
                 <el-button-group>

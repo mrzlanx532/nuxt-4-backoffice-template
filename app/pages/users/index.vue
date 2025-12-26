@@ -7,7 +7,7 @@ import utc from 'dayjs/plugin/utc.js'
 import timezone from 'dayjs/plugin/timezone.js'
 import { ElMessageBox, ElNotification } from 'element-plus'
 import { useModal } from 'vue-final-modal'
-import UserFormModal from '@/modal/UserFormModal.vue'
+import UserFormModal from '~/modal/UserForm/UserFormModal.vue'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
