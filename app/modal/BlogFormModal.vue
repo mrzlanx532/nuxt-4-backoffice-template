@@ -80,10 +80,18 @@ onMounted(async () => {
 
   isReady.value = true
 })
+
+const beforeRequest = (formData: {[key: string]: any}) => {
+  if (formData.date) {
+    formData.date = dayjs(formData.date, 'DD.MM.YYYY HH:mm:ss').tz(dayjs.tz.guess()).utc().format('DD.MM.YYYY HH:mm:ss')
+  }
+
+  return formData
+}
 </script>
 
 <template>
-  <FormModal @save="save" :is-ready="isReady">
+  <FormModal @save="save({beforeRequest})" :is-ready="isReady">
     <el-form label-position="top">
       <el-form-item-with-error label="Язык публикации" name="locale_id" :errors="errors">
         <el-select v-model="formData.locale_id">

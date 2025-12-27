@@ -73,20 +73,6 @@ const {
     props.id,
 )
 
-const beforeRequest = (formData: {[key: string]: any}) => {
-  if (formData.subscription_till) {
-    formData.subscription_till = dayjs(formData.subscription_till, 'DD.MM.YYYY HH:mm:ss').tz(dayjs.tz.guess()).utc().format('DD.MM.YYYY HH:mm:ss')
-  }
-
-  if (formData.subscription_till_for_exclusive_tracks) {
-    formData.subscription_till_for_exclusive_tracks = dayjs(formData.subscription_till_for_exclusive_tracks, 'DD.MM.YYYY HH:mm:ss').tz(dayjs.tz.guess()).utc().format('DD.MM.YYYY HH:mm:ss')
-  }
-
-  formData.is_remove = undefined
-
-  return formData
-}
-
 const infoTabFields = new Set(['first_name', 'last_name', 'email', 'phone', 'password', 'password_confirmation', 'locale_id', 'about', 'picture', 'is_checked'])
 const companyTabFields = new Set(['company_address', 'company_business_type_id', 'company_city', 'company_country_id', 'company_index', 'company_name', 'company_url', 'job_title'])
 const subscriptionTabFields = new Set(['is_remove', 'subscription_type_id', 'subscription_till_for_exclusive_tracks'])
@@ -135,6 +121,20 @@ onMounted(async () => {
 
   isReady.value = true
 })
+
+const beforeRequest = (formData: {[key: string]: any}) => {
+  if (formData.subscription_till) {
+    formData.subscription_till = dayjs(formData.subscription_till, 'DD.MM.YYYY HH:mm:ss').tz(dayjs.tz.guess()).utc().format('DD.MM.YYYY HH:mm:ss')
+  }
+
+  if (formData.subscription_till_for_exclusive_tracks) {
+    formData.subscription_till_for_exclusive_tracks = dayjs(formData.subscription_till_for_exclusive_tracks, 'DD.MM.YYYY HH:mm:ss').tz(dayjs.tz.guess()).utc().format('DD.MM.YYYY HH:mm:ss')
+  }
+
+  formData.is_remove = undefined
+
+  return formData
+}
 </script>
 
 <template>
