@@ -1,6 +1,5 @@
 import { cloneDeep } from 'lodash-es'
 import { FetchError } from 'ofetch'
-import dayjs from 'dayjs'
 import { ElNotification } from 'element-plus'
 import { type Ref } from 'vue'
 
@@ -89,15 +88,13 @@ export const useForm = () => {
         id?: number
     ) => {
 
-        const save = async () => {
+        const save = async (hooks?: {
+            beforeRequest?: (r: {[key: string]: any}) => {[key: string]: any}
+        }) => {
 
             try {
 
-                const request = cloneDeep(formData.value)
-
-                if (request.date) {
-                    request.date = dayjs(request.date, 'DD.MM.YYYY HH:mm:ss').tz(dayjs.tz.guess()).utc().format('DD.MM.YYYY HH:mm:ss')
-                }
+                const request = hooks?.beforeRequest ? hooks.beforeRequest(cloneDeep(formData.value)) : cloneDeep(formData.value)
 
                 await $authFetch(id ? updateURL : createURL, {
                     body: formRequestBody(request, id),

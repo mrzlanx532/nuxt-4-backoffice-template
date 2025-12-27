@@ -8,6 +8,11 @@ const props = defineProps<{
     subscription_types: {
       id: string,
       title: string,
+    }[],
+    labels: {
+      id: string,
+      name_ru: string,
+      name_en: string,
     }[]
   },
 }>()
@@ -26,13 +31,23 @@ const props = defineProps<{
       </el-select>
     </el-form-item-with-error>
     <el-form-item-with-error label="Дата истечения" name="subscription_till" :errors="errors">
-      <el-date-picker v-model="props.formData.subscription_till" />
+      <el-date-picker v-model="props.formData.subscription_till" value-format="DD.MM.YYYY HH:mm:ss" />
     </el-form-item-with-error>
   </el-space>
   <el-form-item-with-error label="Дата истечения" name="subscription_till_for_exclusive_tracks" :errors="errors">
-    <el-date-picker v-model="props.formData.subscription_till_for_exclusive_tracks" />
+    <el-date-picker v-model="props.formData.subscription_till_for_exclusive_tracks" :disabled="props.formData.is_remove" value-format="DD.MM.YYYY HH:mm:ss" />
   </el-form-item-with-error>
   <el-form-item-with-error label="" name="is_remove" :errors="errors">
     <el-checkbox v-model="props.formData.is_remove" label="Отключить подписку на эксклюзивные треки" />
+  </el-form-item-with-error>
+  <el-form-item-with-error v-if="['ONLY_MUSIC', 'MUSIC_AND_SOUNDS'].includes(formData.subscription_type_id)" label="Лейблы" name="is_remove" :errors="errors">
+    <el-select v-model="props.formData.subscription_labels" multiple>
+      <el-option
+          v-for="locale in props.formDataValues.labels"
+          :key="locale.id"
+          :label="locale.name_ru"
+          :value="locale.id"
+      />
+    </el-select>
   </el-form-item-with-error>
 </template>
