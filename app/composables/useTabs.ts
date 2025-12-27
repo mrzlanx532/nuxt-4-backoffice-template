@@ -12,7 +12,7 @@ export const useTabs = () => {
 
     const initTabs = (_tabs: ITabItem[]) => {
 
-        const tabs = ref(_tabs)
+        const tabs = shallowRef(_tabs)
 
         const selectedTabComponent = initSelectedTabComponent(tabs)
         watchSelectedTab(tabs, selectedTabComponent)
