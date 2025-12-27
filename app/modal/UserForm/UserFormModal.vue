@@ -29,16 +29,7 @@ const { $authFetch } = useNuxtApp()
 const { initTabs } = useTabs()
 
 const formData = ref<{[key: string]: any}>({
-  first_name: undefined,
-  last_name: undefined,
-  email: undefined,
-  phone: undefined,
-  password: undefined,
-  password_confirmation: undefined,
-  locale_id: undefined,
-  about: undefined,
-  picture: undefined,
-  is_checked: props.id ? undefined : true
+  is_checked: props.id ? undefined : true,
 })
 
 const {

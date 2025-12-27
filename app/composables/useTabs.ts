@@ -12,7 +12,12 @@ export const useTabs = () => {
 
     const initTabs = (_tabs: ITabItem[]) => {
 
-        const tabs = shallowRef(_tabs)
+        const tabs = ref(
+            _tabs.map(tab => ({
+                ...tab,
+                component: markRaw(tab.component)
+            }))
+        )
 
         const selectedTabComponent = initSelectedTabComponent(tabs)
         watchSelectedTab(tabs, selectedTabComponent)
