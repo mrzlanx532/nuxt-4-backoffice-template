@@ -2,14 +2,18 @@ import { type Component, ref, shallowRef, watch } from 'vue'
 
 export interface ITabItem {
     title: string,
-    component: Component
+    component: Component,
+    hasError?: boolean
 }
 
 export const useTabs = () => {
 
     const selectedTab = ref(0)
 
-    const initTabs = (tabs: ITabItem[]) => {
+    const initTabs = (_tabs: ITabItem[]) => {
+
+        const tabs = ref(_tabs)
+
         const selectedTabComponent = initSelectedTabComponent(tabs)
         watchSelectedTab(tabs, selectedTabComponent)
 
@@ -20,15 +24,15 @@ export const useTabs = () => {
         }
     }
 
-    const initSelectedTabComponent = (tabs: ITabItem[]) => {
-        return shallowRef(tabs[selectedTab.value]!.component)
+    const initSelectedTabComponent = (tabs: Ref<ITabItem[]>) => {
+        return shallowRef(tabs.value[selectedTab.value]!.component)
     }
 
-    const watchSelectedTab = (tabs: ITabItem[], selectedTabComponent: ReturnType<typeof initSelectedTabComponent>) => {
+    const watchSelectedTab = (tabs: Ref<ITabItem[]>, selectedTabComponent: ReturnType<typeof initSelectedTabComponent>) => {
         watch(
             selectedTab,
             () => {
-                selectedTabComponent.value = tabs[selectedTab.value]!.component
+                selectedTabComponent.value = tabs.value[selectedTab.value]!.component
             }
         )
     }
