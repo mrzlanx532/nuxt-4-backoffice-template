@@ -4,9 +4,12 @@
   justify-content: center;
 }
 
+.modal.--fixed-top {
+  align-items: start;
+}
+
 .modal__container {
-  opacity: 1;
-  transition: opacity 300ms ease-in-out;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .modal__container.--loading {

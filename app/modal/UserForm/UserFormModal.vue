@@ -138,7 +138,7 @@ const beforeRequest = (formData: {[key: string]: any}) => {
 </script>
 
 <template>
-  <FormModal @save="save({beforeRequest})" :is-ready="isReady">
+  <FormModal class="--fixed-top" @save="save({beforeRequest})" :is-ready="isReady">
     <template #header>
       <Tabs @change="onChangeSelectedTab" :tabs="tabs" />
     </template>
