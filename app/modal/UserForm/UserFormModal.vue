@@ -110,6 +110,11 @@ onMounted(async () => {
 
     if (response.entity.subscription_till_for_exclusive_tracks) {
       formData.value.is_remove = false
+      formData.value.subscription_till_for_exclusive_tracks = dayjs.utc(response.entity.subscription_till_for_exclusive_tracks, 'DD.MM.YYYY HH:mm:ss').tz(dayjs.tz.guess()).format('DD.MM.YYYY HH:mm:ss')
+    }
+
+    if (response.entity.subscription_till) {
+      formData.value.subscription_till = dayjs.utc(response.entity.subscription_till, 'DD.MM.YYYY HH:mm:ss').tz(dayjs.tz.guess()).format('DD.MM.YYYY HH:mm:ss')
     }
   }
 
@@ -130,8 +135,6 @@ const beforeRequest = (formData: {[key: string]: any}) => {
   if (formData.subscription_till_for_exclusive_tracks) {
     formData.subscription_till_for_exclusive_tracks = dayjs(formData.subscription_till_for_exclusive_tracks, 'DD.MM.YYYY HH:mm:ss').tz(dayjs.tz.guess()).utc().format('DD.MM.YYYY HH:mm:ss')
   }
-
-  formData.is_remove = undefined
 
   return formData
 }
