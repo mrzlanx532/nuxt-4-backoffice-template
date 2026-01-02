@@ -247,4 +247,12 @@
       filter: blur(2px);
     }
   }
+
+  .el-table--fit .el-table__inner-wrapper:before {
+    width: 0;
+  }
+
+  .el-table__body tr:last-child td {
+    border-bottom: none;
+  }
 }

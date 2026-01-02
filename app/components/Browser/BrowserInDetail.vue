@@ -95,7 +95,7 @@ onMounted(async () => {
     >
       <slot name="table" />
     </el-table>
-    <div class="browser-in-detail__row --bottom">
+    <div class="browser-in-detail__row --bottom" v-if="total > 0">
       <el-pagination
           size="small"
           :total="total"
