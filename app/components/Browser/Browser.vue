@@ -61,6 +61,7 @@ const browserContainerTemplateRef = useTemplateRef('browserContainerTemplateRef'
 const data = ref<IItem[]>([])
 const isFirstLoading = ref(true)
 const isFetching = ref(false)
+const { loading, start, stop } = useMinDelay()
 
 /** bulk action */
 const detailSelectionItems = ref<any[]>([])
@@ -235,6 +236,10 @@ const setFilters = (_filters: IFilter[]) => {
 
 const fetch = async () => {
 
+  if (isFirstLoading.value) {
+    start()
+  }
+
   isFetching.value = true
 
   const config: { params?: IRequestParams } = {}
@@ -288,6 +293,10 @@ const fetch = async () => {
     })
   } finally {
     isFetching.value = false
+
+    if (isFirstLoading.value) {
+      stop()
+    }
   }
 }
 
@@ -525,7 +534,7 @@ onUnmounted(() => {
       </template>
     </BrowserControlPanel>
     <div
-        v-if="isFirstLoading"
+        v-if="isFirstLoading || loading"
         v-loading="true"
         class="browser__loader"
         :class="{'--active': isHeightRead}"
@@ -537,7 +546,7 @@ onUnmounted(() => {
           @active-filters:reset="onFiltersReset"
           :active-filters="activeFilters"
           :filters="filters"
-          v-if="!isFirstLoading && filters.length"
+          v-if="!isFirstLoading && !loading && filters.length"
           :is-loading="false"
           :height="tableHeight"
       />
@@ -548,7 +557,7 @@ onUnmounted(() => {
               @row-click="onRowClick"
               :default-sort="sortURL"
               :scrollbar-always-on="true"
-              v-if="!isFirstLoading"
+              v-if="!isFirstLoading && !loading"
               :class="{'--loading': isFetching}"
               :style="{width: tableWidth}"
               @sort-change="onSortChange"
@@ -562,7 +571,7 @@ onUnmounted(() => {
           </el-table>
         </div>
         <el-pagination
-            v-if="!isFirstLoading"
+            v-if="!isFirstLoading && !loading"
             class="--browser"
             v-model:current-page="page"
             v-model:page-size="perPage"
