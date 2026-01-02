@@ -36,13 +36,15 @@ const tagMapper = {
   'PUBLISHED': 'success'
 } as const
 
-const browserTemplateRef = useTemplateRef<typeof Browser>('browserTemplateRef')
-
 const selectionItems = ref<any[]>([])
 
 const item = ref<any>()
 
 const { initTabs } = useTabs()
+
+const refreshIncrement = ref(0)
+const fetchIncrement = ref(0)
+const fetchDetailIncrement = ref(0)
 
 const {
   tabs,
@@ -77,6 +79,7 @@ const onClickCreateOrEdit = async (id?: number) => {
       id,
       onClose: () => {
         modal.close()
+        refreshIncrement.value++
       }
     }
   })
@@ -102,7 +105,7 @@ const onClickDelete = (id: number) => {
     })
 
     if (response.status) {
-      browserTemplateRef.value!.refresh()
+      refreshIncrement.value++
     }
   }, () => {})
 }
@@ -130,8 +133,8 @@ const onClickPublish = (id: number) => {
     })
 
     if (response.status) {
-      browserTemplateRef.value!.fetch()
-      browserTemplateRef.value!.fetchDetail()
+      fetchIncrement.value++
+      fetchDetailIncrement.value++
 
       ElNotification({
         message: 'Статья опубликована',
@@ -150,8 +153,8 @@ const onClickWithdraw = async (id: number) => {
   })
 
   if (response.status) {
-    browserTemplateRef.value!.fetch()
-    browserTemplateRef.value!.fetchDetail()
+    fetchIncrement.value++
+    fetchDetailIncrement.value++
   }
 
   ElNotification({
@@ -164,10 +167,12 @@ const onClickWithdraw = async (id: number) => {
 
 <template>
   <Browser
+      :refresh-increment="refreshIncrement"
+      :fetch-increment="fetchIncrement"
+      :fetch-detail-increment="fetchDetailIncrement"
       header="Статьи блога"
       url="blog/posts/browse"
       url-detail="blog/posts/detail"
-      ref="browserTemplateRef"
       @selection-change="onSelectionChange"
       @item-updated="(_item) => item = _item"
   >

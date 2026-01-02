@@ -15,10 +15,17 @@ const props = withDefaults(defineProps<{
   urlDetail: string,
   perPageSizes?: number[],
   detailIdProperty?: string,
-  header: string
+  header: string,
+  /** like a hooks */
+  refreshIncrement?: number,
+  fetchIncrement?: number,
+  fetchDetailIncrement?: number,
 }>(), {
   perPageSizes: () => [20, 50, 100],
-  detailIdProperty: 'id'
+  detailIdProperty: 'id',
+  refreshIncrement: 0,
+  fetchIncrement: 0,
+  fetchDetailIncrement: 0
 })
 
 const emit = defineEmits<{
@@ -472,6 +479,18 @@ const onUpdateDetailIsOpen = (isOpen: boolean) => {
   })
 }
 
+watch(() => props.refreshIncrement, () => {
+  refresh()
+})
+
+watch(() => props.fetchIncrement, () => {
+  fetch()
+})
+
+watch(() => props.fetchDetailIncrement, () => {
+  fetchDetail()
+})
+
 onMounted(() => {
   ro = initResizeObserver()
 
@@ -491,12 +510,6 @@ onMounted(() => {
 
 onUnmounted(() => {
   ro?.disconnect()
-})
-
-defineExpose({
-  fetch,
-  fetchDetail,
-  refresh
 })
 </script>
 

@@ -24,9 +24,9 @@ interface UserRow {
   subscription_till: string | null
 }
 
-const { $authFetch } = useNuxtApp()
+const refreshIncrement = ref(0)
 
-const browserTemplateRef = useTemplateRef<typeof Browser>('browserTemplateRef')
+const { $authFetch } = useNuxtApp()
 
 const selectionItems = ref<any[]>([])
 
@@ -68,6 +68,7 @@ const onClickCreateOrEdit = async (id?: number) => {
       id,
       onClose: () => {
         modal.close()
+        refreshIncrement.value++
       }
     }
   })
@@ -93,7 +94,7 @@ const onClickDelete = (id: number) => {
     })
 
     if (response.status) {
-      browserTemplateRef.value!.refresh()
+      refreshIncrement.value++
     }
   }, () => {})
 }
@@ -105,10 +106,10 @@ const onSelectionChange = (items: any[]) => {
 
 <template>
   <Browser
+      :refresh-increment="refreshIncrement"
       header="Пользователи"
       url="users/browse"
       url-detail="users/detail"
-      ref="browserTemplateRef"
       @selection-change="onSelectionChange"
       @item-updated="(_item) => item = _item"
   >
