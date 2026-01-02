@@ -138,6 +138,10 @@
 
     .el-scrollbar__wrap {
       padding-right: 20px;
+
+      .el-scrollbar__wrap {
+        padding-right: 0;
+      }
     }
 
     .el-scrollbar {
@@ -198,6 +202,49 @@
       left: -20px;
       overflow-x: auto;
       top: 20px;
+    }
+  }
+}
+
+.browser-in-detail {
+
+  .el-pagination {
+    display: inline-flex;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+
+    &.--top {
+      margin-bottom: 10px;
+    }
+
+    &.--bottom {
+      margin-top: 10px;
+    }
+  }
+
+  &__loader {
+    height: 1000px;
+    width: 100%;
+    overflow: hidden;
+    transition: opacity .3s ease-in-out;
+    opacity: 0;
+    position: relative;
+
+    .el-loading-mask {
+      background: transparent;
+    }
+
+    &.--active {
+      opacity: 1;
+    }
+  }
+
+  .el-table {
+    &.--loading {
+      filter: blur(2px);
     }
   }
 }

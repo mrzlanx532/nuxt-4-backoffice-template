@@ -1,0 +1,103 @@
+<script setup lang="ts">
+import { type IResponse } from "~~/types/components/browser";
+import { type IItem } from "~~/types";
+
+const props = defineProps<{
+  url: string
+}>()
+
+const { $authFetch } = useNuxtApp()
+
+const data = ref<IItem[]>([])
+const isFetching = ref(false)
+
+const page = ref(1)
+const perPage = ref(5)
+const total = ref(0)
+const isFirstLoading = ref(true)
+
+const { loading, start, stop } = useMinDelay()
+
+const onPageChange = async (value: number) => {
+  page.value = value
+  await fetch()
+}
+
+const fetch = async () => {
+  try {
+    isFetching.value = true
+
+    if (isFirstLoading.value) {
+      start()
+    }
+
+    const response = await $authFetch<IResponse>(props.url, {
+      query: {
+        filters: JSON.stringify({
+          blog_post_id: [1]
+        }),
+        page: page.value,
+        per_page: perPage.value,
+      }
+    })
+
+    data.value = response.items
+    total.value = response.meta.count
+
+    if (isFirstLoading.value) {
+      stop()
+      isFirstLoading.value = false
+    }
+
+  } catch (err: unknown) {} finally {
+    isFetching.value = false
+  }
+}
+
+onMounted(async () => {
+  await fetch()
+})
+</script>
+
+<template>
+  <div
+      v-if="loading"
+      v-loading="true"
+      class="browser-in-detail__loader"
+      :class="{'--active': true}"
+      :style="{height: '300px'}"
+  />
+  <div class="browser-in-detail" v-if="!isFirstLoading && !loading">
+    <div class="browser-in-detail__row --top">
+      <el-pagination
+          size="small"
+          :total="total"
+          background
+          layout="total, prev, pager, next"
+          v-model:current-page="page"
+          v-model:page-size="perPage"
+          @current-change="onPageChange"
+      />
+      <el-button type="success">Добавить</el-button>
+    </div>
+    <el-table
+      :show-header="false"
+      :data="data"
+      :class="{'--loading': isFetching || loading}"
+    >
+      <slot name="table" />
+    </el-table>
+    <div class="browser-in-detail__row --bottom">
+      <el-pagination
+          size="small"
+          :total="total"
+          background
+          layout="total, prev, pager, next"
+          v-model:current-page="page"
+          v-model:page-size="perPage"
+          @current-change="onPageChange"
+      />
+      <el-button type="success">Добавить</el-button>
+    </div>
+  </div>
+</template>
