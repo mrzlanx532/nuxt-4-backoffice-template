@@ -42,7 +42,7 @@ const {
 const {
   tabs,
   selectedTabComponent,
-  onChangeSelectedTab
+  selectedTab
 } = initTabs([
   {
     title: 'Инфо',
@@ -143,7 +143,7 @@ const beforeRequest = (formData: {[key: string]: any}) => {
 <template>
   <FormModal class="--fixed-top" @save="save({beforeRequest})" :is-ready="isReady">
     <template #header>
-      <Tabs @change="onChangeSelectedTab" :tabs="tabs" />
+      <Tabs v-model="selectedTab" :tabs="tabs" />
     </template>
     <template #default>
       <el-form label-position="top">
