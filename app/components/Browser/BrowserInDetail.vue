@@ -2,19 +2,24 @@
 import { type IResponse } from "~~/types/components/browser";
 import { type IItem } from "~~/types";
 
-const props = defineProps<{
-  url: string
-}>()
+const props = withDefaults(defineProps<{
+  url: string,
+  filters: {[key: string]: any},
+  refreshIncrement?: number
+}>(), {
+  refreshIncrement: 0
+})
 
 const { $authFetch } = useNuxtApp()
 
 const data = ref<IItem[]>([])
 const isFetching = ref(false)
+const isFirstLoading = ref(true)
 
+/** pagination */
 const page = ref(1)
 const perPage = ref(5)
 const total = ref(0)
-const isFirstLoading = ref(true)
 
 const { loading, start, stop } = useMinDelay()
 
@@ -33,9 +38,7 @@ const fetch = async () => {
 
     const response = await $authFetch<IResponse>(props.url, {
       query: {
-        filters: JSON.stringify({
-          blog_post_id: [1]
-        }),
+        filters: JSON.stringify(props.filters),
         page: page.value,
         per_page: perPage.value,
       }
@@ -53,6 +56,11 @@ const fetch = async () => {
     isFetching.value = false
   }
 }
+
+watch(() => props.refreshIncrement, () => {
+  page.value = 1
+  fetch()
+})
 
 onMounted(async () => {
   await fetch()
@@ -78,7 +86,7 @@ onMounted(async () => {
           v-model:page-size="perPage"
           @current-change="onPageChange"
       />
-      <el-button type="success">Добавить</el-button>
+      <slot name="action" />
     </div>
     <el-table
       :show-header="false"
@@ -97,7 +105,7 @@ onMounted(async () => {
           v-model:page-size="perPage"
           @current-change="onPageChange"
       />
-      <el-button type="success">Добавить</el-button>
+      <slot name="action" />
     </div>
   </div>
 </template>
