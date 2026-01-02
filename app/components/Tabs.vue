@@ -8,14 +8,13 @@ export interface ITabItem {
 }
 
 const props = withDefaults(defineProps<{
-  selectedItem?: number,
+  modelValue?: number,
   tabs: ITabItem[]
 }>(), {
-  selectedItem: 0,
-  hasError: false
+  modelValue: 0,
 })
 
-const emit = defineEmits(['change'])
+const emit = defineEmits(['update:modelValue'])
 
 type TMouseUpListener = () => void
 type TMouseMoveListener = (e: MouseEvent) => void
@@ -23,11 +22,17 @@ type TMouseMoveListener = (e: MouseEvent) => void
 let mouseUpListener: null|TMouseUpListener = null
 let mouseMoveListener: null|TMouseMoveListener = null
 
-const localSelectedItem = ref(props.selectedItem)
+const localSelectedItem = ref(0)
 const isDraggable = ref(false)
 const currentScrolledLeft: Ref<number|null> = ref(null)
 const screenXWhenMouseDown: Ref<number|null> = ref(null)
 const tabsEl = useTemplateRef<HTMLElement>('tabsEl')
+
+watch(() => props.modelValue, (v) => {
+  localSelectedItem.value = v
+}, {
+  immediate: true,
+})
 
 const documentPointerUpListener = (): void => {
   isDraggable.value = false
@@ -50,12 +55,6 @@ const documentPointerMoveListener = (e: MouseEvent) => {
       (screenXWhenMouseDown.value! + currentScrolledLeft.value!) - e.screenX,
       tabsEl.value!.offsetTop
   )
-}
-
-const onClick = (index: number) => {
-  localSelectedItem.value = index
-
-  emit('change', localSelectedItem.value)
 }
 
 const onMouseDown = (e: MouseEvent) => {
@@ -84,7 +83,7 @@ const onMouseDown = (e: MouseEvent) => {
           'tabs__item_active': localSelectedItem === index,
           '--with-error': tab.hasError
         }"
-        @click="onClick(index)"
+        @click="emit('update:modelValue', index)"
     >
       {{ tab.title }}
     </div>

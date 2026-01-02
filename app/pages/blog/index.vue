@@ -47,9 +47,9 @@ const fetchIncrement = ref(0)
 const fetchDetailIncrement = ref(0)
 
 const {
+  selectedTab,
   tabs,
   selectedTabComponent,
-  onChangeSelectedTab
 } = initTabs([
   {
     title: 'Пост',
@@ -175,6 +175,7 @@ const onClickWithdraw = async (id: number) => {
       url-detail="blog/posts/detail"
       @selection-change="onSelectionChange"
       @item-updated="(_item) => item = _item"
+      @detail-closed="selectedTab = 0"
   >
     <template #control-panel-right>
       <el-space>
@@ -243,7 +244,7 @@ const onClickWithdraw = async (id: number) => {
           <el-button type="success" v-if="item.state.id === 'DRAFT'" @click="onClickPublish(item.id)">Опубликовать</el-button>
         </el-space>
       </div>
-      <Tabs @change="onChangeSelectedTab" :tabs="tabs"/>
+      <Tabs v-model="selectedTab" :tabs="tabs"/>
     </template>
     <template #detail-content>
       <component :is="selectedTabComponent" :item="item" />

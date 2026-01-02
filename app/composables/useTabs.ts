@@ -25,7 +25,7 @@ export const useTabs = () => {
         return {
             tabs,
             selectedTabComponent,
-            onChangeSelectedTab
+            selectedTab
         }
     }
 
@@ -40,10 +40,6 @@ export const useTabs = () => {
                 selectedTabComponent.value = tabs.value[selectedTab.value]!.component
             }
         )
-    }
-
-    const onChangeSelectedTab = (tabIndex: number) => {
-        selectedTab.value = tabIndex;
     }
 
     return {

@@ -30,7 +30,8 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   'selection-change': [value: any[]],
-  'item-updated': [value: {[key:string]: any}]
+  'item-updated': [value: {[key:string]: any}],
+  'detail-closed': []
 }>()
 
 const slots = useSlots()
@@ -485,6 +486,8 @@ const onUpdateDetailIsOpen = (isOpen: boolean) => {
       id: undefined
     }
   })
+
+  emit('detail-closed')
 }
 
 watch(() => props.refreshIncrement, () => {
