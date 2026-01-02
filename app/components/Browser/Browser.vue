@@ -60,7 +60,7 @@ const browserContainerTemplateRef = useTemplateRef('browserContainerTemplateRef'
 
 const data = ref<IItem[]>([])
 const isFirstLoading = ref(true)
-const isLoading = ref(false)
+const isFetching = ref(false)
 
 /** bulk action */
 const detailSelectionItems = ref<any[]>([])
@@ -231,12 +231,11 @@ const setFilters = (_filters: IFilter[]) => {
   })
 
   filters.value = preparedFilters
-  // filtersByName.value = preparedFiltersByName
 }
 
 const fetch = async () => {
 
-  isLoading.value = true
+  isFetching.value = true
 
   const config: { params?: IRequestParams } = {}
 
@@ -288,7 +287,7 @@ const fetch = async () => {
       duration: 4000
     })
   } finally {
-    isLoading.value = false
+    isFetching.value = false
   }
 }
 
@@ -550,7 +549,7 @@ onUnmounted(() => {
               :default-sort="sortURL"
               :scrollbar-always-on="true"
               v-if="!isFirstLoading"
-              :class="{'--loading': isLoading}"
+              :class="{'--loading': isFetching}"
               :style="{width: tableWidth}"
               @sort-change="onSortChange"
               :data="data"
