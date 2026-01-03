@@ -44,6 +44,15 @@ const {
   isReady,
   errors
 } = initForm(
+    [
+      'locale_id',
+      'category_id',
+      'name',
+      'date',
+      'cover',
+      'content_short',
+      'content'
+    ],
     formData,
     'blog/posts/create',
     'blog/posts/update',

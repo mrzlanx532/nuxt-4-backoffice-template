@@ -32,6 +32,10 @@ const {
   isReady,
   errors
 } = initForm(
+    [
+      'name',
+      'picture'
+    ],
     formData,
     'blog/posts/contents/create',
     'blog/posts/contents/update',

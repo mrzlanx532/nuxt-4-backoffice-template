@@ -49,7 +49,7 @@ const props = defineProps<{
     <el-form-item-with-error label="Индекс" name="company_index">
       <el-input v-model="props.formData.company_index" />
     </el-form-item-with-error>
-    <el-form-item-with-error label="Страна" name="company_country">
+    <el-form-item-with-error label="Страна" name="company_country_id">
       <el-select v-model="props.formData.company_country_id">
         <el-option
             v-for="country in props.formDataValues.company_countries"

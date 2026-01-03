@@ -30,11 +30,6 @@ const { $authFetch } = useNuxtApp()
 
 const { initTabs } = useTabs()
 
-const formData = ref<{[key: string]: any}>({
-  is_checked: props.id ? undefined : true,
-  is_remove: true,
-})
-
 const {
   initForm
 } = useForm()
@@ -61,11 +56,44 @@ const {
   }
 ])
 
+const formData = ref<{[key: string]: any}>({
+  is_checked: props.id ? undefined : true,
+  is_remove: true,
+})
+
 const {
   save,
   isReady,
   errors
 } = initForm(
+    [
+      'first_name',
+      'last_name',
+      'email',
+      'phone',
+      'description',
+      'picture',
+      'company_name',
+      'company_address',
+      'company_index',
+      'company_country_id',
+      'company_city',
+      'is_agree',
+      'description',
+      'picture',
+      'password',
+      'password_confirmation',
+      'subscription_till',
+      'subscription_till_for_exclusive_tracks',
+      'subscription_type_id',
+      'company_url',
+      'job_title',
+      'about',
+      'company_business_type_id',
+      'locale_id',
+      'is_checked',
+      'content',
+    ],
     formData,
     'users/create',
     'users/update',
@@ -98,6 +126,8 @@ watch(errors, (v) => {
       tabs.value[2]!.hasError = true
     }
   }
+}, {
+  deep: true
 })
 
 onMounted(async () => {

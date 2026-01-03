@@ -81,6 +81,7 @@ export const useForm = () => {
     }
 
     const initForm = (
+        formDataKeys: string[],
         formData: Ref<{[key: string]: any}>,
         createURL: string,
         updateURL: string,
@@ -125,6 +126,12 @@ export const useForm = () => {
                     errors.value = e.data.errors
                 }
             }
+        }
+
+        for (let key in formDataKeys) {
+            watch(() => formData.value[formDataKeys[key] as string], () => {
+                delete errors.value[formDataKeys[key] as string]
+            })
         }
 
         return {
