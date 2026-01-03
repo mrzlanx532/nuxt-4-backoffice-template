@@ -34,28 +34,6 @@ const {
   initForm
 } = useForm()
 
-const {
-  tabs,
-  selectedTabComponent,
-  selectedTab
-} = initTabs([
-  {
-    title: 'Инфо',
-    component: InfoTabModal,
-    hasError: false
-  },
-  {
-    title: 'Компания',
-    component: CompanyTabModal,
-    hasError: false
-  },
-  {
-    title: 'Подписка',
-    component: SubscriptionTabModal,
-    hasError: false
-  }
-])
-
 const formData = ref<{[key: string]: any}>({
   is_checked: props.id ? undefined : true,
   is_remove: true,
@@ -101,34 +79,30 @@ const {
     props.id,
 )
 
-const infoTabFields = new Set(['first_name', 'last_name', 'email', 'phone', 'password', 'password_confirmation', 'locale_id', 'about', 'picture', 'is_checked'])
-const companyTabFields = new Set(['company_address', 'company_business_type_id', 'company_city', 'company_country_id', 'company_index', 'company_name', 'company_url', 'job_title'])
-const subscriptionTabFields = new Set(['is_remove', 'subscription_type_id', 'subscription_till_for_exclusive_tracks'])
-
-watch(errors, (v) => {
-  tabs.value.map(tab => {
-    tab.hasError = false
-    return tab
-  })
-
-  for (let key in v) {
-    if (infoTabFields.has(key)) {
-      tabs.value[0]!.hasError = true
-      continue
-    }
-
-    if (companyTabFields.has(key)) {
-      tabs.value[1]!.hasError = true
-      continue
-    }
-
-    if (subscriptionTabFields.has(key)) {
-      tabs.value[2]!.hasError = true
-    }
+const {
+  tabs,
+  selectedTabComponent,
+  selectedTab
+} = initTabs([
+  {
+    title: 'Инфо',
+    component: InfoTabModal,
+    formDataKeys: new Set(['first_name', 'last_name', 'email', 'phone', 'password', 'password_confirmation', 'locale_id', 'about', 'picture', 'is_checked']),
+    hasError: false
+  },
+  {
+    title: 'Компания',
+    component: CompanyTabModal,
+    formDataKeys: new Set(['company_address', 'company_business_type_id', 'company_city', 'company_country_id', 'company_index', 'company_name', 'company_url', 'job_title']),
+    hasError: false
+  },
+  {
+    title: 'Подписка',
+    component: SubscriptionTabModal,
+    formDataKeys: new Set(['is_remove', 'subscription_type_id', 'subscription_till_for_exclusive_tracks']),
+    hasError: false
   }
-}, {
-  deep: true
-})
+], errors)
 
 onMounted(async () => {
   const response = await $authFetch<BlogPostFormResponse>('users/form', {

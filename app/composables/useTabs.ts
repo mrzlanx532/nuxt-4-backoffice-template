@@ -3,6 +3,7 @@ import { type Component, ref, shallowRef, watch } from 'vue'
 export interface ITabItem {
     title: string,
     component: Component,
+    formDataKeys?: Set<string> | string[]
     hasError?: boolean
 }
 
@@ -10,17 +11,45 @@ export const useTabs = () => {
 
     const selectedTab = ref(0)
 
-    const initTabs = (_tabs: ITabItem[]) => {
+    const initTabs = (_tabs: ITabItem[], errors?: Ref<{[key: string]: string[]}>) => {
 
         const tabs = ref(
-            _tabs.map(tab => ({
-                ...tab,
-                component: markRaw(tab.component)
-            }))
+            _tabs.map(_tab => {
+
+                const tab = {
+                    ..._tab,
+                    component: markRaw(_tab.component)
+                }
+
+                if (_tab.formDataKeys && !(_tab.formDataKeys instanceof Set)) {
+                    tab.formDataKeys = markRaw(new Set(_tab.formDataKeys))
+                }
+
+                return tab
+            })
         )
 
         const selectedTabComponent = initSelectedTabComponent(tabs)
         watchSelectedTab(tabs, selectedTabComponent)
+
+        if (errors) {
+            watch(errors, (_errors) => {
+                tabs.value.map(tab => {
+                    tab.hasError = false
+                    return tab
+                })
+
+                for (let _errorsKey in _errors) {
+                    for (let tabKey in tabs.value) {
+                        if (tabs.value[tabKey]!.formDataKeys instanceof Set && tabs.value[tabKey]!.formDataKeys.has(_errorsKey)) {
+                            tabs.value[tabKey]!.hasError = true
+                        }
+                    }
+                }
+            }, {
+                deep: true
+            })
+        }
 
         return {
             tabs,
