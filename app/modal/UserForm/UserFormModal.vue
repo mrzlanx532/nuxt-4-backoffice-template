@@ -141,7 +141,7 @@ const beforeRequest = (formData: {[key: string]: any}) => {
 </script>
 
 <template>
-  <FormModal class="--fixed-top" @save="save({beforeRequest})" :is-ready="isReady">
+  <FormModal class="--fixed-top" @save="save({beforeRequest})" :is-ready="isReady" :errors="errors">
     <template #header>
       <Tabs v-model="selectedTab" :tabs="tabs" />
     </template>
@@ -151,7 +151,6 @@ const beforeRequest = (formData: {[key: string]: any}) => {
             :is="selectedTabComponent"
             :formData="formData"
             :formDataValues="formDataValues"
-            :errors="errors"
         />
       </el-form>
     </template>

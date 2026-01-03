@@ -53,12 +53,12 @@ onMounted(async () => {
 </script>
 
 <template>
-  <FormModal @save="save" :is-ready="isReady">
+  <FormModal @save="save" :is-ready="isReady" :errors="errors">
     <el-form label-position="top">
-      <el-form-item-with-error label="Название" name="name" :errors="errors">
+      <el-form-item-with-error label="Название" name="name">
         <el-input v-model="formData.name" />
       </el-form-item-with-error>
-      <el-form-item-with-error label="Фото" name="picture" :errors="errors">
+      <el-form-item-with-error label="Фото" name="picture">
         <InputFile v-model="formData.picture" />
       </el-form-item-with-error>
     </el-form>

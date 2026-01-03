@@ -91,9 +91,9 @@ const beforeRequest = (formData: {[key: string]: any}) => {
 </script>
 
 <template>
-  <FormModal @save="save({beforeRequest})" :is-ready="isReady">
+  <FormModal @save="save({beforeRequest})" :is-ready="isReady" :errors="errors">
     <el-form label-position="top">
-      <el-form-item-with-error label="Язык публикации" name="locale_id" :errors="errors">
+      <el-form-item-with-error label="Язык публикации" name="locale_id">
         <el-select v-model="formData.locale_id">
           <el-option
               v-for="locale in locales"
@@ -103,7 +103,7 @@ const beforeRequest = (formData: {[key: string]: any}) => {
           />
         </el-select>
       </el-form-item-with-error>
-      <el-form-item-with-error label="Категории" name="category_id" :errors="errors">
+      <el-form-item-with-error label="Категории" name="category_id">
         <el-select v-model="formData.category_id">
           <el-option
               v-for="category in categories"
@@ -113,10 +113,10 @@ const beforeRequest = (formData: {[key: string]: any}) => {
           />
         </el-select>
       </el-form-item-with-error>
-      <el-form-item-with-error label="Заголовок" name="name" :errors="errors">
+      <el-form-item-with-error label="Заголовок" name="name">
         <el-input v-model="formData.name" />
       </el-form-item-with-error>
-      <el-form-item-with-error label="Дата" name="date" :errors="errors">
+      <el-form-item-with-error label="Дата" name="date">
         <el-date-picker
             v-model="formData.date"
             format="DD.MM.YYYY HH:mm:ss"
@@ -124,13 +124,13 @@ const beforeRequest = (formData: {[key: string]: any}) => {
             type="datetime"
         />
       </el-form-item-with-error>
-      <el-form-item-with-error label="Изображение" name="cover" :errors="errors">
+      <el-form-item-with-error label="Изображение" name="cover">
         <InputFile v-model="formData.cover" />
       </el-form-item-with-error>
-      <el-form-item-with-error label="Краткое описание" name="content_short" :errors="errors">
+      <el-form-item-with-error label="Краткое описание" name="content_short">
         <Textarea v-model="formData.content_short" />
       </el-form-item-with-error>
-      <el-form-item-with-error label="Содержание" name="content" :errors="errors">
+      <el-form-item-with-error label="Содержание" name="content">
         <Textarea v-model="formData.content" />
       </el-form-item-with-error>
     </el-form>

@@ -3,14 +3,21 @@ import { VueFinalModal } from 'vue-final-modal'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 import { Close as IconClose } from '@element-plus/icons-vue'
 
-const props = defineProps<{
-  isReady: boolean
-}>()
+const props = withDefaults(defineProps<{
+  isReady: boolean,
+  errors: {[key: string]: string[]}
+}>(), {
+  errors: () => ({})
+})
 
 const emit = defineEmits<{
   (e: 'close'): void,
   (e: 'save'): void,
 }>()
+
+const errorsRef = toRef(props, 'errors')
+
+provide('errors', errorsRef)
 
 const scrollTemplateRef = useTemplateRef('scrollTemplateRef')
 

@@ -2,8 +2,9 @@
 const props = defineProps<{
   label: string,
   name: string,
-  errors: {[key: string]: string[]}
 }>()
+
+const errors = inject<Ref<{[key: string]: string[]}>>('errors', ref({}))
 </script>
 
 <template>
