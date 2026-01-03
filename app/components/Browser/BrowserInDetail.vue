@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { type IResponse } from "~~/types/components/browser";
-import { type IItem } from "~~/types";
+import { type IResponse } from '~~/types/components/browser'
+import type { IItem } from '@@/types'
 
 const props = withDefaults(defineProps<{
   url: string,
