@@ -2,6 +2,8 @@
 import BrowserInDetail from '@/components/Browser/BrowserInDetail.vue'
 import { MoreFilled as IconMoreFilled } from "@element-plus/icons-vue";
 import { ElMessageBox } from "element-plus";
+import {useModal} from "vue-final-modal";
+import BlogContentFormModal from "~/modal/BlogContentFormModal.vue";
 
 interface PhotoRow {
   id: number
@@ -28,12 +30,20 @@ const { $authFetch } = useNuxtApp()
 
 const refreshIncrement = ref(0)
 
-const onClickAdd = () => {
-  console.log(123)
-}
+const onClickCreateOrEdit = async (id?: number) => {
+  const modal = useModal({
+    component: BlogContentFormModal,
+    attrs: {
+      id: id,
+      blog_post_id: props.item!.id,
+      onClose: () => {
+        modal.close()
+        refreshIncrement.value++
+      }
+    }
+  })
 
-const onClickEdit = (id: number) => {
-  console.log(id)
+  await modal.open()
 }
 
 const onClickDelete = (id: number) => {
@@ -67,7 +77,7 @@ const onClickDelete = (id: number) => {
       :refresh-increment="refreshIncrement"
   >
     <template #action>
-      <el-button type="success" @click="onClickAdd">Добавить</el-button>
+      <el-button type="success" @click="onClickCreateOrEdit(undefined)">Добавить</el-button>
     </template>
     <template #table>
       <el-table-column>
@@ -81,7 +91,7 @@ const onClickDelete = (id: number) => {
               <el-icon><IconMoreFilled /></el-icon>
               <template #dropdown>
                 <el-dropdown-menu>
-                  <el-dropdown-item @click="onClickEdit(row.id)"><el-text type="primary">Изменить</el-text></el-dropdown-item>
+                  <el-dropdown-item @click="onClickCreateOrEdit(row.id)"><el-text type="primary">Изменить</el-text></el-dropdown-item>
                   <el-dropdown-item @click="onClickDelete(row.id)"><el-text type="danger">Удалить</el-text></el-dropdown-item>
                 </el-dropdown-menu>
               </template>

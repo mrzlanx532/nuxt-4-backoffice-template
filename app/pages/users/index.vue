@@ -5,7 +5,7 @@ import InfoTab from '@/pages/users/_tabs/info.vue'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc.js'
 import timezone from 'dayjs/plugin/timezone.js'
-import { ElMessageBox, ElNotification } from 'element-plus'
+import { ElMessageBox } from 'element-plus'
 import { useModal } from 'vue-final-modal'
 import UserFormModal from '~/modal/UserForm/UserFormModal.vue'
 
@@ -37,7 +37,7 @@ const { initTabs } = useTabs()
 const {
   tabs,
   selectedTabComponent,
-  onChangeSelectedTab
+  selectedTab
 } = initTabs([
   {
     title: 'Инфо',
@@ -147,7 +147,7 @@ const onSelectionChange = (items: any[]) => {
           </el-button-group>
         </el-space>
       </div>
-      <Tabs @change="onChangeSelectedTab" :tabs="tabs"/>
+      <Tabs v-model="selectedTab" :tabs="tabs"/>
     </template>
     <template #detail-content>
       <component :is="selectedTabComponent" :item="item" />
