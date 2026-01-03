@@ -5,7 +5,6 @@ import InputFile from "~/components/Form/InputFile.vue";
 
 const props = defineProps<{
   formData: {[key: string]: any},
-  errors: {[key: string]: string[]},
   formDataValues: {
     locales: {
       id: string,
