@@ -1,0 +1,258 @@
+.browser {
+
+  &__control-panel-input .el-icon > svg {
+    cursor: pointer;
+  }
+
+  &__input-filter .el-icon > svg {
+    cursor: pointer;
+  }
+
+  &__boolean-filter {
+    &.el-radio-group {
+      align-items: start;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .el-radio {
+      height: 24px;
+    }
+  }
+
+  .el-input__inner {
+    font-size: 16px;
+  }
+
+  .el-table {
+    box-shadow: var(--main-box-shadow);
+
+    &.--loading {
+      filter: blur(2px);
+      opacity: 1;
+    }
+  }
+
+  .el-table tbody tr {
+    cursor: pointer;
+  }
+
+  &__control-panel {
+    background: var(--main-background-color);
+    border-radius: var(--main-border-radius);
+    box-shadow: var(--main-box-shadow);
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 15px;
+    position: sticky;
+    top: 20px;
+    z-index: 2;
+
+    .el-input svg {
+      color: var(--main-gradient-intermediate);
+    }
+  }
+
+  &__control-panel-column {
+    &.--left {
+      align-items: center;
+      cursor: pointer;
+      display: flex;
+    }
+  }
+
+  &__control-panel-page-title {
+    background: linear-gradient(to right, var(--main-gradient-start) 0, var(--main-gradient-end) 100%);
+    -webkit-background-clip: text;
+    border-radius: 5px;
+    color: grey;
+    font-size: 20px;
+    margin: 0;
+    text-transform: uppercase;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    -webkit-text-fill-color: transparent;
+  }
+
+  &__loader {
+    height: 1000px;
+    width: 100%;
+    margin-top: 10px;
+    overflow: hidden;
+    transition: opacity .3s ease-in-out;
+    opacity: 0;
+    position: relative;
+
+    .el-loading-mask {
+      background: transparent;
+    }
+
+    &.--active {
+      opacity: 1;
+    }
+  }
+
+  &__table-wrapper {
+    border-radius: var(--main-border-radius);
+    overflow: hidden;
+    box-shadow: var(--main-box-shadow);
+  }
+
+  &__container {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+  }
+
+  &__filters-container {
+    background: var(--main-background-color);
+    border-radius: var(--main-border-radius);
+    box-shadow: var(--main-box-shadow);
+    height: auto;
+    padding: 15px;
+    width: 210px;
+    z-index: 1;
+  }
+
+  &__filters {
+    border-radius: var(--main-border-radius);
+    overflow: hidden;
+
+    .el-scrollbar__bar.is-vertical {
+      right: auto;
+      left: 2px;
+      width: 6px;
+    }
+  }
+
+  .el-pagination.--browser {
+    justify-content: end;
+    margin-top: 10px;
+  }
+
+  &__detail {
+    .el-drawer__body {
+      padding: 0;
+    }
+
+    .el-scrollbar__wrap {
+      padding-right: 20px;
+
+      .el-scrollbar__wrap {
+        padding-right: 0;
+      }
+    }
+
+    .el-scrollbar {
+      --el-scrollbar-opacity: 1;
+    }
+
+    .el-scrollbar__bar {
+      right: 1px;
+    }
+
+    .el-scrollbar__bar.is-vertical {
+      width: 6px;
+    }
+
+    .el-drawer__header {
+      align-items: start;
+      background: var(--browser-detail-header-background-color);
+      margin-bottom: 0;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--color-2);
+    }
+  }
+
+  &__detail-header {
+    font-size: 24px;
+  }
+
+  &__detail-subheader {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    color: var(--color-4);
+  }
+
+  &__detail-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__detail-content {
+    padding: 20px 0 20px 20px;
+  }
+
+  &__detail-controls {
+    margin-top: 20px;
+  }
+
+  &__detail-confirm.el-message-box {
+    vertical-align: super;
+  }
+
+  &__detail {
+    .tabs {
+      width: calc(100% + 40px);
+      left: -20px;
+      overflow-x: auto;
+      top: 20px;
+    }
+  }
+}
+
+.browser-in-detail {
+
+  .el-pagination {
+    display: inline-flex;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+
+    &.--top {
+      margin-bottom: 10px;
+    }
+
+    &.--bottom {
+      margin-top: 10px;
+    }
+  }
+
+  &__loader {
+    height: 1000px;
+    width: 100%;
+    overflow: hidden;
+    transition: opacity .3s ease-in-out;
+    opacity: 0;
+    position: relative;
+
+    .el-loading-mask {
+      background: transparent;
+    }
+
+    &.--active {
+      opacity: 1;
+    }
+  }
+
+  .el-table {
+    &.--loading {
+      filter: blur(2px);
+    }
+  }
+
+  .el-table--fit .el-table__inner-wrapper:before {
+    width: 0;
+  }
+
+  .el-table__body tr:last-child td {
+    border-bottom: none;
+  }
+}
